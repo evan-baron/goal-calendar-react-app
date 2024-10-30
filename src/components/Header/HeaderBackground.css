@@ -1,0 +1,49 @@
+.header-block-container {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header-style-block {
+    position: absolute;
+}
+
+.block1 {
+    height: 50rem;
+    width: 50rem;
+    transform: translate(-85%, -50%);
+    background: radial-gradient(20rem, rgba(0, 255, 255, .5), transparent);
+    mix-blend-mode: color-burn;
+}
+
+.block2 {
+    height: 50rem;
+    width: 50rem;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(20rem, rgba(162, 0, 255, .5), transparent);
+    mix-blend-mode: color-burn;
+}
+
+.block3 {
+    height: 70rem;
+    width: 70rem;
+    transform: translate(-15%, -50%);
+    background: radial-gradient(30rem, rgba(0, 38, 255, 0.5), transparent);
+    mix-blend-mode: color-burn;
+}
+
+.block4 {
+    height: 50rem;
+    width: 50rem;
+    transform: translate(-120%, -50%);
+    background: radial-gradient(20rem, rgba(255, 255, 255, 1), transparent);
+}
+
+.block5 {
+    height: 70rem;
+    width: 70rem;
+    transform: translate(0%, 0%);
+    background: radial-gradient(35rem, rgb(255, 255, 255), transparent);
+}

@@ -1,33 +1,16 @@
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import { createTheme } from '@mui/material/styles';
-import { blue } from '@mui/material/colors';
+import React from 'react'
+import Calendar from './components/Calendar/Calendar'
+import Navbar from './components/Navbar/Navbar'
+import Header from './components/Header/Header'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: blue[300],
-      main: blue[500],
-      dark: blue[700],
-      darker: blue[900],
-    },
-  },
-});
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Button 
-        variant="contained"
-        onClick={() => console.log("user clicked")}
-        >First MUI Component</Button>
-      <Button 
-        variant="contained"
-        onClick={() => console.log("user clicked")}
-        sx={{ bgcolor: 'primary.light'}}
-        >Second MUI Component</Button>
-    </div>
-  );
+    <>
+      <Navbar />
+      <Header />
+      <Calendar />
+    </>
+  )
 }
 
-export default App;
+export default App
