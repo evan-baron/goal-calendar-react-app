@@ -1,28 +1,36 @@
-* {
-    box-sizing: border-box;
-}
-
 .header {
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    gap: 1rem;
+    align-items: center;
     height: 20rem;
+    margin: 0;
+}
+.hero-text {
+    margin: 0;
+    padding: 0;
+}
+.hero-description {
+    text-align: center;
+    width: 60%;
+    margin: 0;
+    padding: 0;
 }
 
 button {
     position: relative;
-    bottom: 2rem;
     height: 3rem;
     width: 10rem;
     font-size: 1.5rem;
     color: (25, 25, 75);
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, .4);
     border: 2px solid rgb(25, 25, 75);
     border-radius: 1.5rem;
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, .5);
-    animation: fadeIn .25s;
+    background-color: rgba(255, 255, 255, .75);
     cursor: pointer;
 }
