@@ -10,7 +10,6 @@ const HeroBackground = () => {
         <div className='style-blot blot4'></div>
         <div className='style-blot blot5'></div>
         <div className='style-blot blot6'></div>
-        <div className='style-blot blot7'></div>
     </div>
   )
 }
