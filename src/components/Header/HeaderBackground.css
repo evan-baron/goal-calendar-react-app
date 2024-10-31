@@ -52,10 +52,10 @@
 }
 
 .block6 {
-    height: 100rem;
-    width: 100rem;
-    transform: translate(-20%, 15%);
-    background: radial-gradient(50rem, rgb(255, 0, 238), transparent);
+    height: 110rem;
+    width: 110rem;
+    transform: translate(-25%, 12.5%);
+    background: radial-gradient(55rem, rgba(255, 0, 238, .75), transparent);
 }
 
 .block7 {
