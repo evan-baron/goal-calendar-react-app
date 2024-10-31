@@ -3,14 +3,14 @@ import './HeaderBackground.css'
 
 const HeaderBackground = () => {
   return (
-    <div className='header-block-container'>
-        <div className='header-style-block block1'></div>
-        <div className='header-style-block block2'></div>
-        <div className='header-style-block block3'></div>
-        <div className='header-style-block block4'></div>
-        <div className='header-style-block block5'></div>
-        <div className='header-style-block block6'></div>
-        <div className='header-style-block block7'></div>
+    <div className='header-blot-container'>
+        <div className='header-style-blot blot1'></div>
+        <div className='header-style-blot blot2'></div>
+        <div className='header-style-blot blot3'></div>
+        <div className='header-style-blot blot4'></div>
+        <div className='header-style-blot blot5'></div>
+        <div className='header-style-blot blot6'></div>
+        <div className='header-style-blot blot7'></div>
     </div>
   )
 }

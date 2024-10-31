@@ -1,4 +1,4 @@
-.header-block-container {
+.header-blot-container {
     z-index: -1;
     position: absolute;
     top: 0;
@@ -9,11 +9,11 @@
     overflow: hidden;
 }
 
-.header-style-block {
+.header-style-blot {
     position: absolute;
 }
 
-.block1 {
+.blot1 {
     height: 50rem;
     width: 50rem;
     transform: translate(-15%, -50%);
@@ -21,7 +21,7 @@
     mix-blend-mode: color-burn;
 }
 
-.block2 {
+.blot2 {
     height: 50rem;
     width: 50rem;
     transform: translate(20%, -50%);
@@ -29,7 +29,7 @@
     mix-blend-mode: color-burn;
 }
 
-.block3 {
+.blot3 {
     height: 70rem;
     width: 70rem;
     transform: translate(45%, -50%);
@@ -37,28 +37,28 @@
     mix-blend-mode: color-burn;
 }
 
-.block4 {
+.blot4 {
     height: 50rem;
     width: 50rem;
     transform: translate(-50%, -50%);
     background: radial-gradient(20rem, rgba(225, 240, 255, 1), transparent);
 }
 
-.block5 {
+.blot5 {
     height: 70rem;
     width: 70rem;
     transform: translate(70%, 0%);
     background: radial-gradient(35rem, rgb(225, 240, 255), transparent);
 }
 
-.block6 {
+.blot6 {
     height: 110rem;
     width: 110rem;
     transform: translate(-25%, 12.5%);
     background: radial-gradient(55rem, rgba(255, 0, 238, .75), transparent);
 }
 
-.block7 {
+.blot7 {
     height: 50rem;
     width: 50rem;
     transform: translate(65%, 25%);
