@@ -1,49 +1,56 @@
-.header {
+* {
     box-sizing: border-box;
+}
+
+.header {
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    /* gap: 1rem; */
+    justify-content: space-between;
     align-items: center;
-    height: 20rem;
-    margin: 0;
-    padding: 1.5rem 0;
-    overflow: hidden;
-}
-.hero-text {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: normal;
-    width: 50%;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-}
-.hero-description {
-    text-align: center;
-    font-size: 1.5rem;
-    font-variant: small-caps;
-    font-weight: normal;
-    width: 60%;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-}
-
-button {
-    position: relative;
-    height: 3rem;
-    font-size: 1.5rem;
-    font-variant: small-caps;
-    color: (25, 25, 75);
+    width: 100%;
+    list-style-type: none;
+    height: 4rem;
+    padding: 0 10%;
     background-color: rgba(255, 255, 255, .5);
-    border: 2px solid rgb(25, 25, 75);
-    border-radius: 1.5rem;
-    padding: 0 1rem;
 }
 
-button:hover {
-    background-color: rgba(255, 255, 255, .75);
+section {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 8px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 20px;
+    padding: 0 8px;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, .5);
+    animation: fadeIn .25s;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    0% { background-color: rgba(255, 255, 255, 0) }
+    100% { background-color: rgba(255, 255, 255, .5) }
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 24px;
+    padding: 0 8px;
     cursor: pointer;
 }
