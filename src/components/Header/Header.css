@@ -1,5 +1,6 @@
 .header {
     box-sizing: border-box;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,13 +8,20 @@
     align-items: center;
     height: 20rem;
     margin: 0;
+    overflow: hidden;
 }
 .hero-text {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: normal;
+    width: 50%;
     margin: 0;
     padding: 0;
 }
 .hero-description {
     text-align: center;
+    text-transform: uppercase;
+    font-weight: normal;
     width: 60%;
     margin: 0;
     padding: 0;
@@ -25,12 +33,12 @@ button {
     width: 10rem;
     font-size: 1.5rem;
     color: (25, 25, 75);
-    background-color: rgba(255, 255, 255, .4);
+    background-color: rgba(255, 255, 255, .25);
     border: 2px solid rgb(25, 25, 75);
     border-radius: 1.5rem;
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, .75);
+    background-color: rgba(255, 255, 255, .5);
     cursor: pointer;
 }

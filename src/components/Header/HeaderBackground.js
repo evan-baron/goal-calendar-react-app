@@ -9,6 +9,8 @@ const HeaderBackground = () => {
         <div className='header-style-block block3'></div>
         <div className='header-style-block block4'></div>
         <div className='header-style-block block5'></div>
+        <div className='header-style-block block6'></div>
+        <div className='header-style-block block7'></div>
     </div>
   )
 }

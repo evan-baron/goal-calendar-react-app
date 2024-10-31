@@ -3,7 +3,10 @@
     position: absolute;
     top: 0;
     left: 50%;
+    height: 24rem;
+    width: 100%;
     transform: translateX(-50%);
+    overflow: hidden;
 }
 
 .header-style-block {
@@ -13,7 +16,7 @@
 .block1 {
     height: 50rem;
     width: 50rem;
-    transform: translate(-85%, -50%);
+    transform: translate(-15%, -50%);
     background: radial-gradient(20rem, rgba(0, 255, 255, .35), transparent);
     mix-blend-mode: color-burn;
 }
@@ -21,7 +24,7 @@
 .block2 {
     height: 50rem;
     width: 50rem;
-    transform: translate(-50%, -50%);
+    transform: translate(20%, -50%);
     background: radial-gradient(20rem, rgba(162, 0, 255, .35), transparent);
     mix-blend-mode: color-burn;
 }
@@ -29,21 +32,35 @@
 .block3 {
     height: 70rem;
     width: 70rem;
-    transform: translate(-15%, -50%);
-    background: radial-gradient(30rem, rgba(0, 38, 255, .35), transparent);
+    transform: translate(45%, -50%);
+    background: radial-gradient(30rem, rgba(0, 38, 255, 0.35), transparent);
     mix-blend-mode: color-burn;
 }
 
 .block4 {
     height: 50rem;
     width: 50rem;
-    transform: translate(-120%, -50%);
-    background: radial-gradient(20rem, rgba(255, 255, 255, 1), transparent);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(20rem, rgba(225, 240, 255, 1), transparent);
 }
 
 .block5 {
     height: 70rem;
     width: 70rem;
-    transform: translate(0%, 0%);
-    background: radial-gradient(35rem, rgb(255, 255, 255), transparent);
+    transform: translate(70%, 0%);
+    background: radial-gradient(35rem, rgb(225, 240, 255), transparent);
+}
+
+.block6 {
+    height: 100rem;
+    width: 100rem;
+    transform: translate(-20%, 15%);
+    background: radial-gradient(50rem, rgb(255, 0, 238), transparent);
+}
+
+.block7 {
+    height: 50rem;
+    width: 50rem;
+    transform: translate(65%, 25%);
+    background: radial-gradient(25rem, rgba(0, 255, 255, .35), transparent);
 }
