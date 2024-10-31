@@ -6,7 +6,7 @@ const Header = () => {
     <>
         <header className='header'>
             <section>
-                <div className="logo-title">Marbler</div>
+                <div className="logo-title">mrblr</div>
             </section>
             <section>
                 <ul className="header-nav">

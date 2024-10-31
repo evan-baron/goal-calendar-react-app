@@ -17,7 +17,7 @@
     height: 50rem;
     width: 50rem;
     transform: translate(-90%, -50%);
-    background: radial-gradient(20rem, rgba(0, 255, 255, .35), transparent);
+    background: radial-gradient(20rem, rgba(0, 255, 255, .25), transparent);
     mix-blend-mode: color-burn;
 }
 
@@ -25,7 +25,7 @@
     height: 50rem;
     width: 50rem;
     transform: translate(-45%, -50%);
-    background: radial-gradient(20rem, rgba(162, 0, 255, .35), transparent);
+    background: radial-gradient(20rem, rgba(162, 0, 255, .25), transparent);
     mix-blend-mode: color-burn;
 }
 
@@ -33,7 +33,7 @@
     height: 70rem;
     width: 70rem;
     transform: translate(-10%, -50%);
-    background: radial-gradient(30rem, rgba(0, 38, 255, .35), transparent);
+    background: radial-gradient(30rem, rgba(0, 38, 255, .25), transparent);
     mix-blend-mode: color-burn;
 }
 
@@ -48,12 +48,12 @@
     height: 110rem;
     width: 110rem;
     transform: translate(-65%, 0%);
-    background: radial-gradient(55rem, rgba(255, 0, 238, .5), transparent);
+    background: radial-gradient(55rem, rgba(255, 0, 238, .25), transparent);
 }
 
 .blot6 {
     height: 50rem;
     width: 50rem;
     transform: translate(20%, 25%);
-    background: radial-gradient(25rem, rgba(0, 255, 255, .35), transparent);
+    background: radial-gradient(25rem, rgba(0, 255, 255, .25), transparent);
 }
