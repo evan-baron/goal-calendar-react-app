@@ -8,6 +8,14 @@ const App = () => {
     <>
       <Navbar />
       <Header />
+      <div>
+        <div>Our Process</div>
+        <div>
+          <div>Create</div>
+          <div>Complete</div>
+          <div>Reward</div>
+        </div>
+      </div>
       <Calendar />
     </>
   )

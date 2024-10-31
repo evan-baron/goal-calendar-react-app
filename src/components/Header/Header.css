@@ -3,11 +3,12 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
+    justify-content: space-evenly;
+    /* gap: 1rem; */
     align-items: center;
     height: 20rem;
     margin: 0;
+    padding: 2rem 0;
     overflow: hidden;
 }
 .hero-text {
@@ -15,14 +16,17 @@
     text-transform: uppercase;
     font-weight: normal;
     width: 50%;
+    line-height: 1;
     margin: 0;
     padding: 0;
 }
 .hero-description {
     text-align: center;
-    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-variant: small-caps;
     font-weight: normal;
     width: 60%;
+    line-height: 1;
     margin: 0;
     padding: 0;
 }
@@ -30,15 +34,16 @@
 button {
     position: relative;
     height: 3rem;
-    width: 10rem;
     font-size: 1.5rem;
+    font-variant: small-caps;
     color: (25, 25, 75);
-    background-color: rgba(255, 255, 255, .25);
+    background-color: rgba(255, 255, 255, .5);
     border: 2px solid rgb(25, 25, 75);
     border-radius: 1.5rem;
+    padding: 0 1rem;
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, .75);
     cursor: pointer;
 }
