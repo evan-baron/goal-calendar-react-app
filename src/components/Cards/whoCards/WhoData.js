@@ -10,8 +10,8 @@ const WhoData = [
     },
     {
         id: 'wd2',
-        persona: 'The Office Goer',
-        description: `The Office Goer has a detailed schedule they follow, which includes daily tasks related to completing projects and meeting deadlines. These tasks help them stay organized and manage their workload effectively in a busy environment. Marblr's structured approach enables them to maintain focus and productivity while achieving their professional goals.`,
+        persona: 'The Office-Goer',
+        description: `The Office-Goer has a detailed schedule they follow, which includes daily tasks related to completing projects and meeting deadlines. These tasks help them stay organized and manage their workload effectively in a busy environment. Marblr's structured approach enables them to maintain focus and productivity while achieving their professional goals.`,
         src: 'https://plus.unsplash.com/premium_photo-1661688791119-418b28a3ca60?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
     {
