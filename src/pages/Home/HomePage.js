@@ -8,8 +8,10 @@ const HomePage = () => {
   return (
     <main>
         <Hero />
-        <HowItWorks />
-        <WhoItsFor />
+        <div className='sections'>
+          <HowItWorks />
+          <WhoItsFor />
+        </div>
     </main>
   )
 }

@@ -52,7 +52,7 @@ p {
 .card-description-container {
     display: flex;
     justify-content: center;
-    width: 70%;
+    width: 80%;
     min-width: 40rem;
 }
 
