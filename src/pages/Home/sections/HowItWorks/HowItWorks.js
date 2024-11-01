@@ -1,6 +1,6 @@
 import React from 'react'
 import './HowItWorks.css'
-import HowCard from '../../../../components/Cards/hiwCards/HowCard'
+import HowCard from '../../../../components/Cards/howCards/HowCard'
 
 const HowItWorks = () => {
   return (

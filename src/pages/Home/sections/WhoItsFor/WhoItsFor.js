@@ -1,7 +1,7 @@
 import React from 'react'
 import './WhoItsFor.css'
-import WhoCard from '../../../../components/Cards/wifCards/WhoCard'
-import WhoData from '../../../../components/Cards/wifCards/WhoData'
+import WhoCard from '../../../../components/Cards/whoCards/WhoCard'
+import WhoData from '../../../../components/Cards/whoCards/WhoData'
 
 const WhoItsFor = () => {
   return (
