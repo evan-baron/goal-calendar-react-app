@@ -6,11 +6,11 @@ const Header = () => {
     <>
         <header className='header'>
             <section>
-                <div className="logo-title">mrblr</div>
+                <div className="logo-title">marbl'r</div>
             </section>
             <section>
                 <ul className="header-nav">
-                    <li className="nav-link">How it Works</li>
+                    {/* <li className="nav-link">How it Works</li> */}
                     <li className="nav-link">About</li>
                     <li className="nav-link">Log In</li>
                 </ul>

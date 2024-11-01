@@ -1,11 +1,11 @@
 import React from 'react'
-import './Card.css'
+import './HowCard.css'
 
-const Card = () => {
+const HowCard = () => {
   return (
     <>
         <div className='card-image-container'>
-            <headline className='card-image-headline'>Create</headline> {/*create will be replaced with prop later*/}
+            <headline className='card-image-headline'>Create</headline> {/*create will be replaced with prop later - three cards are Create, Complete, Reward*/}
         </div>
         <div className='card-switcher-container'> {/*SUPER IMPORTANT: card-switchers will be map/created for however many cards there are, then assigned an ID associated with the position in the card array */}
             <div className='card-switcher-box'>
@@ -25,4 +25,4 @@ const Card = () => {
   )
 }
 
-export default Card
+export default HowCard

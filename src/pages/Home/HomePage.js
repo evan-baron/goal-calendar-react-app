@@ -1,13 +1,15 @@
 import React from 'react'
 import './HomePage.css'
 import Hero from '../../components/Hero/Hero'
-import Process from './sections/Process/Process'
+import HowItWorks from './sections/HowItWorks/HowItWorks'
+import WhoItsFor from './sections/WhoItsFor/WhoItsFor'
 
 const HomePage = () => {
   return (
     <main>
         <Hero />
-        <Process />
+        <HowItWorks />
+        <WhoItsFor />
     </main>
   )
 }
