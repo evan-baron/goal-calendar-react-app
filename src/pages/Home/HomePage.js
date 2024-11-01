@@ -9,7 +9,8 @@ const HomePage = () => {
     <main>
         <Hero />
         <div className='sections'>
-          <HowItWorks />
+          {/* Looking at finnyai's page, maybe have a 'screenshot' of the calendar */}
+          <HowItWorks /> {/* Looking at finnyai's page, maybe have the three sections broken down? each with own screenshot? Create, Complete, Reward? */}
           <WhoItsFor />
         </div>
     </main>
