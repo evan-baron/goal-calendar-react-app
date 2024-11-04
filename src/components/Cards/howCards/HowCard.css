@@ -19,6 +19,7 @@ p {
     font-size: 2rem;
     color: white;
     background-color: #8CDCFF;
+    box-shadow: rgb(200, 200, 200) 5px 5px 25px;
     border-radius: 1.5rem;
 }
 
