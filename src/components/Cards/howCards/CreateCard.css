@@ -7,7 +7,7 @@
     position: absolute;
     height: calc(50% + .4rem);
     width: 6rem;
-    transform: translate(60%, calc(21rem - 1px));
+    transform: translate(80%, calc(21rem - 1px));
 }
 
 .dashed-arrow-line {
