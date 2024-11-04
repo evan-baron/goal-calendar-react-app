@@ -22,62 +22,11 @@ p {
     border-radius: 1.5rem;
 }
 
-/* .card-image-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40rem;
-    height: 25rem;
-    border-radius: 1.5rem;
-    background: rgb(140, 220, 255);
+.howtext-container {
+    width: 50%;
 }
 
-.card-image-headline {
-    color: white;
-    font-size: 2rem;
-    padding: 1rem 0;
-}
-
-.card-switcher-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .5rem;
-    height: 1rem;
-    width: 5rem;
-    margin: .5rem 0 1rem 0;
-}
-
-.card-switcher-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1rem;
-    height: 1rem;
-}
-
-.card-switcher {
-    width: .75rem;
-    height: .75rem;
-    border-radius: 50%;
-    background-color: rgba(200, 200, 200, .5);
-}
-
-.card-switcher:hover {
-    width: 1rem;
-    height: 1rem;
-    cursor: pointer;
-}
-
-.card-description-container {
-    display: flex;
-    justify-content: center;
-    width: 80%;
-    min-width: 40rem;
-}
-
-.card-description {
-    display: flex;
-    text-align: justify;
+.howcard-description {
+    width: 100%;
     font-size: 1.25rem;
-} */
+}
