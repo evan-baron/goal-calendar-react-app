@@ -8,8 +8,6 @@
     height: calc(50% + .4rem);
     width: 6rem;
     transform: translate(60%, calc(21rem - 1px));
-
-    /* transform: translate(60%, 170%); */
 }
 
 .dashed-arrow-line {
@@ -28,6 +26,5 @@
     border-top: .5rem solid transparent;
     border-bottom: .5rem solid transparent;
     border-left: 1.5rem solid rgb(150, 150, 150);
-    transform:  translateX(12px)
-                translateY(calc(50% - 3px));
+    transform:  translate(12px, calc(50% - 3px));
 }
