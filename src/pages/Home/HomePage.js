@@ -1,6 +1,6 @@
 import React from 'react'
 import './HomePage.css'
-import Hero from '../../components/Hero/Hero'
+import Hero from './sections/Hero/Hero'
 import PreviewDash from './sections/PreviewDash/PreviewDash'
 import HowItWorks from './sections/HowItWorks/HowItWorks'
 import WhoItsFor from './sections/WhoItsFor/WhoItsFor'
