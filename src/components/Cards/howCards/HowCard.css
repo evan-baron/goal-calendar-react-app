@@ -31,3 +31,30 @@ p {
     width: 100%;
     font-size: 1.25rem;
 }
+
+
+.dashed-arrow-container {
+    position: absolute;
+    height: calc(50% + .4rem);
+    width: 6rem;
+    transform: translate(80%, calc(21rem - 1px));
+}
+
+.dashed-arrow-line {
+    height: 100%;
+    border-radius: 0 2rem;
+    border-left: 6px dotted rgb(150, 150, 150);
+    border-bottom: 6px dotted rgb(150, 150, 150);
+}
+
+.dashed-arrow-tip {
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: 0;
+    bottom: 0;
+    border-top: .5rem solid transparent;
+    border-bottom: .5rem solid transparent;
+    border-left: 1.5rem solid rgb(150, 150, 150);
+    transform:  translate(12px, calc(50% - 3px));
+}
