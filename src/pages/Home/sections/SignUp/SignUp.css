@@ -1,0 +1,11 @@
+.sign-up {
+    margin-bottom: 2rem;
+}
+
+.sign-up-button {
+    height: 5rem;
+    width: 30rem;
+    font-size: 2.5rem;
+    font-variant: normal;
+    border-radius: 2.5rem;
+}

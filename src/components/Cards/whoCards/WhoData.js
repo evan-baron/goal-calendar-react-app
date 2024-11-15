@@ -1,4 +1,5 @@
 import the_athlete_54 from '../../../../src/assets/images/the_athlete_54.jpg'
+import the_athlete_lifting from '../../../assets/images/the_athlete_lifting.jpg'
 import office_goer from '../../../../src/assets/images/office_goer.jpg'
 import parent from '../../../../src/assets/images/parent.jpg'
 
@@ -7,7 +8,7 @@ const WhoData = [
         id: 'wd1',
         persona: 'The Athlete',
         description: `The Athlete has a specific training plan they use, involving completing various tasks daily, including workout-related tasks or diet-related tasks and all things in-between. These tasks help them progress through their goals, improving performance along their athletic journey. Marblr's structured approach helps them maintain accountability while staying motivated and focused on achieving their goals.`,
-        src: the_athlete_54
+        src: the_athlete_lifting
         // src: 'https://plus.unsplash.com/premium_photo-1671100502322-852957fc1779?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' PREVIOUSLY USED IMAGE
     },
     {
