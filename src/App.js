@@ -7,8 +7,7 @@ const App = () => {
   return (
     <>
       <Header />
-      {/* <HomePage /> */}
-      <div>temp</div>
+      <HomePage />
       <Footer />
     </>
   )

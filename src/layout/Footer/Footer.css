@@ -28,10 +28,16 @@
 
 .footer-logo-title {
     position: relative;
+    display: flex;
+    align-items: flex-end;
+    height: 3rem;
     font-size: 2rem;
 }
 
 .nav-title {
+    display: flex;
+    align-items: flex-end;
+    height: 3rem;
     font-size: 1.25rem;
     margin-bottom: .25rem;
 }
