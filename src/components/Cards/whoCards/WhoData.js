@@ -1,6 +1,6 @@
-import the_athlete_54 from '../../../../src/the_athlete_54.jpg'
-import office_goer from '../../../../src/office_goer.jpg'
-import parent from '../../../../src/parent.jpg'
+import the_athlete_54 from '../../../../src/assets/images/the_athlete_54.jpg'
+import office_goer from '../../../../src/assets/images/office_goer.jpg'
+import parent from '../../../../src/assets/images/parent.jpg'
 
 const WhoData = [
     {

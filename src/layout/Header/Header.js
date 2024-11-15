@@ -5,10 +5,10 @@ const Header = () => {
   return (
     <>
         <header className='header'>
-            <section>
+            <section className='header-section'>
                 <div className="logo-title">marbl'r</div>
             </section>
-            <section>
+            <section className='header-section'>
                 <ul className="header-nav">
                     {/* <li className="nav-link">How it Works</li> */}
                     <li className="nav-link">About</li>

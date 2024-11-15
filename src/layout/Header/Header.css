@@ -14,7 +14,7 @@
     background-color: rgba(255, 255, 255, .5);
 }
 
-section {
+.header-section {
     display: flex;
     align-items: center;
     height: 100%;
