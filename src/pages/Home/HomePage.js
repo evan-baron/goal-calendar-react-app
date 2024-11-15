@@ -8,7 +8,7 @@ import SignUp from './sections/SignUp/SignUp'
 
 const HomePage = () => {
   return (
-    <main>
+    <main className="homepage">
         <Hero />
         <PreviewDash /> {/* Looking at finnyai's page, maybe have a 'screenshot' of the calendar here? */}
         <HowItWorks /> {/* Looking at finnyai's page, maybe have the three sections broken down? each with own screenshot? Create, Complete, Reward? */}
