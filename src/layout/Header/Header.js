@@ -12,6 +12,7 @@ const Header = () => {
                 <ul className="header-nav">
                     {/* <li className="nav-link">How it Works</li> */}
                     <li className="nav-link">About</li>
+                    <li className="nav-link">Sign Up</li>
                     <li className="nav-link">Log In</li>
                 </ul>
             </section>
