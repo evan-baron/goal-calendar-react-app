@@ -14,13 +14,19 @@ const Header = () => {
             <section className='header-section'>
                 <ul className="header-nav">
                     <li className="nav-link">
-                        <Link to="/about">About</Link>
+                        <Link to="/about">About</Link> {/* make invisible after logged in */}
                     </li>
                     <li className="nav-link">
-                        <Link to="/signup">Sign Up</Link>
+                        <Link to="/signup">Sign Up</Link> {/* make invisible after logged in */}
                     </li>
                     <li className="nav-link">
-                        <Link to="/login">Log In</Link>
+                        <Link to="/login">Log In</Link> {/* make invisible after logged in */}
+                    </li>
+                    <li className="nav-link">
+                        <Link to="/">Log Out</Link> {/* make so only visible after logged in */}
+                    </li>
+                    <li className="nav-link">
+                        <Link to="/account">My Account</Link> {/* make so only visible after logged in */}
                     </li>
                 </ul>
             </section>

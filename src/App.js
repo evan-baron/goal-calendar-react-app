@@ -12,6 +12,7 @@ import LoginPage from './pages/LogIn/LoginPage'
 import ContactPage from './pages/Contact/ContactPage'
 import AccountPage from './pages/AccountInfo/AccountPage'
 import PrivacyPage from './pages/PrivacyPolicy/PrivacyPage'
+import DashboardPage from './pages/Dashboard/DashboardPage'
 import Footer from './layout/Footer/Footer'
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="contact" element={<ContactPage />}/>
         <Route path="account" element={<AccountPage />}/>
         <Route path="privacy" element={<PrivacyPage />}/>
+        <Route path="dashboard" element={<DashboardPage />}/>
       </Routes>
       <Footer />
     </BrowserRouter>
