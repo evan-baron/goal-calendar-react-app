@@ -1,11 +1,11 @@
 import React from 'react'
-import LogIn from '../../features/LogIn/LogIn'
+import Login from '../../features/Login/Login'
 
 const LoginPage = () => {
   return (
     <main>
         <div>LoginPage</div>
-        <LogIn />
+        <Login />
     </main>
   )
 }
