@@ -2,7 +2,9 @@ import React from 'react'
 
 const ForgotPasswordPage = () => {
   return (
-    <div>ForgotPasswordPage</div>
+    <main>
+      <div>ForgotPasswordPage</div>
+    </main>
   )
 }
 
