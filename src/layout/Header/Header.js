@@ -40,10 +40,13 @@ const Header = () => {
                             ) : (
                                 <>
                                     <li className="nav-link">
-                                        <Link to="/" onClick={handleLogout}>Log Out</Link> {/* make so only visible after logged in */}
+                                        <Link to="/dashboard">Dashboard</Link> {/* make so only visible after logged in */}
                                     </li> 
                                     <li className="nav-link">
                                         <Link to="/account">My Account</Link> {/* make so only visible after logged in */}
+                                    </li> 
+                                    <li className="nav-link">
+                                        <Link to="/" onClick={handleLogout}>Log Out</Link> {/* make so only visible after logged in */}
                                     </li> 
                                 </>
                             )

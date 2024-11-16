@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../../app/routes';
 import { v4 as uuidv4 } from 'uuid';
 import './Login.css';
 import { login } from './loginSlice';
@@ -25,41 +24,47 @@ const Login = () => {
         }
 
         dispatch(login(userLoggedIn));
-        navigate(ROUTES.dashboardRoute());
+        navigate('/dashboard');
     };
 
     return (
         <div className='login'>
+            <div className='login-title'>Login to <span className='login-logo'>marbl'r</span></div>
             <form className='login-form' onSubmit={handleSubmit}>
+                <div className='credentials'>
+                    <div className='username'>
+                        <label htmlFor='username'>Username:</label>
+                        <input 
+                            type='text' 
+                            id='username' 
+                            name='username' 
+                            value={username} 
+                            onChange={(e) => setUsername(e.target.value)}
+                            required 
+                        />
+                    </div>
 
-                <label htmlFor="username">Username:</label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value)}
-                    required 
-                />
+                    <div className='password'>
+                        <label htmlFor='password'>Password:</label>
+                        <input 
+                            type='password' 
+                            id='password' 
+                            name='password' 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)}
+                            required 
+                        />
+                    </div>
 
-                <label htmlFor="password">Password:</label>
-                <input 
-                    type='password' 
-                    id='password' 
-                    name='password' 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    required 
-                />
-
-                <div>
-                    <input 
-                        type='checkbox' 
-                        id='rememberMe' 
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <label htmlFor='rememberMe'>Remember Me</label>
+                    <div className='remember-me'>
+                        <input 
+                            type='checkbox' 
+                            id='rememberMe' 
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />
+                        <label htmlFor='rememberMe'>Remember Me</label>
+                    </div>
                 </div>
 
                 <button type='submit'>Log In</button>
