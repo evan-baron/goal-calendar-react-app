@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import './Login.css';
 import { login } from './loginSlice';
@@ -57,17 +57,23 @@ const Login = () => {
                     </div>
 
                     <div className='remember-me'>
-                        <input 
-                            type='checkbox' 
-                            id='rememberMe' 
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                        />
-                        <label htmlFor='rememberMe'>Remember Me</label>
+                        <div>
+                            <input 
+                                type='checkbox' 
+                                id='rememberMe' 
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <label htmlFor='rememberMe'>Remember Me</label>
+                        </div>
+                        <Link to="/forgotpassword">
+                            <div className='forgot-pass'>Forgot Password?</div>
+                        </Link>
                     </div>
                 </div>
 
-                <button type='submit'>Log In</button>
+                <button className='login-button' type='submit'>Log In</button>
+                <div>Don't have an account? <Link to="/signup">SIGN UP.</Link></div>
             </form>
         </div>
     )

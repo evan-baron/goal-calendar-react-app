@@ -9,6 +9,7 @@ import HomePage from '../pages/Home/HomePage'
 import AboutPage from '../pages/About/AboutPage'
 import SignUpPage from '../pages/SignUp/SignUpPage'
 import LoginPage from '../pages/Login/LoginPage'
+import ForgotPasswordPage from '../pages/ForgotPassword/ForgotPasswordPage'
 import ContactPage from '../pages/Contact/ContactPage'
 import AccountPage from '../pages/AccountInfo/AccountPage'
 import PrivacyPage from '../pages/PrivacyPolicy/PrivacyPage'
@@ -37,6 +38,7 @@ const App = () => {
               <DashboardPage />
             </ProtectedRoute>
           }/>
+        <Route path="forgotpassword" element={<ForgotPasswordPage />}/>
       </Routes>
       <Footer />
     </BrowserRouter>
