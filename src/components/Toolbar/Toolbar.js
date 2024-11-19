@@ -1,46 +1,50 @@
 import React, { useState } from 'react'
 import './Toolbar.css'
-import Divider from '../Divider/Divider';
+import Divider from '../Divider/Divider'
 import NewCalendar from '../../features/NewCalendar/NewCalendar';
+import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
+import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 
 const Toolbar = () => {
+    const [navStatus, setNavStatus] = useState(true);
     const [newCalOpen, setNewCalOpen] = useState(false);
+    const [inProgOpen, setInProgOpen] = useState(false);
     const [curCalOpen, setCurCalOpen] = useState(false);
 
-    function hideshow(toggleFunction, closeFunction = null) {
-      toggleFunction(prevStatus => {
-        if (prevStatus === false && closeFunction) {
-            closeFunction(false);
-        }
-        return !prevStatus;
-      });
+    function hideshow(section) {
+      setNewCalOpen(false)
+      setInProgOpen(false)
+      setCurCalOpen(false)
+
+      if (section === 'new') setNewCalOpen(true);
+      if (section === 'inProgress') setInProgOpen(true);
+      if (section === 'current') setCurCalOpen(true);
     }
-    
+
     return (
-        <div className='toolbar'>
-            <div className='toolbar-title'>Toolbar</div>
-            <Divider />
-            <div className='toolbar-menu'>
-                <NewCalendar 
-                    setNewCalOpen={setNewCalOpen} 
-                    setCurCalOpen={setCurCalOpen}
-                    newCalOpen={newCalOpen}
-                    curCalOpen={curCalOpen}
-                />
-                <div className='current-calendar-menu'>
-                    <div 
-                        className={curCalOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
-                        onClick={() => hideshow(setCurCalOpen, setNewCalOpen)}
-                    >
-                        Current Calendar
-                    </div>
-                    {curCalOpen ? (
-                        <>
-                            <div>Edit</div>
-                            <div>Delete</div>
-                        </>
-                    ) : ''}
+        <div className={`nav-container ${navStatus ? 'nav-show' : 'nav-hide'}`}>
+            <div className='toolbar'>
+                <div className='toolbar-title'>Toolbar</div>
+                <Divider />
+                <div className='toolbar-menu'>
+                    <NewCalendar 
+                        hideshow={hideshow}
+                        isOpen={newCalOpen}
+                    />
+                    <InProgressCalendar 
+                        hideshow={hideshow} 
+                        isOpen={inProgOpen}
+                    />
+                    <CurrentCalendar 
+                        hideshow={hideshow}
+                        isOpen={curCalOpen}
+                    />
                 </div>
+            </div>
+            <div className='nav-hideshow'>
+            <div className='nav-hideshow-btn' onClick={() => hideshow(setNavStatus)}>
+                <div className={`nav-arrow ${navStatus ? 'nav-arrow-rotated' : ''}`}></div>
+            </div>
             </div>
         </div>
     )

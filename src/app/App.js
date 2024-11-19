@@ -22,8 +22,8 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
-        {/* <Route path="/" element={<DashboardPage />}/> */}
-        <Route path="/" element={<HomePage />}/>
+        <Route path="/" element={<DashboardPage />}/>
+        {/* <Route path="/" element={<HomePage />}/> */}
         <Route path="about" element={<AboutPage />}/>
         <Route path="signup" element={<SignUpPage />}/>
         <Route path="login" element={<LoginPage />}/>
@@ -34,11 +34,11 @@ const App = () => {
             </ProtectedRoute>
           }/>
         <Route path="privacy" element={<PrivacyPage />}/>
-        <Route path="dashboard" element={
+        {/* <Route path="dashboard" element={
             <ProtectedRoute>
               <DashboardPage />
             </ProtectedRoute>
-          }/>
+          }/> */}
         <Route path="forgotpassword" element={<ForgotPasswordPage />}/>
       </Routes>
       <Footer />
