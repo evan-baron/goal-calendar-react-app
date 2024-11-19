@@ -13,7 +13,7 @@ const Footer = () => {
         </section>
         <section>
           <ul className="footer-nav-section">
-            <li className="footer-nav-link nav-title">Company</li>
+            <li className="footer-nav-link footer-nav-title">Company</li>
             <li className="footer-nav-link">
               <Link to="/about">About</Link>
             </li>
@@ -24,7 +24,7 @@ const Footer = () => {
         </section>
         <section>
           <ul className="footer-nav-section">
-            <li className="footer-nav-link nav-title">Help</li>
+            <li className="footer-nav-link footer-nav-title">Help</li>
             <li className="footer-nav-link">
               <Link to="/contact">Contact</Link>
             </li>

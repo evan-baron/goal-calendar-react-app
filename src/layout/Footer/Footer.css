@@ -4,7 +4,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 15rem;
+    height: 25%;
+    max-height: 15rem;
     padding: 0 10%;
     background-color: rgba(255, 255, 255, .5);
 }
@@ -39,7 +40,7 @@
     font-size: 2rem;
 }
 
-.nav-title {
+.footer-nav-title {
     display: flex;
     align-items: flex-end;
     height: 3rem;
