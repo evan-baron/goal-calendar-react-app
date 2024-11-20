@@ -1,0 +1,16 @@
+.in-prog-calendar {
+    padding: 0 1rem 0 2rem;
+}
+
+.in-prog-calendar-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.in-prog-controls {
+    padding-left: 1rem;
+}
