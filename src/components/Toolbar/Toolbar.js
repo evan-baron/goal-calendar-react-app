@@ -28,7 +28,8 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
             <div className='toolbar'>
                 <div className='toolbar-title'>Toolbar</div>
                 <Divider />
-                <div className={calendars ? 'toolbar-section selected' : 'toolbar-section'}>
+                {/* <div className={calendars ? 'toolbar-section selected' : 'toolbar-section'}> */} {/* add back if i want to keep section title selected */}
+                <div className='toolbar-section'>
                     <div 
                         className='toolbar-title'
                         onClick={() => setCalendars(prev => !prev)}
