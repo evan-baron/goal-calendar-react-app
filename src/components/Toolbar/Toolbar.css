@@ -26,14 +26,14 @@
 }
 
 .nav-hide {
-    transform: translateX(-18.75rem);
+    transform: translateX(-18.5rem);
     transition: transform .5s ease;
 }
 
 .nav-hideshow {
     position: relative;
     height: 100%;
-    width: 1.25rem;
+    width: 1.5rem;
     background-color: rgba(255, 255, 255, .5);
 }
 
@@ -44,7 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.25rem;
+    width: 1.5rem;
     height: 2.5rem;
     border-radius: 0 1.25rem 1.25rem 0;
 }
@@ -54,7 +54,7 @@
 }
 
 .nav-arrow {
-    transform: rotate(45deg) translateX(-.25rem) translateY(.25rem);
+    transform: rotate(45deg) translateX(-.275rem) translateY(.275rem);
     width: 1rem;
     height: 1rem;
     border-top: 2px solid rgb(25, 25, 75);
@@ -62,7 +62,7 @@
 }
 
 .nav-arrow-rotated {
-    transform: rotate(225deg) translateX(-.25rem) translateY(.25rem);
+    transform: rotate(225deg) translateX(-.175rem) translateY(.175rem);
 }
 
 .toolbar {
