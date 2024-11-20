@@ -5,7 +5,7 @@ import { selectInProgressCalendars, createCalendar } from './calendarSlice';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { Add, Remove } from '@mui/icons-material';
+import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const NewCalendar = ({ hideShow, isOpen }) => {
@@ -68,8 +68,8 @@ const NewCalendar = ({ hideShow, isOpen }) => {
             >
                 New Calendar
             {!isOpen 
-                        ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
+                        ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
+                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
             </div>
             {isOpen ? (
             <form 

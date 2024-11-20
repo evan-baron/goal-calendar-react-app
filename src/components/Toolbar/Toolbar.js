@@ -6,7 +6,7 @@ import Divider from '../Divider/Divider'
 import NewCalendar from '../../features/NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
-import { Add, Remove } from '@mui/icons-material';
+import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
 const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
     const activeCalendar = useSelector(selectActiveCalendars);

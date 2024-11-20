@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectInProgressCalendars } from '../../features/NewCalendar/calendarSlice'
 import './Dashboard.css'
 
 const Dashboard = () => {

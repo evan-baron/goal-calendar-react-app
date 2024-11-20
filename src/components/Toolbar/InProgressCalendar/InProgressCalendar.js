@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/NewCalendar/calendarSlice'
 import './InProgressCalendar.css'
-import { Add, Remove } from '@mui/icons-material';
+import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
 const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, isOpen }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
@@ -30,8 +30,8 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, i
             >
                 In Progress
                 {!isOpen 
-                        ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
+                        ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
+                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
             </div>
             {isOpen ? (
                 inProgressCalendars.map((calendar, index) => (
