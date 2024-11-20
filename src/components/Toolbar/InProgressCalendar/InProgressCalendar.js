@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/NewCalendar/calendarSlice'
 import './InProgressCalendar.css'
 
-const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideshow, isOpen }) => {
+const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, isOpen }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
@@ -20,10 +20,12 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideshow, i
     }
 
     return (
-        <div className='current-calendar-menu'>
+        <div className={isOpen 
+            ? 'calendar-menu selected'
+            : 'calendar-menu'}>
             <div 
-                className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
-                onClick={() => hideshow('inProgress')}
+                className='toolbar-section-title menu-title' 
+                onClick={() => hideShow('inProgress')}
             >
                 In Progress
             </div>
@@ -32,7 +34,7 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideshow, i
                     <div className='in-prog-calendar' key={index}>
                         <div className='in-prog-calendar-title' onClick={() => toggleControls(index)}>{calendar.calendarName}</div>
                         {activeIndex === index ? (
-                        <div className='in-prog-cal-controls'>
+                        <div className='in-prog-controls'>
                             <div>Edit</div>
                             <div onClick={() => onDelete(calendar.calendarId)}>Delete</div>
                         </div>

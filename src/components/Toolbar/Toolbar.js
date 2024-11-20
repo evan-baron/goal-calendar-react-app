@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import './Toolbar.css'
+import { useSelector } from 'react-redux';
+import { selectActiveCalendars } from '../../features/NewCalendar/calendarSlice';
 import Divider from '../Divider/Divider'
 import NewCalendar from '../../features/NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
@@ -7,20 +9,34 @@ import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import { Add, Remove } from '@mui/icons-material';
 
 const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
+    const activeCalendar = useSelector(selectActiveCalendars);
+
     const [navStatus, setNavStatus] = useState(true);
     const [newCalOpen, setNewCalOpen] = useState(false);
     const [inProgOpen, setInProgOpen] = useState(false);
     const [curCalOpen, setCurCalOpen] = useState(false);
     const [calendars, setCalendars] = useState(false);
 
-    function hideshow(section) {
-      setNewCalOpen(false)
-      setInProgOpen(false)
-      setCurCalOpen(false)
-
-      if (section === 'new') setNewCalOpen(true);
-      if (section === 'inProgress') setInProgOpen(true);
-      if (section === 'current') setCurCalOpen(true);
+    function hideShow(section) {
+        switch (section) {
+            case 'new':
+                setNewCalOpen((prev) => !prev);
+                setInProgOpen(false);
+                setCurCalOpen(false);
+                break;
+            case 'inProgress':
+                setInProgOpen((prev) => !prev);
+                setNewCalOpen(false);
+                setCurCalOpen(false);
+                break;
+            case 'current':
+                setCurCalOpen((prev) => !prev);
+                setNewCalOpen(false);
+                setInProgOpen(false);
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -42,16 +58,17 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
                 </div>
                 {calendars ? (
                     <div className='toolbar-menu'>
-                        <CurrentCalendar 
-                            hideshow={hideshow}
+                        {activeCalendar.length > 0 ? (<CurrentCalendar 
+                            hideShow={hideShow}
                             isOpen={curCalOpen}
-                        />
+                            activeCalendar={activeCalendar}
+                        />) : null}
                         <NewCalendar 
-                            hideshow={hideshow}
+                            hideShow={hideShow}
                             isOpen={newCalOpen}
                         />
                         <InProgressCalendar 
-                            hideshow={hideshow} 
+                            hideShow={hideShow} 
                             isOpen={inProgOpen}
                             onDelete={onDelete}
                             activeIndex={activeIndex}

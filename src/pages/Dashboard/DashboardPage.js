@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import './DashboardPage.css'
+import { useDispatch } from 'react-redux'
+import { deleteCalendar } from '../../features/NewCalendar/calendarSlice';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import Modal from '../../components/Modal/Modal';
-import { deleteCalendar } from '../../features/NewCalendar/calendarSlice';
+import Dashboard from '../../components/Dashboard/Dashboard';
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
@@ -32,13 +33,13 @@ const DashboardPage = () => {
 
   return (
     <main className='dashboard-main'>
-      <div className='dashboard-container'>
+      <div className='dashboard-page-container'>
         <Toolbar 
           onDelete={handleDelete}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
         />
-        <div className='dashboard'>Dashboard</div>
+        <Dashboard />
         <Modal
           isOpen={isModalOpen}
           onClose={cancelDelete}

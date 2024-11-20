@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 
-const NewCalendar = ({ hideshow, isOpen }) => {
+const NewCalendar = ({ hideShow, isOpen }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
@@ -53,17 +53,17 @@ const NewCalendar = ({ hideshow, isOpen }) => {
 
         dispatch(createCalendar(createdCalendar));
 
-        hideshow('new');
+        hideShow('new');
         setCalendarName('');
         //ADD LOGIC HERE TO RESET END DATE
-        hideshow('inProgress');
+        hideShow('inProgress');
     }
 
     return (
-        <div className='new-calendar'>
+        <div className='calendar-menu'>
             <div 
                 className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
-                onClick={() => hideshow('new')}
+                onClick={() => hideShow('new')}
             >
                 New Calendar
             </div>

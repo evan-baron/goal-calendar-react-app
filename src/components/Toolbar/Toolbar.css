@@ -74,10 +74,6 @@
     transition: transform 0.5s ease;
 }
 
-.toolbar-menu {
-    padding-left: 1rem;
-}
-
 .toolbar-title {
     width: 100%;
     font-size: 2rem;
@@ -113,7 +109,20 @@
     background-color: rgba(255, 255, 255, .5);
 }
 
-.new-calendar {
+.in-prog-calendar {
+    padding-left: 2rem;
+}
+
+.in-prog-calendar-title {
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.in-prog-controls {
+    padding-left: 1rem;
+}
+
+.calendar-menu {
     position: relative;
     width: 100%;
 }
