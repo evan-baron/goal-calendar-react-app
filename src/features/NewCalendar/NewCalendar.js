@@ -29,7 +29,6 @@ const NewCalendar = ({ hideShow, isOpen }) => {
         const start = dayjs(startDate);
         const end = dayjs(endDate);
         const length = end.diff(start, 'day');
-        console.log(length);
 
         const createdCalendar = {
             calendarId: uuidv4(),

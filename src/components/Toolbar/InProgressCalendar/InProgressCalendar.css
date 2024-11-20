@@ -2,6 +2,10 @@
     padding: 0 1rem 0 2rem;
 }
 
+.active-calendar {
+    background-color: #8CDCFF;
+}
+
 .in-prog-calendar-title {
     display: flex;
     justify-content: space-between;
@@ -9,6 +13,7 @@
     width: 100%;
     font-size: 1.25rem;
     cursor: pointer;
+    padding-left: 1rem;
 }
 
 .in-prog-controls {
