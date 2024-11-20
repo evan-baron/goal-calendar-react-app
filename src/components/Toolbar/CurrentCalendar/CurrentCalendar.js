@@ -11,10 +11,7 @@ const CurrentCalendar = ({ hideshow, isOpen }) => {
             Current Calendar
         </div>
         {isOpen ? (
-            <>
-                <div>Edit</div>
-                <div>Delete</div>
-            </>
+            <div>Placeholder</div>
         ) : ''}
     </div>
   )

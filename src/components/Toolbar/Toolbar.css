@@ -74,9 +74,22 @@
     transition: transform 0.5s ease;
 }
 
+.toolbar-menu {
+    padding-left: 1rem;
+}
+
 .toolbar-title {
+    width: 100%;
     font-size: 2rem;
     padding: 0 1rem;
+    cursor: pointer;
+}
+
+.toolbar-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 1rem;
 }
 
 .toolbar-section-title {
@@ -86,6 +99,10 @@
 .toolbar .menu-title {
     font-size: 1.5rem;
     padding: 0 1rem;
+}
+
+.toolbar-section:hover {
+    background-color: rgba(255, 255, 255, .5);
 }
 
 .menu-title:hover {

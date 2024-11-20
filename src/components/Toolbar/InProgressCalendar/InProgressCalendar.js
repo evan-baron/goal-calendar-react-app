@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectInProgressCalendars, deleteCalendar } from '../../../features/NewCalendar/calendarSlice'
 import './InProgressCalendar.css'
 
-const InProgressCalendar = ({ hideshow, isOpen }) => {
+const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideshow, isOpen }) => {
     const dispatch = useDispatch();
 
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
-    const [activeIndex, setActiveIndex] = useState(null);
-    const [prevLength, setPrevLength] = useState(inProgressCalendars.length)
+    const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
 
     useEffect(() => {
         if (inProgressCalendars.length > prevLength) {
@@ -37,10 +36,7 @@ const InProgressCalendar = ({ hideshow, isOpen }) => {
                         {activeIndex === index ? (
                         <div className='in-prog-cal-controls'>
                             <div>Edit</div>
-                            <div onClick={() => {
-                                dispatch(deleteCalendar(calendar.calendarId));
-                                setActiveIndex(null);
-                            }}>Delete</div>
+                            <div onClick={() => onDelete(calendar.calendarId)}>Delete</div>
                         </div>
                         ) : null}
                     </div>

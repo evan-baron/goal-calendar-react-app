@@ -1,0 +1,38 @@
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 25rem;
+    font-size: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: rgb(200, 200, 200) 5px 5px 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.modal-buttons button {
+    height: 2rem;
+    width: 10rem;
+    font-size: 1.25rem;
+    font-variant: normal;
+    margin: 5px;
+}
