@@ -39,7 +39,10 @@ const DashboardPage = () => {
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
         />
-        <Dashboard activeIndex={activeIndex} />
+        <Dashboard 
+          onDelete={handleDelete}
+          activeIndex={activeIndex} 
+        />
         <Modal
           isOpen={isModalOpen}
           onClose={cancelDelete}

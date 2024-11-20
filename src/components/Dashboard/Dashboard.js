@@ -5,7 +5,7 @@ import './Dashboard.css'
 import Calendar from '../../features/Calendar/Calendar'
 import Controls from './Controls/Controls'
 
-const Dashboard = ({ activeIndex }) => {
+const Dashboard = ({ onDelete, activeIndex }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
     // console.log(activeIndex); //index of selected calendar in in-progress dropdown
     // console.log(selectedCalendar[activeIndex]); //calendar object of selected calendar in in-progress dropdown
@@ -27,11 +27,14 @@ const Dashboard = ({ activeIndex }) => {
                     length={length} 
                 />
                 <div className='dashboard-calendar-support'>
-                    <div className='support-container dashboard-tasks'>Dashboard Tasks</div>
-                    <div className='support-container dashboard-stats'>Dashboard Stats</div>
+                    <div className='support-container dashboard-tasks'>Current Day Tasks</div>
+                    <div className='support-container dashboard-stats'>Calendar Stats</div>
                 </div>
             </div>
-            <Controls />
+            <Controls 
+                activeIndex={activeIndex}
+                onDelete={onDelete} 
+            />
         </>
         ) : null
     )

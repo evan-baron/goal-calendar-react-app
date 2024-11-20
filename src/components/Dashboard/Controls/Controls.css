@@ -1,9 +1,27 @@
 .controls-container {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     bottom: 0;
     right: 0;
-    height: 20rem;
-    width: 11rem;
-    background-color: red;
+    background-color: rgba(140, 220, 255, .5);
     margin: 1.5rem;
+    padding: 1rem 0;
+    border-radius: 1rem;
+}
+
+.controls-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    padding: 0 1rem;
+}
+
+.controls-option:hover {
+    background-color: rgba(255, 255, 255, .5);
 }
