@@ -16,20 +16,29 @@ const NewCalendar = ({ hideShow, isOpen }) => {
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
 
+    const cancelCreate = () => {
+        setCalendarName('');
+        setStartDate(dayjs());
+        setEndDate(dayjs().add(4, 'week'));
+        hideShow('new');
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
+        const start = dayjs(startDate);
+        const end = dayjs(endDate);
+        const length = end.diff(start, 'day');
+        console.log(length);
 
         const createdCalendar = {
             calendarId: uuidv4(),
             calendarName: calendarName === '' ? `${dayjs().format('MMMM')} Calendar` : calendarName,
-            startDate: startDate,
-            endDate: endDate
+            startDate: start.toISOString(),
+            endDate: end.toISOString(),
+            length: length
         }
 
         if (startDate && endDate) {
-            const start = dayjs(startDate);
-            const end = dayjs(endDate);
     
             // Check if endDate is before or equal to startDate
             if (end.isBefore(start) || end.isSame(start)) {
@@ -143,7 +152,10 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                         </LocalizationProvider>
                     </div>
                 </div>
-                <button className='create-calendar' type='submit'>Create</button>
+                <div className='new-cal-button-container'>
+                    <button className='create-calendar' type='submit'>Create</button>
+                    <button className='create-calendar' onClick={cancelCreate}>Cancel</button>
+                </div>
             </form>) : ''}
             {/* <div>Select Dates</div>
             <div>Edit Tasks</div>

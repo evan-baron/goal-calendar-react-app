@@ -36,7 +36,11 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, i
             {isOpen ? (
                 inProgressCalendars.map((calendar, index) => (
                     <div className='in-prog-calendar' key={index}>
-                        <div className='in-prog-calendar-title' onClick={() => toggleControls(index)}>{calendar.calendarName}</div>
+                        <div className='in-prog-calendar-title' onClick={() => toggleControls(index)}>{calendar.calendarName}
+                        {activeIndex !== index
+                        ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
+                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
+                        </div>
                         {activeIndex === index ? (
                         <div className='in-prog-controls'>
                             <div>Edit</div>

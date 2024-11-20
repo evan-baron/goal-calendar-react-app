@@ -11,7 +11,7 @@ export const newCalendarSlice = createSlice({
     initialState: initialState,
     reducers: {
         createCalendar: (state, action) => {
-            const { calendarId, calendarName, startDate, endDate } = action.payload;
+            const { calendarId, calendarName, startDate, endDate, length } = action.payload;
             const newCalendar = {
                 calendarId: calendarId,
                 inProgress: true,
@@ -19,6 +19,7 @@ export const newCalendarSlice = createSlice({
                 calendarName: calendarName,
                 startDate: startDate,
                 endDate: endDate,
+                length: length,
                 reward: '',
                 totalPointsPossible: 0,
                 tasks: {

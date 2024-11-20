@@ -113,10 +113,14 @@
 }
 
 .in-prog-calendar {
-    padding-left: 2rem;
+    padding: 0 1rem 0 2rem;
 }
 
 .in-prog-calendar-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     font-size: 1.25rem;
     cursor: pointer;
 }
@@ -153,14 +157,21 @@
     padding: 0 2rem;
 }
 
+.new-cal-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
 .create-calendar {
     display: flex;
     align-self: center;
     justify-content: center;
     align-items: center;
-    width: 8rem;
+    width: 6.5rem;
     height: 2rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-variant: normal;
     border-radius: 1rem;
     border: 2px solid rgb(25, 25, 75);
