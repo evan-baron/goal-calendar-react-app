@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { selectInProgressCalendars, deleteCalendar } from '../../../features/NewCalendar/calendarSlice'
+import { useSelector } from 'react-redux';
+import { selectInProgressCalendars } from '../../../features/NewCalendar/calendarSlice'
 import './InProgressCalendar.css'
 
 const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideshow, isOpen }) => {
-    const dispatch = useDispatch();
-
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
