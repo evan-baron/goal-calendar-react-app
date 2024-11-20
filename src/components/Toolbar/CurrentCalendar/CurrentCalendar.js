@@ -1,5 +1,6 @@
 import React from 'react'
 import './CurrentCalendar.css'
+import { Add, Remove } from '@mui/icons-material'
 
 const CurrentCalendar = ({ hideShow, isOpen, activeCalendar }) => {
   return (
@@ -9,6 +10,9 @@ const CurrentCalendar = ({ hideShow, isOpen, activeCalendar }) => {
             onClick={() => hideShow('current')}
         >
             Current Calendar
+            {!isOpen 
+                        ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
+                        : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
         </div>
         {isOpen ? (
             <div>Placeholder</div>

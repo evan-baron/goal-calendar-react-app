@@ -42,7 +42,7 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
     return (
         <div className={`nav-container ${navStatus ? 'nav-show' : 'nav-hide'}`}>
             <div className='toolbar'>
-                <div className='toolbar-title'>Toolbar</div>
+                <div className='toolbar-title'>Dashboard</div>
                 <Divider />
                 {/* <div className={calendars ? 'toolbar-section selected' : 'toolbar-section'}> */} {/* add back if i want to keep section title selected */}
                 <div className='toolbar-section'>

@@ -89,12 +89,15 @@
 }
 
 .toolbar-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
 }
 
-.toolbar .menu-title {
+.toolbar .menu-title, .form-title {
     font-size: 1.5rem;
-    padding: 0 1rem;
+    padding: 0 1rem 0 2rem;
 }
 
 .toolbar-section:hover {
@@ -147,7 +150,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1rem;
+    padding: 0 2rem;
 }
 
 .create-calendar {
@@ -163,9 +166,18 @@
     border: 2px solid rgb(25, 25, 75);
 }
 
+.calendar-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .5rem;
+}
+
 .calendar-name input {
+    height: 2rem;
+    width: calc(100% - 4rem);
     font-size: 1.25rem;
-    margin: 0 1rem;
+    margin: 0 2rem;
     color: rgb(25, 25, 75);
     border: 1px solid rgb(190, 193, 196);
     border-radius: 4px;

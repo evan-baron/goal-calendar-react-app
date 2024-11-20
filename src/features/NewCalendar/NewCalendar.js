@@ -5,6 +5,7 @@ import { selectInProgressCalendars, createCalendar } from './calendarSlice';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Add, Remove } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const NewCalendar = ({ hideShow, isOpen }) => {
@@ -66,6 +67,9 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                 onClick={() => hideShow('new')}
             >
                 New Calendar
+            {!isOpen 
+                        ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
+                        : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
             </div>
             {isOpen ? (
             <form 
@@ -73,7 +77,7 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                 onSubmit={handleSubmit}
             >
                 <div className='calendar-name'>
-                    <div className='menu-title'>Calendar Name:</div>
+                    <div className='form-title'>Calendar Name:</div>
                     <input 
                         type="text"
                         value={calendarName}
@@ -81,7 +85,7 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                     />
                 </div>
                 <div className='calendar-dates'>
-                    <div className='menu-title'>Select Dates:</div>
+                    <div className='form-title'>Select Dates:</div>
                     <div className='date-selector'>
                         <div className='start-date'>Start Date:</div>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
