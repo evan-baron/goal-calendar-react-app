@@ -179,6 +179,7 @@
     font-size: 1.25rem;
     margin: 0 2rem;
     color: rgb(25, 25, 75);
+    background-color: white;
     border: 1px solid rgb(190, 193, 196);
     border-radius: 4px;
 }

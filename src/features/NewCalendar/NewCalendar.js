@@ -97,7 +97,8 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                                         height: '1.5rem',
                                         width: '8rem',
                                         padding: '0',
-                                        margin: '0'
+                                        margin: '0',
+                                        background: 'white'
                                         },
                                         '& .MuiInputBase-input': {
                                         color: 'rgb(25, 25, 75)',
@@ -124,7 +125,8 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                                         height: '1.5rem',
                                         width: '8rem',
                                         padding: '0',
-                                        margin: '0'
+                                        margin: '0',
+                                        background: 'white'
                                         },
                                         '& .MuiInputBase-input': {
                                         color: 'rgb(25, 25, 75)',
