@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit } from '@mui/icons-material';
 
-const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode, setNavStatus, calendarName, startDate, endDate, length }) => {
+const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of start date
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of end date
   const startMonth = weekStartDay.month();
@@ -63,7 +63,6 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode
       <Controls 
           editMode={editMode}
           setEditMode={setEditMode}
-          setPreviewMode={setPreviewMode}
           setNavStatus={setNavStatus}
           activeIndex={activeIndex}
           onDelete={onDelete} 

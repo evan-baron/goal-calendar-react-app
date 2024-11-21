@@ -13,7 +13,6 @@ const DashboardPage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [navStatus, setNavStatus] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [previewMode, setPreviewMode] = useState(false);
 
   function handleDelete(calendarId) {
     setCalendarToDelete(calendarId);
@@ -49,8 +48,6 @@ const DashboardPage = () => {
         <Dashboard 
           editMode={editMode}
           setEditMode={setEditMode}
-          previewMode={previewMode}
-          setPreviewMode={setPreviewMode}
           onDelete={handleDelete}
           activeIndex={activeIndex} 
           setNavStatus={setNavStatus}

@@ -40,7 +40,7 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow
                             className='in-prog-calendar-title' 
                             onClick={() => {
                                 setActive(index)
-                                setEditMode(false)
+                                setEditMode(true)
                                 }}>
                             {calendar.calendarName}
                         </div>

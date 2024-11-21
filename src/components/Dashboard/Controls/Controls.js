@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import { Edit, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode, setNavStatus }) => {
+const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
     const calendar = inProgressCalendars[activeIndex].calendarId;
     console.log(editMode); //REMOVE WHEN DONE WITH CREATING EDIT MODE STUFFS
@@ -14,8 +14,7 @@ const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode
             <div 
             className='controls-option' 
             onClick={() => {
-                setEditMode(prev => !prev)
-                setPreviewMode(false)
+                setEditMode(true)
                 setNavStatus(true)
             }}
             >
@@ -32,7 +31,6 @@ const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode
             <div 
                 className='controls-option' 
                 onClick={() => {
-                    setPreviewMode(true)
                     setEditMode(false)
                     setNavStatus(false)
                 }}
