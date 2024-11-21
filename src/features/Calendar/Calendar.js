@@ -6,13 +6,16 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
-import { Edit } from '@mui/icons-material';
+import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
+import Modal from '../../components/Modal/Modal';
 
 const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
   const [newStart, setNewStart] = useState(dayjs(startDate));
   const [newEnd, setNewEnd] = useState(dayjs(endDate));
   const [editName, setEditName] = useState(false);
+  const [originalCalName, setOriginalCalName] = useState(calendarName);
   const [newCalName, setNewCalName] = useState(calendarName);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const inProgressCalendars = useSelector(selectInProgressCalendars);
   // console.log(inProgressCalendars);
@@ -43,121 +46,166 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus, 
     setNewCalName(calendarName)
   }, [activeIndex, inProgressCalendars]);
 
+  const toggleEdit = () => {
+    setEditName(prev => !prev);
+    setOriginalCalName(newCalName);
+  };
+
+  const cancelChanges = () => {
+    setNewCalName(originalCalName);
+    setEditName(false);
+    setIsModalOpen(false);
+  }
+
+  const acceptChanges = () => {
+    setEditName(false);
+    setIsModalOpen(false)
+  }
+
   return (
     <div className='calendar-container'>
-      <div className={editMode ? 'calendar-title edit-mode' : 'calendar-title'}>
-        {editName 
-          ? <input
-              className='edit-name-input'
-              value={newCalName}
-              onChange={(e) => setNewCalName(e.target.value)}/> 
-          : <div className='calendar-name' onClick={editMode ? () => setEditName(prev => !prev) : null}>{newCalName}</div>
-        }
-        {editMode 
-          ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> 
-          : null
-        }
-      </div>
-      {editMode ? (
-        <div className='edit-dates'>
-          <div className='calendar-select'>
-            <div className='new-label'>Start Date:</div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker 
-                value={newStart}
-                defaultValue={dayjs()}
-                onChange={(newValue) => setNewStart(newValue)}
-                required
-                slotProps={{
-                  textField: {
-                  sx: {
-                    '& .MuiInputBase-root': {
-                      height: '1.75rem',
-                      width: '8rem',
-                      padding: '.25rem',
-                      margin: '0',
-                      background: 'white'
-                    },
-                    '& .MuiInputBase-input': {
+      <div className='calendar'>
+        <div className={editMode && !editName ? 'calendar-title edit-mode' : 'calendar-title'}>
+          {editName 
+            ? (
+              <>
+                <input
+                  className='edit-name-input'
+                  value={newCalName}
+                  onChange={(e) => setNewCalName(e.target.value)}
+                /> 
+                <Check 
+                  className='check-icon' 
+                  onClick={() => {
+                    setIsModalOpen(true)
+                  }}
+                  sx={{ fontSize: 50 }} 
+                />
+                <DoNotDisturb 
+                  className='cancel-icon'
+                  onClick={() => {
+                    setEditName(false)
+                    setNewCalName(originalCalName)
+                  }} 
+                  sx={{ fontSize: 40 }} 
+                />
+              </>
+            )
+            : <div className='calendar-name' onClick={editMode ? toggleEdit : null}>{newCalName}</div>
+            // : <div className='calendar-name' onClick={editMode ? () => setEditName(prev => !prev) : null}>{newCalName}</div>
+          }
+          {editMode && !editName
+            ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> 
+            : null
+          }
+        </div>
+        {editMode ? (
+          <div className='edit-dates'>
+            <div className='calendar-select'>
+              <div className='new-label'>Start Date:</div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker 
+                  value={newStart}
+                  defaultValue={dayjs()}
+                  onChange={(newValue) => setNewStart(newValue)}
+                  required
+                  slotProps={{
+                    textField: {
+                    sx: {
+                      '& .MuiInputBase-root': {
+                        height: '1.75rem',
+                        width: '8rem',
+                        padding: '.25rem',
+                        margin: '0',
+                        background: 'white'
+                      },
+                      '& .MuiInputBase-input': {
+                        color: 'rgb(25, 25, 75)',
+                        padding: '0'
+                      }
+                    }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+            </div>
+            <div className='calendar-select'>
+              <div className='new-label'>End Date:</div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker 
+                  value={newEnd}
+                  defaultValue={dayjs()}
+                  onChange={(newValue) => setNewEnd(newValue)}
+                  required
+                  slotProps={{
+                    textField: {
+                    sx: {
+                      '& .MuiInputBase-root': {
+                        height: '1.75rem',
+                        width: '8rem',
+                        padding: '.25rem',
+                        margin: '0',
+                        background: 'white'
+                      },
+                      '& .MuiInputBase-input': {
                       color: 'rgb(25, 25, 75)',
                       padding: '0'
+                      }
                     }
-                  }
-                  }
-                }}
-              />
-            </LocalizationProvider>
-          </div>
-          <div className='calendar-select'>
-            <div className='new-label'>End Date:</div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker 
-                value={newEnd}
-                defaultValue={dayjs()}
-                onChange={(newValue) => setNewEnd(newValue)}
-                required
-                slotProps={{
-                  textField: {
-                  sx: {
-                    '& .MuiInputBase-root': {
-                      height: '1.75rem',
-                      width: '8rem',
-                      padding: '.25rem',
-                      margin: '0',
-                      background: 'white'
-                    },
-                    '& .MuiInputBase-input': {
-                    color: 'rgb(25, 25, 75)',
-                    padding: '0'
                     }
-                  }
-                  }
-                }}
-              />
-            </LocalizationProvider>
-          </div>
-      </div>) : null}
-      <div className='calendar-table'>
-        {[...Array(calendarRows * 7)].map((_, index) => {
-          const currentDay = weekStartDay.add(index, 'day');
-          const isOutsideRange = currentDay.isBefore(startDate, 'day') || currentDay.isAfter(endDate, 'day');
-  
-          return (
-            <div
-              className={`calendar-day ${isOutsideRange 
-                ? 'outside-range' 
-                : editMode 
-                  ? 'inside-range edit-mode' 
-                  : 'inside-range'}`}
-              key={index}
-            >
-              <div className='day-title'>
-                <div>{currentDay.format('dddd')}</div>
-                <div>{currentDay.format('D')}</div>
-              </div>
-              {!isOutsideRange && (
-                <>
-                  <div className='day-divider'></div>
-                  <div className='day-body'>
-                    {/* Add any additional details for days inside the range here */}
-                    <span>Details</span>
-                  </div>
-                  {editMode ? (<Edit sx={{ fontSize: 30 }} className='edit-pencil'/>) : null}
-                </>
-              )}
+                  }}
+                />
+              </LocalizationProvider>
             </div>
-          );
-        })}
+        </div>) : null}
+        <div className='calendar-table'>
+          {[...Array(calendarRows * 7)].map((_, index) => {
+            const currentDay = weekStartDay.add(index, 'day');
+            const isOutsideRange = currentDay.isBefore(startDate, 'day') || currentDay.isAfter(endDate, 'day');
+    
+            return (
+              <div
+                className={`calendar-day ${isOutsideRange 
+                  ? 'outside-range' 
+                  : editMode 
+                    ? 'inside-range edit-mode' 
+                    : 'inside-range'}`}
+                key={index}
+              >
+                <div className='day-title'>
+                  <div>{currentDay.format('dddd')}</div>
+                  <div>{currentDay.format('D')}</div>
+                </div>
+                {!isOutsideRange && (
+                  <>
+                    <div className='day-divider'></div>
+                    <div className='day-body'>
+                      {/* Add any additional details for days inside the range here */}
+                      <span>Details</span>
+                    </div>
+                    {editMode ? (<Edit sx={{ fontSize: 30 }} className='edit-pencil'/>) : null}
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <Controls 
+            setNewCalName={setNewCalName}
+            newCalName={newCalName}
+            setEditName={setEditName}
+            editMode={editMode}
+            setEditMode={setEditMode}
+            setNavStatus={setNavStatus}
+            activeIndex={activeIndex}
+            onDelete={onDelete} 
+        />
       </div>
-      <Controls 
-          setNewCalName={setNewCalName}
-          newCalName={newCalName}
-          setEditName={setEditName}
-          editMode={editMode}
-          setEditMode={setEditMode}
-          setNavStatus={setNavStatus}
-          activeIndex={activeIndex}
-          onDelete={onDelete} 
+      <Modal 
+        isOpen={isModalOpen}
+        onClose={cancelChanges}
+        onConfirm={acceptChanges}
+        message="Confirm Changes?"
       />
     </div>
   );
