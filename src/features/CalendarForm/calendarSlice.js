@@ -46,6 +46,9 @@ export const newCalendarSlice = createSlice({
 
             state.inProgressCalendars.push(newCalendar);
         },
+        editCalendar: (state, action) => {
+
+        },
         setActiveCalendar: (state, action) => {
             const calendarId = action.payload;
 

@@ -6,12 +6,11 @@ import Divider from '../Divider/Divider'
 import NewCalendar from './NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
-import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
+import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ activeIndex, setActiveIndex, onDelete, editMode, setEditMode }) => {
+const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus, setNavStatus }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
 
-    const [navStatus, setNavStatus] = useState(true);
     const [newCalOpen, setNewCalOpen] = useState(false);
     const [inProgOpen, setInProgOpen] = useState(false);
     const [curCalOpen, setCurCalOpen] = useState(false);
@@ -70,7 +69,6 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete, editMode, setEditMode 
                         <InProgressCalendar 
                             hideShow={hideShow} 
                             isOpen={inProgOpen}
-                            editMode={editMode}
                             setEditMode={setEditMode}
                             onDelete={onDelete}
                             activeIndex={activeIndex}

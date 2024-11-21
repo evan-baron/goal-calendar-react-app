@@ -1,6 +1,6 @@
 import React from 'react'
 import './NewCalendar.css'
-import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
+import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 import CalendarForm from '../../../features/CalendarForm/CalendarForm';
 
 const NewCalendar = ({ hideShow, isOpen }) => {

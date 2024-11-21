@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import './InProgressCalendar.css'
-import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
+import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
-const InProgressCalendar = ({ activeIndex, setActiveIndex, editMode, setEditMode, onDelete, hideShow, isOpen }) => {
+const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
@@ -44,7 +44,6 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, editMode, setEditMode
                                 }}>
                             {calendar.calendarName}
                         </div>
-                        {activeIndex === index && editMode ? (<div>test</div>) : null}
                     </div>
                 )) 
             ) : null}

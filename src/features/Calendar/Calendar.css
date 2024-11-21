@@ -9,9 +9,18 @@
     max-height: 50rem;
 }
 
+.calendar-title {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+}
+
+.title-pencil {
+  margin-bottom: -.5rem;
+}
+
 .calendar-name {
     font-size: 3rem;
-    height: 5rem;
 }
 
 .calendar-table {
@@ -22,7 +31,7 @@
     height: 100%;
     width: 70%;
     max-width: 60rem;
-    gap: 2px;
+    gap: .25rem;
     /* background-color: rgb(140, 220, 255); */
     background-color: rgba(255, 255, 255, .5);
     padding: 1.5rem;
@@ -30,6 +39,7 @@
 }
 
 .calendar-day {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,6 +54,10 @@
   }
 
   .inside-range:hover {
+    cursor: pointer;
+  }
+
+  .edit-mode:hover {
     background-color: rgba(140, 220, 255, .75);
     cursor: pointer;
   }
@@ -58,3 +72,10 @@
     width: 85%;
     border: 1px solid rgba(140, 220, 255, .5);
   }
+
+  .edit-pencil {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: .5rem;
+    }

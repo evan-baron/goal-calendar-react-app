@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './Calendar.css'
 import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
+import { Edit } from '@mui/icons-material';
 
-const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, startDate, endDate, length }) => {
+const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, setPreviewMode, setNavStatus, calendarName, startDate, endDate, length }) => {
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of start date
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of end date
   const startMonth = weekStartDay.month();
@@ -23,7 +24,10 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, 
 
   return (
     <div className='calendar-container'>
-      <div className='calendar-name'>{calendarName}</div>
+      <div className={editMode ? 'calendar-title edit-mode' : 'calendar-title'}>
+        <div className='calendar-name'>{calendarName}</div>
+        {editMode ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> : null}
+      </div>
       <div className='calendar-table'>
         {[...Array(calendarRows * 7)].map((_, index) => {
           const currentDay = weekStartDay.add(index, 'day');
@@ -31,7 +35,11 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, 
   
           return (
             <div
-              className={`calendar-day ${isOutsideRange ? 'outside-range' : 'inside-range'}`}
+              className={`calendar-day ${isOutsideRange 
+                ? 'outside-range' 
+                : editMode 
+                  ? 'inside-range edit-mode' 
+                  : 'inside-range'}`}
               key={index}
             >
               <div className='day-title'>
@@ -45,6 +53,7 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, 
                     {/* Add any additional details for days inside the range here */}
                     <span>Details</span>
                   </div>
+                  {editMode ? (<Edit sx={{ fontSize: 30 }} className='edit-pencil'/>) : null}
                 </>
               )}
             </div>
@@ -54,6 +63,8 @@ const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, 
       <Controls 
           editMode={editMode}
           setEditMode={setEditMode}
+          setPreviewMode={setPreviewMode}
+          setNavStatus={setNavStatus}
           activeIndex={activeIndex}
           onDelete={onDelete} 
       />
