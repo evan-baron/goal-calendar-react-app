@@ -10,7 +10,7 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
 
     useEffect(() => {
-        if (inProgressCalendars.length > prevLength) {
+        if (inProgressCalendars.length || inProgressCalendars.length > prevLength) {
             setActiveIndex(inProgressCalendars.length -1);
         }
         setPrevLength(inProgressCalendars.length)

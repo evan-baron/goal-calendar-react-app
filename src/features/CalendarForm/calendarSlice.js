@@ -86,5 +86,5 @@ export const newCalendarSlice = createSlice({
 export const selectInProgressCalendars = (state) => state.calendars.inProgressCalendars;
 export const selectActiveCalendars = (state) => state.calendars.activeCalendars;
 export const selectInactiveCalendars = (state) => state.calendars.inactiveCalendars;
-export const { createCalendar, setActiveCalendar, setInactiveCalendar, deleteCalendar } = newCalendarSlice.actions;
+export const { createCalendar, editCalendar, setActiveCalendar, setInactiveCalendar, deleteCalendar } = newCalendarSlice.actions;
 export default newCalendarSlice.reducer;

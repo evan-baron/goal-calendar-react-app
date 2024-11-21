@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Toolbar.css'
 import { useSelector } from 'react-redux';
-import { selectActiveCalendars } from '../../features/CalendarForm/calendarSlice';
+import { selectActiveCalendars, selectInProgressCalendars, selectInactiveCalendars } from '../../features/CalendarForm/calendarSlice';
 import Divider from '../Divider/Divider'
 import NewCalendar from './NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
@@ -10,6 +10,7 @@ import { Add, Remove } from '@mui/icons-material';
 
 const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus, setNavStatus }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
+    const inProgressCalendars = useSelector(selectInProgressCalendars);
 
     const [newCalOpen, setNewCalOpen] = useState(false);
     const [inProgOpen, setInProgOpen] = useState(false);
@@ -57,23 +58,29 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus
                 </div>
                 {calendars ? (
                     <div className='toolbar-menu'>
-                        {activeCalendar.length > 0 ? (<CurrentCalendar 
-                            hideShow={hideShow}
-                            isOpen={curCalOpen}
-                            activeCalendar={activeCalendar}
-                        />) : null}
+                        {activeCalendar.length > 0 ? (
+                            <CurrentCalendar 
+                                hideShow={hideShow}
+                                isOpen={curCalOpen}
+                                activeCalendar={activeCalendar}
+                            />
+                        ) : null}
                         <NewCalendar 
+                            setEditMode={setEditMode}
                             hideShow={hideShow}
                             isOpen={newCalOpen}
                         />
-                        <InProgressCalendar 
-                            hideShow={hideShow} 
-                            isOpen={inProgOpen}
-                            setEditMode={setEditMode}
-                            onDelete={onDelete}
-                            activeIndex={activeIndex}
-                            setActiveIndex={setActiveIndex}
-                        />
+                        {inProgressCalendars.length > 0 ? (
+                            <InProgressCalendar 
+                                hideShow={hideShow} 
+                                isOpen={inProgOpen}
+                                setEditMode={setEditMode}
+                                onDelete={onDelete}
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                            />
+                        ) : null}
+                        {/* PREVIOUS CALENDARS (INACTIVE CALENDARS) WILL GO HERE */}
                     </div>
                 ) : null}
             </div>

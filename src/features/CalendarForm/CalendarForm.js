@@ -3,18 +3,24 @@ import './CalendarForm.css'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectInProgressCalendars, createCalendar } from './calendarSlice';
-import { DatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 
-const CalendarForm = ({ hideShow, isOpen }) => {
+const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
     const [calendarName, setCalendarName] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
+
+    // Check if startDate is before today
+    if (dayjs(startDate).isBefore(dayjs(), 'day')) {
+        alert('You cannot create a calendar beginning before today!');
+        setStartDate(dayjs());
+        return;
+    }
 
     const cancelCreate = () => {
         setCalendarName('');
@@ -66,8 +72,9 @@ const CalendarForm = ({ hideShow, isOpen }) => {
         setStartDate(dayjs());
         setEndDate(dayjs().add(4, 'week'));
         hideShow('new');
-        //ADD LOGIC HERE TO RESET END DATE
+        setEditMode(true);
         hideShow('inProgress');
+        // this is where the active new calendar logic needs to be
     }
     
     return (
@@ -89,14 +96,18 @@ const CalendarForm = ({ hideShow, isOpen }) => {
                     <div className='date-selector'>
                         <div className='start-date'>Start Date:</div>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker 
+                            <DesktopDatePicker 
+                                value={startDate}
+                                defaultValue={dayjs()}
+                                onChange={(newValue) => setStartDate(newValue)}
+                                required
                                 slotProps={{
                                     textField: {
                                     sx: {
                                         '& .MuiInputBase-root': {
-                                        height: '1.5rem',
+                                        height: '1.75rem',
                                         width: '8rem',
-                                        padding: '0',
+                                        padding: '.25rem',
                                         margin: '0',
                                         background: 'white'
                                         },
@@ -107,24 +118,24 @@ const CalendarForm = ({ hideShow, isOpen }) => {
                                     }
                                     }
                                 }}
-                                value={startDate}
-                                defaultValue={dayjs()}
-                                onChange={(newValue) => setStartDate(newValue)}
-                                required
                             />
                         </LocalizationProvider>
                     </div>
                     <div className='date-selector'>
                         <div className='end-date'>End Date:</div>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker 
+                            <DesktopDatePicker 
+                                value={endDate}
+                                defaultValue={dayjs().add(4, 'week')}
+                                onChange={(newValue) => setEndDate(newValue)}
+                                required
                                 slotProps={{
                                     textField: {
                                     sx: {
                                         '& .MuiInputBase-root': {
-                                        height: '1.5rem',
+                                        height: '1.75rem',
                                         width: '8rem',
-                                        padding: '0',
+                                        padding: '.25rem',
                                         margin: '0',
                                         background: 'white'
                                         },
@@ -135,10 +146,6 @@ const CalendarForm = ({ hideShow, isOpen }) => {
                                     }
                                     }
                                 }}
-                                value={endDate}
-                                defaultValue={dayjs().add(4, 'week')}
-                                onChange={(newValue) => setEndDate(newValue)}
-                                required
                             />
                         </LocalizationProvider>
                     </div>

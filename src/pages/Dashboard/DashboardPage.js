@@ -13,6 +13,7 @@ const DashboardPage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [navStatus, setNavStatus] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   function handleDelete(calendarId) {
     setCalendarToDelete(calendarId);

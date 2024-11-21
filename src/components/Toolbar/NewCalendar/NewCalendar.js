@@ -3,7 +3,7 @@ import './NewCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 import CalendarForm from '../../../features/CalendarForm/CalendarForm';
 
-const NewCalendar = ({ hideShow, isOpen }) => {
+const NewCalendar = ({ hideShow, isOpen, setEditMode }) => {
     return (
         <div className='calendar-menu'>
             <div 
@@ -16,6 +16,7 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                         : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
             </div>
             <CalendarForm 
+                setEditMode={setEditMode}
                 hideShow={hideShow}
                 isOpen={isOpen}
             />

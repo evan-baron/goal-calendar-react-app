@@ -2,12 +2,11 @@ import React from 'react'
 import './Controls.css'
 import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
-import { Edit, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
+import { Edit, RestartAlt, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus }) => {
+const Controls = ({ onDelete, activeIndex, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
     const calendar = inProgressCalendars[activeIndex].calendarId;
-    console.log(editMode); //REMOVE WHEN DONE WITH CREATING EDIT MODE STUFFS
 
     return (
         <div className='controls-container'>
@@ -21,6 +20,12 @@ const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus }
                 <Edit fontSize='large'/>
                 <div>Edit</div>
             </div>
+            <div
+                className='controls-option'
+            >
+                <RestartAlt fontSize='large'/>
+                <div>Reset</div>
+            </div>
             <div 
                 className='controls-option'
                 onClick={() => onDelete(calendar)}
@@ -31,6 +36,8 @@ const Controls = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus }
             <div 
                 className='controls-option' 
                 onClick={() => {
+                    setNewCalName(newCalName)
+                    setEditName(false)
                     setEditMode(false)
                     setNavStatus(false)
                 }}
