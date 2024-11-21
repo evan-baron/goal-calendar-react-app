@@ -4,7 +4,7 @@
 
 .active-calendar {
     /* background-color: white; */
-    background-color: #8CDCFF;
+    background-color: rgba(140, 220, 255, .75);
 }
 
 .in-prog-calendar-title {

@@ -1,4 +1,5 @@
 .nav-container {
+    z-index: 1000;
     position: absolute;
     display: flex;
     width: 20rem;

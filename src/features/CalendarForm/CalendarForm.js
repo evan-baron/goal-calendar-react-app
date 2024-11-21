@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './NewCalendar.css'
+import './CalendarForm.css'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectInProgressCalendars, createCalendar } from './calendarSlice';
@@ -9,7 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
-const NewCalendar = ({ hideShow, isOpen }) => {
+const CalendarForm = ({ hideShow, isOpen }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
@@ -63,24 +63,15 @@ const NewCalendar = ({ hideShow, isOpen }) => {
 
         dispatch(createCalendar(createdCalendar));
 
-        hideShow('new');
         setCalendarName('');
+        setStartDate(dayjs());
+        setEndDate(dayjs().add(4, 'week'));
+        hideShow('new');
         //ADD LOGIC HERE TO RESET END DATE
         hideShow('inProgress');
     }
-
     return (
-        <div className='calendar-menu'>
-            <div 
-                className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
-                onClick={() => hideShow('new')}
-            >
-                New Calendar
-            {!isOpen 
-                        ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
-            </div>
-            {isOpen ? (
+        isOpen ? (
             <form 
                 className='new-calendar-form'
                 onSubmit={handleSubmit}
@@ -156,12 +147,9 @@ const NewCalendar = ({ hideShow, isOpen }) => {
                     <button className='create-calendar' type='submit'>Create</button>
                     <button className='create-calendar' onClick={cancelCreate}>Cancel</button>
                 </div>
-            </form>) : ''}
-            {/* <div>Select Dates</div>
-            <div>Edit Tasks</div>
-            <div>Edit Reward</div> */}
-        </div>
+            </form>
+        ) : null
     )
 }
 
-export default NewCalendar
+export default CalendarForm

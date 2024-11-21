@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { selectInProgressCalendars } from '../../../features/NewCalendar/calendarSlice'
+import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
@@ -41,15 +41,6 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, i
                         ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
                         : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />} */}
                         </div>
-                        {/* {activeIndex === index ? (
-                        <div className='in-prog-controls'>
-                            <div>Edit</div>
-                            <div 
-                                activeIndex={activeIndex}
-                                onClick={() => onDelete(calendar.calendarId)}
-                            >Delete</div>
-                        </div>
-                        ) : null} */}
                     </div>
                 )) 
             ) : null}

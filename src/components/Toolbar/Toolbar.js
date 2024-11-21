@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './Toolbar.css'
 import { useSelector } from 'react-redux';
-import { selectActiveCalendars } from '../../features/NewCalendar/calendarSlice';
+import { selectActiveCalendars } from '../../features/CalendarForm/calendarSlice';
 import Divider from '../Divider/Divider'
-import NewCalendar from '../../features/NewCalendar/NewCalendar';
+import NewCalendar from './NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';

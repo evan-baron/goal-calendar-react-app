@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { selectInProgressCalendars } from '../../features/NewCalendar/calendarSlice'
+import { selectInProgressCalendars } from '../../features/CalendarForm/calendarSlice'
 import './Dashboard.css'
 import Calendar from '../../features/Calendar/Calendar'
 import Controls from './Controls/Controls'
 
 const Dashboard = ({ onDelete, activeIndex }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
-    // console.log(activeIndex); //index of selected calendar in in-progress dropdown
-    // console.log(selectedCalendar[activeIndex]); //calendar object of selected calendar in in-progress dropdown
 
     const { calendarName, startDate, endDate, length } = selectedCalendar[activeIndex] || {};
 
     useEffect(() => {
-        console.log('Active Index or SelectedCalendar updated')
+        //this re-renders the page if selectedCalendar or activeIndex change
     }, [selectedCalendar, activeIndex])
     
     return (
@@ -21,6 +19,8 @@ const Dashboard = ({ onDelete, activeIndex }) => {
         <>
             <div className='dashboard-container'>
                 <Calendar
+                    onDelete={onDelete}
+                    activeIndex={activeIndex}
                     calendarName={calendarName}
                     startDate={startDate}
                     endDate={endDate}
@@ -31,10 +31,6 @@ const Dashboard = ({ onDelete, activeIndex }) => {
                     <div className='support-container dashboard-stats'>Calendar Stats</div>
                 </div>
             </div>
-            <Controls 
-                activeIndex={activeIndex}
-                onDelete={onDelete} 
-            />
         </>
         ) : null
     )

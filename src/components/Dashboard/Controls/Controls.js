@@ -1,14 +1,12 @@
 import React from 'react'
 import './Controls.css'
 import { useSelector } from 'react-redux';
-import { selectInProgressCalendars } from '../../../features/NewCalendar/calendarSlice'
+import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import { Edit, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
 const Controls = ({ onDelete, activeIndex }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
     const calendar = inProgressCalendars[activeIndex].calendarId;
-    console.log(inProgressCalendars[activeIndex].calendarId);
-    console.log(activeIndex);
 
     return (
         <div className='controls-container'>

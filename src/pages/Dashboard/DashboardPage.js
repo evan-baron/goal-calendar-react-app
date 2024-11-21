@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './DashboardPage.css'
 import { useDispatch } from 'react-redux'
-import { deleteCalendar } from '../../features/NewCalendar/calendarSlice';
+import { deleteCalendar } from '../../features/CalendarForm/calendarSlice';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import Modal from '../../components/Modal/Modal';
 import Dashboard from '../../components/Dashboard/Dashboard';
