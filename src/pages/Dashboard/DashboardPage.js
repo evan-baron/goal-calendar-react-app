@@ -13,7 +13,7 @@ const DashboardPage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [navStatus, setNavStatus] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [isDirty, setDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   function handleDelete(calendarId) {
     setCalendarToDelete(calendarId);
@@ -39,7 +39,7 @@ const DashboardPage = () => {
       <div className='dashboard-page-container'>
         <Toolbar 
           isDirty={isDirty}
-          setDirty={setDirty}
+          setIsDirty={setIsDirty}
           navStatus={navStatus}
           setNavStatus={setNavStatus}
           editMode={editMode}
@@ -50,7 +50,7 @@ const DashboardPage = () => {
         />
         <Dashboard 
           isDirty={isDirty}
-          setDirty={setDirty}
+          setIsDirty={setIsDirty}
           editMode={editMode}
           setEditMode={setEditMode}
           onDelete={handleDelete}

@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux'
 import { selectInProgressCalendars } from '../../features/CalendarForm/calendarSlice'
 import './Dashboard.css'
 import Calendar from '../../features/Calendar/Calendar'
-import Modal from '../../components/Modal/Modal';
 
-const Dashboard = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus }) => {
+const Dashboard = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEditMode, setNavStatus }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
 
     const { calendarName, startDate, endDate, length } = selectedCalendar[activeIndex] || {};
@@ -18,6 +17,8 @@ const Dashboard = ({ onDelete, activeIndex, editMode, setEditMode, setNavStatus 
         selectedCalendar.length > 0 && activeIndex >= 0 && selectedCalendar[activeIndex] ? (
             <div className='dashboard-container'>
                 <Calendar
+                    isDirty={isDirty}
+                    setIsDirty={setIsDirty}
                     onDelete={onDelete}
                     activeIndex={activeIndex}
                     editMode={editMode}
