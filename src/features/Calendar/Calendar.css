@@ -48,10 +48,12 @@
 
 .edit-dates {
   display: flex;
-  gap: 1.5rem;
+  width: 32rem;
+  justify-content: space-between;
 }
 
 .calendar-select {
+  position: relative;
   display: flex;
   align-items: center;
   gap: .5rem;
@@ -61,6 +63,24 @@
 .new-label {
   font-size: 1.25rem;
   line-height: 1;
+}
+
+.date-confirm {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  right: 0;
+  transform: translateX(100%);
+}
+
+.date-check:hover {
+  color: rgb(0, 200, 0);
+  cursor: pointer;
+}
+
+.date-cancel:hover {
+  color: red;
+  cursor: pointer;
 }
 
 .calendar-table {

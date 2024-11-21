@@ -10,9 +10,13 @@ import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 
 const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
+  const [originalStart, setOriginalStart] = useState(startDate);
   const [newStart, setNewStart] = useState(dayjs(startDate));
+  const [originalEnd, setOriginalEnd] = useState(endDate);
   const [newEnd, setNewEnd] = useState(dayjs(endDate));
   const [editName, setEditName] = useState(false);
+  const [editStart, setEditStart] = useState(false);
+  const [editEnd, setEditEnd] = useState(false);
   const [originalCalName, setOriginalCalName] = useState(calendarName);
   const [newCalName, setNewCalName] = useState(calendarName);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,15 +30,16 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
   const startYear = weekStartDay.year();
   const endYear = weekEndDay.year();
   let calendarMonths = []; //the months the calendar spans from start to finish
+  const calendarRows = Math.ceil(weekEndDay.diff(weekStartDay, 'day')/7);
+  const calendarsNeeded = Math.ceil(calendarRows / 6);
+  
+  //finds the active months during calendar start and end date and pushes to calendarMonths array
   for (let year = startYear; year <= endYear; year++) {
     const monthLimit = year === endYear ? endMonth : 11;
     for (let month = (year === startYear ? startMonth : 0); month <= monthLimit; month++) {
       calendarMonths.push(dayjs().month(month).year(year).format('MMMM'));
     }
   }
-
-  const calendarRows = Math.ceil(weekEndDay.diff(weekStartDay, 'day')/7);
-  const calendarsNeeded = Math.ceil(calendarRows / 6);
 
   // makes the current calendar name equal to the active calendar object's calendar name value, updates when page rerenders and dependency array checks if anything has happened to active index or inprog calendars
   useEffect(() => {
@@ -47,6 +52,17 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
     setOriginalCalName(newCalName);
   };
 
+  const changeStartDate = (newValue) => {
+    setOriginalStart(newStart);
+    console.log(originalStart);
+    if (newStart !== dayjs(startDate)) {
+      setNewStart(newValue)
+      setEditStart(true)
+      setIsDirty(true)
+    } 
+    console.log(dayjs(newStart));
+  }
+
   const cancelChanges = () => {
     setNewCalName(originalCalName);
     setEditName(false);
@@ -55,7 +71,7 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
 
   const acceptChanges = () => {
     setEditName(false);
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   }
 
   return (
@@ -67,20 +83,28 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
               <input
                 className='edit-name-input'
                 value={newCalName}
-                onChange={(e) => setNewCalName(e.target.value)}
+                onChange={(e) => {
+                  setIsDirty(true);
+                  setNewCalName(e.target.value);
+                }}
               /> 
               <Check 
                 className='check-icon' 
                 onClick={() => {
-                  setIsModalOpen(true)
+                  if (newCalName !== originalCalName) {
+                    setIsModalOpen(true)
+                  }
+                  setEditName(false);
+                  setIsDirty(false);
                 }}
                 sx={{ fontSize: 50 }} 
               />
               <DoNotDisturb 
                 className='cancel-icon'
                 onClick={() => {
-                  setEditName(false)
-                  setNewCalName(originalCalName)
+                  setEditName(false);
+                  setIsDirty(false);
+                  setNewCalName(originalCalName);
                 }} 
                 sx={{ fontSize: 40 }} 
               />
@@ -102,7 +126,8 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
               <DesktopDatePicker 
                 value={newStart}
                 defaultValue={dayjs()}
-                onChange={(newValue) => setNewStart(newValue)}
+                onClick={() => console.log('test')}
+                onChange={changeStartDate}
                 required
                 slotProps={{
                   textField: {
@@ -123,6 +148,17 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
                 }}
               />
             </LocalizationProvider>
+            {editStart ? (
+              <div className='date-confirm'>
+                <Check 
+                  className='date-check'
+                  onClick={() => {
+
+                  }}
+                />
+                <DoNotDisturb className='date-cancel'/>
+              </div>
+            ) : null}
           </div>
           <div className='calendar-select'>
             <div className='new-label'>End Date:</div>
@@ -130,7 +166,13 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
               <DesktopDatePicker 
                 value={newEnd}
                 defaultValue={dayjs()}
-                onChange={(newValue) => setNewEnd(newValue)}
+                onChange={(newValue) => {
+                  if (newEnd !== dayjs(endDate)) {
+                    setNewEnd(newValue)
+                    setEditEnd(true)
+                    setIsDirty(true)
+                  }
+                }}
                 required
                 slotProps={{
                   textField: {
@@ -151,6 +193,12 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
                 }}
               />
             </LocalizationProvider>
+            {editEnd ? (
+              <div className='date-confirm'>
+                <Check className='date-check'/>
+                <DoNotDisturb className='date-cancel'/>
+              </div>
+            ) : null}
           </div>
       </div>) : null}
       <div className='calendar-table'>
