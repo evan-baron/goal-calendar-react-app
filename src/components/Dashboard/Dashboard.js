@@ -5,7 +5,7 @@ import './Dashboard.css'
 import Calendar from '../../features/Calendar/Calendar'
 import Controls from './Controls/Controls'
 
-const Dashboard = ({ onDelete, activeIndex }) => {
+const Dashboard = ({ onDelete, activeIndex, editMode, setEditMode }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
 
     const { calendarName, startDate, endDate, length } = selectedCalendar[activeIndex] || {};
@@ -21,6 +21,8 @@ const Dashboard = ({ onDelete, activeIndex }) => {
                 <Calendar
                     onDelete={onDelete}
                     activeIndex={activeIndex}
+                    editMode={editMode}
+                    setEditMode={setEditMode}
                     calendarName={calendarName}
                     startDate={startDate}
                     endDate={endDate}

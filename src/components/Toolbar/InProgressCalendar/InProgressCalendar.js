@@ -4,7 +4,7 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
-const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, isOpen }) => {
+const InProgressCalendar = ({ activeIndex, setActiveIndex, editMode, setEditMode, onDelete, hideShow, isOpen }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
@@ -16,7 +16,7 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, i
         setPrevLength(inProgressCalendars.length)
     }, [inProgressCalendars]);
 
-    function toggleControls(index) {
+    function setActive(index) {
         setActiveIndex(prevIndex => prevIndex === index ? null : index)
     }
 
@@ -36,11 +36,15 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, onDelete, hideShow, i
             {isOpen ? (
                 inProgressCalendars.map((calendar, index) => (
                     <div className={activeIndex === index ? 'in-prog-calendar active-calendar' : 'in-prog-calendar'} key={index}>
-                        <div className='in-prog-calendar-title' onClick={() => toggleControls(index)}>{calendar.calendarName}
-                        {/* {activeIndex !== index
-                        ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />} */}
+                        <div 
+                            className='in-prog-calendar-title' 
+                            onClick={() => {
+                                setActive(index)
+                                setEditMode(false)
+                                }}>
+                            {calendar.calendarName}
                         </div>
+                        {activeIndex === index && editMode ? (<div>test</div>) : null}
                     </div>
                 )) 
             ) : null}

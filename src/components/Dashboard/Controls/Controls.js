@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import { Edit, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ onDelete, activeIndex }) => {
+const Controls = ({ onDelete, activeIndex, editMode, setEditMode }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
     const calendar = inProgressCalendars[activeIndex].calendarId;
+    console.log(editMode);
 
     return (
         <div className='controls-container'>
-            <div className='controls-option'>
+            <div className='controls-option' onClick={() => setEditMode(prev => !prev)}>
                 <Edit fontSize='large'/>
                 <div>Edit</div>
             </div>

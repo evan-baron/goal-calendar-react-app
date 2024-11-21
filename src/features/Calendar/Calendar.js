@@ -3,7 +3,7 @@ import './Calendar.css'
 import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
 
-const Calendar = ({ onDelete, activeIndex, calendarName, startDate, endDate, length }) => {
+const Calendar = ({ onDelete, activeIndex, editMode, setEditMode, calendarName, startDate, endDate, length }) => {
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of start date
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of end date
   const startMonth = weekStartDay.month();
@@ -52,6 +52,8 @@ const Calendar = ({ onDelete, activeIndex, calendarName, startDate, endDate, len
         })}
       </div>
       <Controls 
+          editMode={editMode}
+          setEditMode={setEditMode}
           activeIndex={activeIndex}
           onDelete={onDelete} 
       />

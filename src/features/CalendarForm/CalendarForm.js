@@ -6,7 +6,6 @@ import { selectInProgressCalendars, createCalendar } from './calendarSlice';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const CalendarForm = ({ hideShow, isOpen }) => {
@@ -70,6 +69,7 @@ const CalendarForm = ({ hideShow, isOpen }) => {
         //ADD LOGIC HERE TO RESET END DATE
         hideShow('inProgress');
     }
+    
     return (
         isOpen ? (
             <form 

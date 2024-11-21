@@ -11,6 +11,7 @@ const DashboardPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [calendarToDelete, setCalendarToDelete] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [editMode, setEditMode] = useState(false);
 
   function handleDelete(calendarId) {
     setCalendarToDelete(calendarId);
@@ -35,11 +36,15 @@ const DashboardPage = () => {
     <main className='dashboard-main'>
       <div className='dashboard-page-container'>
         <Toolbar 
+          editMode={editMode}
+          setEditMode={setEditMode}
           onDelete={handleDelete}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
         />
         <Dashboard 
+          editMode={editMode}
+          setEditMode={setEditMode}
           onDelete={handleDelete}
           activeIndex={activeIndex} 
         />

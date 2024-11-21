@@ -8,7 +8,7 @@ import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
+const Toolbar = ({ activeIndex, setActiveIndex, onDelete, editMode, setEditMode }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
 
     const [navStatus, setNavStatus] = useState(true);
@@ -70,6 +70,8 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete }) => {
                         <InProgressCalendar 
                             hideShow={hideShow} 
                             isOpen={inProgOpen}
+                            editMode={editMode}
+                            setEditMode={setEditMode}
                             onDelete={onDelete}
                             activeIndex={activeIndex}
                             setActiveIndex={setActiveIndex}
