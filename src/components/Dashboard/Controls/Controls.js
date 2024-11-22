@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import { Edit, RestartAlt, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus }) => {
+const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar }) => {
     const [previewMode, setPreviewMode] = useState(false);
 
     const inProgressCalendars = useSelector(selectInProgressCalendars)
@@ -73,7 +73,7 @@ const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, ne
             </div>
             <div 
                 className='controls-option'
-                onClick={() => console.log(calendar)}
+                onClick={() => console.log(selectedCalendar)}
             >
                 <RocketLaunch fontSize='large'/>
                 <div>Launch</div>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import './DashboardPage.css'
+import { useSelector } from 'react-redux';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import Dashboard from '../../components/Dashboard/Dashboard';
 
 const DashboardPage = () => {
-  const [selectedCalendar, setSelectedCalendar] = useState(null)
+  const [selectedCalendar, setSelectedCalendar] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
   const [navStatus, setNavStatus] = useState(true);
   const [editMode, setEditMode] = useState(false);

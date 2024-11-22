@@ -10,7 +10,7 @@ import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import Calendar from '../../components/Calendar/Calendar';
 
-const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus  }) => {
+const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus, setSelectedCalendar, selectedCalendar  }) => {
 
   const { calendarId, calendarName, startDate, endDate } = useSelector(selectInProgressCalendars)[activeIndex];
   
@@ -127,9 +127,9 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         setModalType(null);
         break;
       case 'change-name':
-        setEditName(false);
         setIsModalOpen(false);
         setModalType(null);
+        setEditName(false);
         break;
       case 'change-start':
         setEditStart(false);
@@ -172,8 +172,8 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         break;
       case 'change-name':
         setNewCalName(originalCalName);
-        setEditName(false);
         setIsModalOpen(false);
+        setEditName(false);
         break;
       case 'change-start':
         setNewStart(originalStart);
@@ -213,6 +213,15 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                 onChange={(e) => {
                   setIsDirty(true);
                   setNewCalName(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (newCalName !== originalCalName) {
+                      setIsModalOpen(true)
+                      setModalType('change-name')
+                    }
+                  }
                 }}
               /> 
               <Check 
@@ -381,6 +390,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         activeIndex={activeIndex}
         setIsModalOpen={setIsModalOpen}
         setModalType={setModalType}
+        selectedCalendar={selectedCalendar}
       />
       <Modal 
         isOpen={isModalOpen}

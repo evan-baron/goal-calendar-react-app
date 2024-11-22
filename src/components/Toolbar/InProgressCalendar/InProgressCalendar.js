@@ -5,16 +5,23 @@ import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
 const InProgressCalendar = ({ isDirty, setIsDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
-    const inProgressCalendars = useSelector(selectInProgressCalendars)
+    const inProgressCalendars = useSelector(selectInProgressCalendars) //ARRAY OF IN PROGRESS CALENDARS
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
 
     useEffect(() => {
-        if (inProgressCalendars.length || inProgressCalendars.length > prevLength) {
-            setActiveIndex(inProgressCalendars.length -1);
+        if (inProgressCalendars.length > prevLength) {
+            const newIndex = inProgressCalendars.length -1;
+            setActiveIndex(newIndex);
+            setSelectedCalendar(inProgressCalendars[newIndex].calendarId);
+        } else if (inProgressCalendars.length < prevLength) {
+            if (activeIndex !== null && activeIndex >= inProgressCalendars.length) {
+                setActiveIndex(null);
+                setSelectedCalendar(null);
+            }
         }
         setPrevLength(inProgressCalendars.length)
-    }, [inProgressCalendars]);
+    }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
 
     return (
         <div className={isOpen 
@@ -40,9 +47,14 @@ const InProgressCalendar = ({ isDirty, setIsDirty, setIsModalOpen, setModalType,
                                     setIsModalOpen(true)
                                     return;
                                 }
-                                setActiveIndex(prevIndex => prevIndex === index ? null : index)     //THIS IS WHAT CHANGES ACTIVE INDEX, THIS IS NEEDED IN INACTIVECALENDAR.JS FILE AND ACTIVECALENDAR.JS FILE
+
+                                const newIndex = activeIndex === index ? null : index;
+
+                                setActiveIndex(newIndex);
+                                setSelectedCalendar(newIndex !== null ? inProgressCalendars[newIndex].calendarId : null)     
                                 setEditMode(true)
-                                }}>
+                                }}
+                        >
                             {calendar.calendarName}
                         </div>
                     </div>
