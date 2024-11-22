@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Calendar.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectInProgressCalendars } from '../CalendarForm/calendarSlice';
+import { selectInProgressCalendars, deleteCalendar } from '../CalendarForm/calendarSlice';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
@@ -9,20 +9,25 @@ import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 
-const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
-  const [originalStart, setOriginalStart] = useState(startDate);
-  const [newStart, setNewStart] = useState(dayjs(startDate));
-  const [originalEnd, setOriginalEnd] = useState(endDate);
-  const [newEnd, setNewEnd] = useState(dayjs(endDate));
+const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
+  
+  //States
+  const [originalStart, setOriginalStart] = useState(dayjs(startDate));
+  const [newStart, setNewStart] = useState(dayjs(dayjs(startDate)));
+  const [originalEnd, setOriginalEnd] = useState(dayjs(endDate));
+  const [newEnd, setNewEnd] = useState(dayjs(dayjs(endDate)));
   const [editName, setEditName] = useState(false);
   const [editStart, setEditStart] = useState(false);
   const [editEnd, setEditEnd] = useState(false);
   const [originalCalName, setOriginalCalName] = useState(calendarName);
   const [newCalName, setNewCalName] = useState(calendarName);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
+  //Variables & Functions
+  const dispatch = useDispatch();
   const inProgressCalendars = useSelector(selectInProgressCalendars); //inProgressCalendars state array
-  const calendarBeingEdited = inProgressCalendars[activeIndex]; //current inProgressCalendar selected
+  const calendar = inProgressCalendars[activeIndex].calendarId; //current inProgressCalendar selected
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of 'start date'
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'
   const startMonth = weekStartDay.month();
@@ -32,6 +37,14 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
   let calendarMonths = []; //the months the calendar spans from start to finish
   const calendarRows = Math.ceil(weekEndDay.diff(weekStartDay, 'day')/7);
   const calendarsNeeded = Math.ceil(calendarRows / 6);
+
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+  // IS DIRTY MUST BE TRUE IF ANYTHING IS DIFFERENT THAN THE ORIGINAL STATE OF INPROGRESSCALENDAR
+
+
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   
   //finds the active months during calendar start and end date and pushes to calendarMonths array
   for (let year = startYear; year <= endYear; year++) {
@@ -45,6 +58,7 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
   useEffect(() => {
     setEditName(false)
     setNewCalName(calendarName)
+    //ADD LOGIC TO CHECK IF DATES HAVE BEEN CHANGED
   }, [activeIndex, inProgressCalendars, calendarName]);
 
   const toggleEdit = () => {
@@ -54,25 +68,126 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
 
   const changeStartDate = (newValue) => {
     setOriginalStart(newStart);
-    console.log(originalStart);
-    if (newStart !== dayjs(startDate)) {
+    
+    // const validation = () => {
+      //ALL OF THE VALIDATION CODE BELOW SHOULD BE IMPLEMENTED ON SAVE, NOT ON PICKING THE DATES RIGHT NOW
+
+      // const dateDifference = dayjs(newEnd).diff(dayjs(newValue), 'day');
+
+      // if (dateDifference < 14) {
+      //   setModalType('too-short-start');
+      //   setIsModalOpen(true);
+      //   return false;
+      // }
+    
+      // if (dayjs(newValue).isBefore(dayjs())) {
+      //   setModalType('before-today-start');
+      //   setIsModalOpen(true);
+      //   return false;
+      // }
+    
+      // if (dateDifference > 84) {
+      //   setModalType('too-long-start');
+      //   setIsModalOpen(true);
+      //   return false;
+      // }
+      
+    //   return true;
+    // };
+
+    // if (!validation()) {
+    //   setNewStart(newValue)
+    //   setEditStart(true)
+    //   setIsDirty(true)
+    // } 
+
+    if (!newValue.isSame(originalStart)) {
       setNewStart(newValue)
       setEditStart(true)
       setIsDirty(true)
+    }
+  }
+
+  const changeEndDate = (newValue) => {
+    setOriginalEnd(newEnd);
+    if (!newValue.isSame(originalEnd)) {
+      setNewEnd(newValue)
+      setEditEnd(true)
+      setIsDirty(true)
     } 
-    console.log(dayjs(newStart));
   }
-
-  const cancelChanges = () => {
-    setNewCalName(originalCalName);
-    setEditName(false);
-    setIsModalOpen(false);
-  }
-
+  
   const acceptChanges = () => {
-    setEditName(false);
-    setIsModalOpen(false);
+    switch (modalType) {
+      case 'reset-calendar':
+        setNewCalName(calendarName);
+        setNewStart(dayjs(startDate));
+        setNewEnd(dayjs(endDate));
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'delete-calendar':
+        dispatch(deleteCalendar(calendar));
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-name':
+        setEditName(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-start':
+        setEditStart(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-end':
+        setEditEnd(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      // case 'too-short-start':
+      // case 'before-today-start':
+      // case 'too-long-start':
+      //   setNewStart(originalStart)
+      //   setEditStart(false);
+      //   setIsModalOpen(false);
+      //   setModalType(null);
+        // break;
+      default: 
+        console.log('Unhandled modalType:', modalType);
+        break;
+    }
   }
+
+  const rejectChanges = () => {
+    switch (modalType) {
+      case 'delete-calendar':
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-name':
+        setNewCalName(originalCalName);
+        setEditName(false);
+        setIsModalOpen(false);
+        break;
+      case 'change-start':
+        setNewStart(originalStart);
+        setEditStart(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-end':
+        setNewEnd(originalEnd);
+        setEditEnd(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      default:
+        break;
+    }
+  }
+
 
   return (
     <div className='calendar-container'>
@@ -93,9 +208,8 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
                 onClick={() => {
                   if (newCalName !== originalCalName) {
                     setIsModalOpen(true)
+                    setModalType('change-name')
                   }
-                  setEditName(false);
-                  setIsDirty(false);
                 }}
                 sx={{ fontSize: 50 }} 
               />
@@ -103,7 +217,6 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
                 className='cancel-icon'
                 onClick={() => {
                   setEditName(false);
-                  setIsDirty(false);
                   setNewCalName(originalCalName);
                 }} 
                 sx={{ fontSize: 40 }} 
@@ -111,7 +224,6 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
             </>
           )
           : <div className='calendar-name' onClick={editMode ? toggleEdit : null}>{newCalName}</div>
-          // : <div className='calendar-name' onClick={editMode ? () => setEditName(prev => !prev) : null}>{newCalName}</div>
         }
         {editMode && !editName
           ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> 
@@ -125,8 +237,6 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker 
                 value={newStart}
-                defaultValue={dayjs()}
-                onClick={() => console.log('test')}
                 onChange={changeStartDate}
                 required
                 slotProps={{
@@ -153,10 +263,17 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
                 <Check 
                   className='date-check'
                   onClick={() => {
-
+                    setIsModalOpen(true)
+                    setModalType('change-start')
                   }}
                 />
-                <DoNotDisturb className='date-cancel'/>
+                <DoNotDisturb 
+                  className='date-cancel'
+                  onClick={() => {
+                    setNewStart(originalStart);
+                    setEditStart(false);
+                  }}
+                />
               </div>
             ) : null}
           </div>
@@ -165,14 +282,7 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker 
                 value={newEnd}
-                defaultValue={dayjs()}
-                onChange={(newValue) => {
-                  if (newEnd !== dayjs(endDate)) {
-                    setNewEnd(newValue)
-                    setEditEnd(true)
-                    setIsDirty(true)
-                  }
-                }}
+                onChange={changeEndDate}
                 required
                 slotProps={{
                   textField: {
@@ -195,8 +305,20 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
             </LocalizationProvider>
             {editEnd ? (
               <div className='date-confirm'>
-                <Check className='date-check'/>
-                <DoNotDisturb className='date-cancel'/>
+                <Check 
+                  className='date-check'
+                  onClick={() => {
+                    setIsModalOpen(true)
+                    setModalType('change-end')
+                  }}
+                />
+                <DoNotDisturb 
+                  className='date-cancel'
+                  onClick={() => {
+                    setEditEnd(false)
+                    setNewEnd(originalEnd)
+                  }}
+                />
               </div>
             ) : null}
           </div>
@@ -204,7 +326,7 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
       <div className='calendar-table'>
         {[...Array(calendarRows * 7)].map((_, index) => {
           const currentDay = weekStartDay.add(index, 'day');
-          const isOutsideRange = currentDay.isBefore(startDate, 'day') || currentDay.isAfter(endDate, 'day');
+          const isOutsideRange = currentDay.isBefore(dayjs(startDate), 'day') || currentDay.isAfter(dayjs(endDate), 'day');
   
           return (
             <div
@@ -241,13 +363,14 @@ const Calendar = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEdi
           setEditMode={setEditMode}
           setNavStatus={setNavStatus}
           activeIndex={activeIndex}
-          onDelete={onDelete} 
+          setIsModalOpen={setIsModalOpen}
+          setModalType={setModalType}
       />
       <Modal 
         isOpen={isModalOpen}
-        onClose={cancelChanges}
+        onClose={rejectChanges}
         onConfirm={acceptChanges}
-        message="Confirm Changes?"
+        modalType={modalType}
       />
     </div>
   );

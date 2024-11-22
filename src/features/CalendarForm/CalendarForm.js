@@ -57,6 +57,12 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
                 alert('The date span must be at least 14 days!');
                 return;
             }
+
+            if (dateDifference > 84) {
+                alert('The date span must be no more than 12 weeks!')
+                setEndDate(dayjs().add(12, 'week'));
+                return;
+            }
         }
 
         // SET THE BELOW BACK TO 1 IF ONLY ALLOWED TO CREATE ONE CALENDAR

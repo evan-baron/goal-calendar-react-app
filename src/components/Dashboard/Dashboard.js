@@ -4,7 +4,7 @@ import { selectInProgressCalendars } from '../../features/CalendarForm/calendarS
 import './Dashboard.css'
 import Calendar from '../../features/Calendar/Calendar'
 
-const Dashboard = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEditMode, setNavStatus }) => {
+const Dashboard = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, setNavStatus }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
 
     const { calendarName, startDate, endDate, length } = selectedCalendar[activeIndex] || {};
@@ -19,7 +19,6 @@ const Dashboard = ({ isDirty, setIsDirty, onDelete, activeIndex, editMode, setEd
                 <Calendar
                     isDirty={isDirty}
                     setIsDirty={setIsDirty}
-                    onDelete={onDelete}
                     activeIndex={activeIndex}
                     editMode={editMode}
                     setEditMode={setEditMode}

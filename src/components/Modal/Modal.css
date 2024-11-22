@@ -10,12 +10,14 @@
 }
 
 .modal-content {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     width: 25rem;
+    transform: translateY(-7rem);
     font-size: 1.5rem;
     background: white;
     padding: 2rem;
