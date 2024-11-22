@@ -162,6 +162,10 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
 
   const rejectChanges = () => {
     switch (modalType) {
+      case 'reset-calendar':
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
       case 'delete-calendar':
         setIsModalOpen(false);
         setModalType(null);

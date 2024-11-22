@@ -31,13 +31,15 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType }) => {
             <div className="modal-content">
                 <p>{message}</p>
                 <div className="modal-buttons">
-                    {modalType === 'too-short-start' || modalType === 'before-today-start'
+                    {/* {modalType === 'too-short-start' || modalType === 'before-today-start'
                     ? <button onClick={onConfirm}>OK</button>
                     : <>
                         <button onClick={onConfirm}>Yes</button>
                         <button onClick={onClose}>Nevermind</button>
                     </>
-                    }
+                    } */}
+                    <button onClick={onConfirm}>Yes</button>
+                    <button onClick={onClose}>Nevermind</button>
                 </div>
             </div>
         </div>
