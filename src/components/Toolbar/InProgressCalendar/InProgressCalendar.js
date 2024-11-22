@@ -4,7 +4,7 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
-const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
+const InProgressCalendar = ({ isDirty, setIsDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars)
 
     const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
@@ -15,10 +15,6 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow
         }
         setPrevLength(inProgressCalendars.length)
     }, [inProgressCalendars]);
-
-    function setActive(index) {
-        setActiveIndex(prevIndex => prevIndex === index ? null : index)
-    }
 
     return (
         <div className={isOpen 
@@ -39,7 +35,12 @@ const InProgressCalendar = ({ activeIndex, setActiveIndex, setEditMode, hideShow
                         <div 
                             className='in-prog-calendar-title' 
                             onClick={() => {
-                                setActive(index)
+                                if (isDirty) {
+                                    setModalType('change-calendars')
+                                    setIsModalOpen(true)
+                                    return;
+                                }
+                                setActiveIndex(prevIndex => prevIndex === index ? null : index)     //THIS IS WHAT CHANGES ACTIVE INDEX, THIS IS NEEDED IN INACTIVECALENDAR.JS FILE AND ACTIVECALENDAR.JS FILE
                                 setEditMode(true)
                                 }}>
                             {calendar.calendarName}

@@ -38,3 +38,30 @@
     font-variant: normal;
     margin: 5px;
 }
+
+.modal-buttons-change-calendars {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: .5rem;
+}
+
+.modal-buttons-change-calendars button {
+    height: 2rem;
+    width: 10rem;
+    font-size: 1.25rem;
+    font-variant: normal;
+}
+
+.change-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.modal-cancel-button {
+    font-size: 1.25rem !important;
+    width: 100% !important;
+}

@@ -8,8 +8,9 @@ import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
+import Calendar from '../../components/Calendar/Calendar';
 
-const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
+const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
   
   //States
   const [originalStart, setOriginalStart] = useState(dayjs(startDate));
@@ -21,13 +22,11 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
   const [editEnd, setEditEnd] = useState(false);
   const [originalCalName, setOriginalCalName] = useState(calendarName);
   const [newCalName, setNewCalName] = useState(calendarName);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState(null);
 
   //Variables & Functions
   const dispatch = useDispatch();
   const inProgressCalendars = useSelector(selectInProgressCalendars); //inProgressCalendars state array
-  const calendar = inProgressCalendars[activeIndex].calendarId; //current inProgressCalendar selected
+  const activeCalendar = inProgressCalendars[activeIndex].calendarId; //current inProgressCalendar selected
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of 'start date'
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'
   const startMonth = weekStartDay.month();
@@ -120,14 +119,16 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
   const acceptChanges = () => {
     switch (modalType) {
       case 'reset-calendar':
+      case 'discard-changes':
         setNewCalName(calendarName);
         setNewStart(dayjs(startDate));
         setNewEnd(dayjs(endDate));
+        setIsDirty(false);
         setIsModalOpen(false);
         setModalType(null);
         break;
       case 'delete-calendar':
-        dispatch(deleteCalendar(calendar));
+        dispatch(deleteCalendar(activeCalendar));
         setIsModalOpen(false);
         setModalType(null);
         break;
@@ -146,6 +147,13 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
         setIsModalOpen(false);
         setModalType(null);
         break;
+      case 'change-calendars':
+        //NEED TO ADD LOGIC TO UPDATE REDUX STATE OBJECT WITH DISPATCH HERE, IMPORT EDIT CALENDAR FROM CALENDARSLICE
+        setIsModalOpen(false);
+        setIsDirty(false);
+        setModalType(null);
+        break;
+
       // case 'too-short-start':
       // case 'before-today-start':
       // case 'too-long-start':
@@ -184,6 +192,14 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
       case 'change-end':
         setNewEnd(originalEnd);
         setEditEnd(false);
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'change-calendars':
+        setIsModalOpen(false);
+        setModalType(null);
+        break;
+      case 'discard-changes':
         setIsModalOpen(false);
         setModalType(null);
         break;
@@ -359,25 +375,30 @@ const Calendar = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, set
           );
         })}
       </div>
+      <Calendar 
+        activeIndex={activeIndex}
+        editMode={editMode}
+      />
       <Controls 
-          setNewCalName={setNewCalName}
-          newCalName={newCalName}
-          setEditName={setEditName}
-          editMode={editMode}
-          setEditMode={setEditMode}
-          setNavStatus={setNavStatus}
-          activeIndex={activeIndex}
-          setIsModalOpen={setIsModalOpen}
-          setModalType={setModalType}
+        setNewCalName={setNewCalName}
+        newCalName={newCalName}
+        setEditName={setEditName}
+        editMode={editMode}
+        setEditMode={setEditMode}
+        setNavStatus={setNavStatus}
+        activeIndex={activeIndex}
+        setIsModalOpen={setIsModalOpen}
+        setModalType={setModalType}
       />
       <Modal 
         isOpen={isModalOpen}
         onClose={rejectChanges}
         onConfirm={acceptChanges}
         modalType={modalType}
+        setModalType={setModalType}
       />
     </div>
   );
 }
 
-export default Calendar
+export default CalendarDisplay

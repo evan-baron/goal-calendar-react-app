@@ -1,7 +1,7 @@
 import React from 'react';
 import './Modal.css'; 
 
-const Modal = ({ isOpen, onClose, onConfirm, modalType }) => {
+const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
     if (!isOpen) return null;
 
     let message = '';
@@ -12,6 +12,12 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType }) => {
             break;
         case 'delete-calendar':
             message = "Are you sure you want to delete the calendar?"
+            break;
+        case 'change-calendars':
+            message = "You must save your changes before changing calendars."
+            break;
+        case 'discard-changes':
+            message = "Are you sure you want to discard all your changes?"
             break;
         // case 'too-short-start':
         //     message = "Your calendar may not be shorter than 2 weeks!"
@@ -30,17 +36,23 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType }) => {
         <div className="modal-overlay">
             <div className="modal-content">
                 <p>{message}</p>
-                <div className="modal-buttons">
-                    {/* {modalType === 'too-short-start' || modalType === 'before-today-start'
-                    ? <button onClick={onConfirm}>OK</button>
-                    : <>
+                {modalType === 'change-calendars'
+                    ? <div className='modal-buttons-change-calendars'>
+                        <div className='change-buttons'>
+                            <button onClick={onConfirm}>Save</button>
+                            <button onClick={() => {
+                                setModalType('discard-changes')
+                            }}>Discard</button>
+                        </div>
+                        <button className='modal-cancel-button' onClick={onClose}>Cancel</button>
+                    </div>
+                    : <div className='modal-buttons'>
                         <button onClick={onConfirm}>Yes</button>
                         <button onClick={onClose}>Nevermind</button>
-                    </>
-                    } */}
-                    <button onClick={onConfirm}>Yes</button>
-                    <button onClick={onClose}>Nevermind</button>
-                </div>
+                    </div>
+                }
+                {/* <button onClick={onConfirm}>Yes</button>
+                <button onClick={onClose}>Nevermind</button> */}
             </div>
         </div>
     );

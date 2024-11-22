@@ -4,17 +4,17 @@ import { selectInProgressCalendars } from '../../features/CalendarForm/calendarS
 import './Dashboard.css'
 import CalendarDisplay from '../../features/CalendarDisplay/CalendarDisplay'
 
-const Dashboard = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, setNavStatus }) => {
-    const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
+const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalType, modalType, activeIndex, editMode, setEditMode, setNavStatus }) => {
+    const selectedInProgCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
 
-    const { calendarName, startDate, endDate, length } = selectedCalendar[activeIndex] || {};
+    const { calendarName, startDate, endDate, length } = selectedInProgCalendar[activeIndex] || {};
 
     useEffect(() => {
         //this re-renders the page if selectedCalendar or activeIndex change
-    }, [selectedCalendar, activeIndex])
+    }, [selectedInProgCalendar, activeIndex])
     
     return (
-        selectedCalendar.length > 0 && activeIndex >= 0 && selectedCalendar[activeIndex] ? (
+        selectedInProgCalendar.length > 0 && activeIndex >= 0 && selectedInProgCalendar[activeIndex] ? (
             <div className='dashboard-container'>
                 <CalendarDisplay
                     isDirty={isDirty}
@@ -23,6 +23,11 @@ const Dashboard = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, se
                     editMode={editMode}
                     setEditMode={setEditMode}
                     setNavStatus={setNavStatus}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    modalType={modalType}
+                    setModalType={setModalType}
+                    // SOON THE FOUR BELOW WILL BE DELETED
                     calendarName={calendarName}
                     startDate={startDate}
                     endDate={endDate}

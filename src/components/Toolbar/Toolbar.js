@@ -6,15 +6,18 @@ import Divider from '../Divider/Divider'
 import NewCalendar from './NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
+import InactiveCalendar from './InactiveCalendar/InactiveCalendar';
 import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus, setNavStatus }) => {
+const Toolbar = ({ selectedCalendar, setSelectedCalendar, activeIndex, setActiveIndex, onDelete, setEditMode, isDirty, setIsDirty, setIsModalOpen, setModalType, navStatus, setNavStatus }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
     const inProgressCalendars = useSelector(selectInProgressCalendars);
+    const inactiveCalendars = useSelector(selectInactiveCalendars);
 
     const [newCalOpen, setNewCalOpen] = useState(false);
     const [inProgOpen, setInProgOpen] = useState(false);
     const [curCalOpen, setCurCalOpen] = useState(false);
+    const [inactiveOpen, setInactiveOpen] = useState(false);
     const [calendars, setCalendars] = useState(false);
 
     function hideShow(section) {
@@ -23,16 +26,25 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus
                 setNewCalOpen((prev) => !prev);
                 setInProgOpen(false);
                 setCurCalOpen(false);
+                setInactiveOpen(false);
                 break;
             case 'inProgress':
                 setInProgOpen((prev) => !prev);
                 setNewCalOpen(false);
                 setCurCalOpen(false);
+                setInactiveOpen(false);
                 break;
             case 'current':
                 setCurCalOpen((prev) => !prev);
                 setNewCalOpen(false);
                 setInProgOpen(false);
+                setInactiveOpen(false);
+                break;
+            case 'inactive':
+                setInactiveOpen((prev) => !prev);
+                setCurCalOpen(false);
+                setInProgOpen(false);
+                setNewCalOpen(false);
                 break;
             default:
                 break;
@@ -63,6 +75,7 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus
                                 hideShow={hideShow}
                                 isOpen={curCalOpen}
                                 activeCalendar={activeCalendar}
+                                setSelectedCalendar={setSelectedCalendar}
                             />
                         ) : null}
                         <NewCalendar 
@@ -78,9 +91,22 @@ const Toolbar = ({ activeIndex, setActiveIndex, onDelete, setEditMode, navStatus
                                 onDelete={onDelete}
                                 activeIndex={activeIndex}
                                 setActiveIndex={setActiveIndex}
+                                setSelectedCalendar={setSelectedCalendar}
+                                isDirty={isDirty}
+                                setIsDirty={setIsDirty}
+                                setIsModalOpen={setIsModalOpen}
+                                setModalType={setModalType}
                             />
                         ) : null}
-                        {/* PREVIOUS CALENDARS (INACTIVE CALENDARS) WILL GO HERE */}
+                        {inactiveCalendars.length > 0 ? (
+                            <InactiveCalendar 
+                                hideShow={hideShow}
+                                isOpen={inactiveOpen}
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                                setSelectedCalendar={setSelectedCalendar}
+                            />
+                        ) : null}
                     </div>
                 ) : null}
             </div>
