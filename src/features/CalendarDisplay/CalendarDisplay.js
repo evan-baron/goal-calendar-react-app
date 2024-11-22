@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './CalendarDisplay.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectInProgressCalendars, deleteCalendar } from '../CalendarForm/calendarSlice';
+import { selectInProgressCalendars, updateCalendar, deleteCalendar } from '../CalendarForm/calendarSlice';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
@@ -10,13 +10,15 @@ import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import Calendar from '../../components/Calendar/Calendar';
 
-const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus, calendarName, startDate, endDate, length }) => {
+const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus  }) => {
+
+  const { calendarId, calendarName, startDate, endDate } = useSelector(selectInProgressCalendars)[activeIndex];
   
   //States
   const [originalStart, setOriginalStart] = useState(dayjs(startDate));
-  const [newStart, setNewStart] = useState(dayjs(dayjs(startDate)));
+  const [newStart, setNewStart] = useState(dayjs(startDate));
   const [originalEnd, setOriginalEnd] = useState(dayjs(endDate));
-  const [newEnd, setNewEnd] = useState(dayjs(dayjs(endDate)));
+  const [newEnd, setNewEnd] = useState(dayjs(endDate));
   const [editName, setEditName] = useState(false);
   const [editStart, setEditStart] = useState(false);
   const [editEnd, setEditEnd] = useState(false);
@@ -36,15 +38,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   let calendarMonths = []; //the months the calendar spans from start to finish
   const calendarRows = Math.ceil(weekEndDay.diff(weekStartDay, 'day')/7);
   const calendarsNeeded = Math.ceil(calendarRows / 6);
-
-  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-
-  // IS DIRTY MUST BE TRUE IF ANYTHING IS DIFFERENT THAN THE ORIGINAL STATE OF INPROGRESSCALENDAR
-
-
-  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  
+ 
   //finds the active months during calendar start and end date and pushes to calendarMonths array
   for (let year = startYear; year <= endYear; year++) {
     const monthLimit = year === endYear ? endMonth : 11;
@@ -55,10 +49,12 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
 
   // makes the current calendar name equal to the active calendar object's calendar name value, updates when page rerenders and dependency array checks if anything has happened to active index or inprog calendars
   useEffect(() => {
-    setEditName(false)
-    setNewCalName(calendarName)
-    //ADD LOGIC TO CHECK IF DATES HAVE BEEN CHANGED
-  }, [activeIndex, inProgressCalendars, calendarName]);
+    setEditName(false);
+    setNewCalName(inProgressCalendars[activeIndex]?.calendarName);
+    setOriginalStart(dayjs(inProgressCalendars[activeIndex]?.startDate));
+    setOriginalEnd(dayjs(inProgressCalendars[activeIndex]?.endDate));
+  }, [activeIndex, inProgressCalendars]);
+
 
   const toggleEdit = () => {
     setEditName(prev => !prev);
@@ -66,41 +62,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   };
 
   const changeStartDate = (newValue) => {
-    setOriginalStart(newStart);
-    
-    // const validation = () => {
-      //ALL OF THE VALIDATION CODE BELOW SHOULD BE IMPLEMENTED ON SAVE, NOT ON PICKING THE DATES RIGHT NOW
-
-      // const dateDifference = dayjs(newEnd).diff(dayjs(newValue), 'day');
-
-      // if (dateDifference < 14) {
-      //   setModalType('too-short-start');
-      //   setIsModalOpen(true);
-      //   return false;
-      // }
-    
-      // if (dayjs(newValue).isBefore(dayjs())) {
-      //   setModalType('before-today-start');
-      //   setIsModalOpen(true);
-      //   return false;
-      // }
-    
-      // if (dateDifference > 84) {
-      //   setModalType('too-long-start');
-      //   setIsModalOpen(true);
-      //   return false;
-      // }
-      
-    //   return true;
-    // };
-
-    // if (!validation()) {
-    //   setNewStart(newValue)
-    //   setEditStart(true)
-    //   setIsDirty(true)
-    // } 
-
-    if (!newValue.isSame(originalStart)) {
+    if (!newValue.isSame(newStart)) {
       setNewStart(newValue)
       setEditStart(true)
       setIsDirty(true)
@@ -108,12 +70,44 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   }
 
   const changeEndDate = (newValue) => {
-    setOriginalEnd(newEnd);
-    if (!newValue.isSame(originalEnd)) {
+    if (!newValue.isSame(newEnd)) {
       setNewEnd(newValue)
       setEditEnd(true)
       setIsDirty(true)
     } 
+  }
+  
+  const saveChanges = () => {
+    const start = newStart;
+    const end = newEnd;
+    
+    const editedCalendar = {
+      calendarId: activeCalendar,
+      calendarName: newCalName,
+      startDate: start.toISOString(),
+      endDate: end.toISOString()
+    }
+
+    if (end.isBefore(start) || end.isSame(start)) {
+      alert('Your start date cannot be the same or after your end date.')
+      return;
+    }
+    
+    if (end.diff(start, 'day') < 14) {
+      alert('Your calendar must be at least 2 weeks long.')
+      return;
+    }
+
+    if (end.diff(start, 'day') > 84) {
+      alert('Your calendar may not be greater than 12 weeks long.')
+      return;
+    }
+
+    dispatch(updateCalendar(editedCalendar));
+
+    setIsModalOpen(false);
+    setIsDirty(false);
+    setModalType(null);
   }
   
   const acceptChanges = () => {
@@ -147,21 +141,19 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         setIsModalOpen(false);
         setModalType(null);
         break;
+      case 'save-changes':
       case 'change-calendars':
-        //NEED TO ADD LOGIC TO UPDATE REDUX STATE OBJECT WITH DISPATCH HERE, IMPORT EDIT CALENDAR FROM CALENDARSLICE
-        setIsModalOpen(false);
-        setIsDirty(false);
-        setModalType(null);
+        saveChanges()
         break;
 
-      // case 'too-short-start':
-      // case 'before-today-start':
-      // case 'too-long-start':
-      //   setNewStart(originalStart)
-      //   setEditStart(false);
-      //   setIsModalOpen(false);
-      //   setModalType(null);
-        // break;
+      // // case 'too-short-start':
+      // // case 'before-today-start':
+      // // case 'too-long-start':
+      // //   setNewStart(originalStart)
+      // //   setEditStart(false);
+      // //   setIsModalOpen(false);
+      // //   setModalType(null);
+      //   // break;
       default: 
         console.log('Unhandled modalType:', modalType);
         break;
@@ -256,7 +248,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
             <div className='new-label'>Start Date:</div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker 
-                value={newStart}
+                value={dayjs(startDate)}
                 onChange={changeStartDate}
                 required
                 slotProps={{
@@ -301,7 +293,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
             <div className='new-label'>End Date:</div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker 
-                value={newEnd}
+                value={dayjs(endDate)}
                 onChange={changeEndDate}
                 required
                 slotProps={{

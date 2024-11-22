@@ -8,7 +8,7 @@ const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, ne
     const [previewMode, setPreviewMode] = useState(false);
 
     const inProgressCalendars = useSelector(selectInProgressCalendars)
-    const calendar = inProgressCalendars[activeIndex].calendarId;
+    const calendar = inProgressCalendars[activeIndex];
 
     return (
         <div className='controls-container'>
@@ -61,11 +61,20 @@ const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, ne
                 <Preview fontSize='large'/>
                 <div>Preview</div>
             </div>
-            <div className='controls-option'>
+            <div 
+                className='controls-option'
+                onClick={() => {
+                    setModalType('save-changes');
+                    setIsModalOpen(true);
+                }}
+            >
                 <Save fontSize='large'/>
                 <div>Save</div>
             </div>
-            <div className='controls-option'>
+            <div 
+                className='controls-option'
+                onClick={() => console.log(calendar)}
+            >
                 <RocketLaunch fontSize='large'/>
                 <div>Launch</div>
             </div>

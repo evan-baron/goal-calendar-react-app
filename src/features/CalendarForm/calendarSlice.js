@@ -11,7 +11,7 @@ export const newCalendarSlice = createSlice({
     initialState: initialState,
     reducers: {
         createCalendar: (state, action) => {
-            const { calendarId, calendarName, startDate, endDate, length } = action.payload;
+            const { calendarId, calendarName, startDate, endDate } = action.payload;
             const newCalendar = {
                 calendarId: calendarId,
                 inProgress: true,
@@ -19,7 +19,6 @@ export const newCalendarSlice = createSlice({
                 calendarName: calendarName,
                 startDate: startDate,
                 endDate: endDate,
-                length: length,
                 reward: '',
                 totalPointsPossible: 0,
                 tasks: {
@@ -46,8 +45,13 @@ export const newCalendarSlice = createSlice({
 
             state.inProgressCalendars.push(newCalendar);
         },
-        editCalendar: (state, action) => {
+        updateCalendar: (state, action) => {
+            const { calendarId, calendarName, startDate, endDate } = action.payload;
+            const calendarIndex = state.inProgressCalendars.findIndex(calendar => calendar.calendarId === calendarId);
 
+            state.inProgressCalendars[calendarIndex].calendarName = calendarName;
+            state.inProgressCalendars[calendarIndex].startDate = startDate;
+            state.inProgressCalendars[calendarIndex].endDate = endDate;
         },
         setActiveCalendar: (state, action) => {
             const calendarId = action.payload;
@@ -86,5 +90,5 @@ export const newCalendarSlice = createSlice({
 export const selectInProgressCalendars = (state) => state.calendars.inProgressCalendars;
 export const selectActiveCalendars = (state) => state.calendars.activeCalendars;
 export const selectInactiveCalendars = (state) => state.calendars.inactiveCalendars;
-export const { createCalendar, editCalendar, setActiveCalendar, setInactiveCalendar, deleteCalendar } = newCalendarSlice.actions;
+export const { createCalendar, updateCalendar, setActiveCalendar, setInactiveCalendar, deleteCalendar } = newCalendarSlice.actions;
 export default newCalendarSlice.reducer;

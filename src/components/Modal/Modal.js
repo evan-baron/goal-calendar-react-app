@@ -19,6 +19,9 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
         case 'discard-changes':
             message = "Are you sure you want to discard all your changes?"
             break;
+        case 'save-changes':
+            message = "Save all changes?"
+            break;
         // case 'too-short-start':
         //     message = "Your calendar may not be shorter than 2 weeks!"
         //     break;

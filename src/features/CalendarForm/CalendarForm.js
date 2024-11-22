@@ -40,7 +40,6 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
             calendarName: calendarName === '' ? `${dayjs().format('MMMM')} Calendar` : calendarName,
             startDate: start.toISOString(),
             endDate: end.toISOString(),
-            length: length
         }
 
         if (startDate && endDate) {
