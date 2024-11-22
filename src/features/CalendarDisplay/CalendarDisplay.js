@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Calendar.css'
+import './CalendarDisplay.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectInProgressCalendars, deleteCalendar } from '../CalendarForm/calendarSlice';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';

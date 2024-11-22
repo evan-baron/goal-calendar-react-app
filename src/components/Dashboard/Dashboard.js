@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { selectInProgressCalendars } from '../../features/CalendarForm/calendarSlice'
 import './Dashboard.css'
-import Calendar from '../../features/Calendar/Calendar'
+import CalendarDisplay from '../../features/CalendarDisplay/CalendarDisplay'
 
 const Dashboard = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, setNavStatus }) => {
     const selectedCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
@@ -16,7 +16,7 @@ const Dashboard = ({ isDirty, setIsDirty, activeIndex, editMode, setEditMode, se
     return (
         selectedCalendar.length > 0 && activeIndex >= 0 && selectedCalendar[activeIndex] ? (
             <div className='dashboard-container'>
-                <Calendar
+                <CalendarDisplay
                     isDirty={isDirty}
                     setIsDirty={setIsDirty}
                     activeIndex={activeIndex}
