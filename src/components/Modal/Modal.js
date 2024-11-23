@@ -22,25 +22,27 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
         case 'save-changes':
             message = "Save all changes?"
             break;
-        // case 'too-short-start':
-        //     message = "Your calendar may not be shorter than 2 weeks!"
-        //     break;
-        // case 'before-today-start':
-        //     message = "Your calendar may must start today or later!"
-        //     break;
-        // case 'too-long-start':
-        //     message = "We don't know how you got this far, but try again!"
-        //     break;
+        case 'date-error-end-before':
+            message = "Your calendar's end date must be after it's start date."
+            break;
+        case 'too-short':
+            message = "Your calendar may not be shorter than 2 weeks!"
+            break;
+        case 'in-the-past':
+            message = "Your calendar must start either today or after!"
+            break;
+        case 'too-long':
+            message = "Your calendar may not exceed 12 weeks long!"
+            break;
         default:
             message = "Confirm changes?"
     }
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <p>{message}</p>
-                {modalType === 'change-calendars'
-                    ? <div className='modal-buttons-change-calendars'>
+    const renderModalContent = () => {
+        switch (modalType) {
+            case 'change-calendars':
+                return (
+                    <div className='modal-buttons-change-calendars'>
                         <div className='change-buttons'>
                             <button onClick={onConfirm}>Save</button>
                             <button onClick={() => {
@@ -49,13 +51,33 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
                         </div>
                         <button className='modal-cancel-button' onClick={onClose}>Cancel</button>
                     </div>
-                    : <div className='modal-buttons'>
+                )
+            
+            case 'date-error-end-before':
+            case 'too-short':
+            case 'too-long':
+            case 'in-the-past':
+                return (
+                    <div className='modal-buttons'>
+                        <button onClick={onClose}>Ok</button>
+                    </div>
+                )
+            
+            default:
+                return (
+                    <div className='modal-buttons'>
                         <button onClick={onConfirm}>Yes</button>
                         <button onClick={onClose}>Nevermind</button>
                     </div>
-                }
-                {/* <button onClick={onConfirm}>Yes</button>
-                <button onClick={onClose}>Nevermind</button> */}
+                )
+        }
+    }
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <p>{message}</p>
+                {renderModalContent()}
             </div>
         </div>
     );

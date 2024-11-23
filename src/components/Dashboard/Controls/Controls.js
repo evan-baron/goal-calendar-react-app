@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Controls.css'
 import { Edit, RestartAlt, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar }) => {
+const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar, validateDates }) => {
     const [previewMode, setPreviewMode] = useState(false);
 
     return (
@@ -58,10 +58,7 @@ const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCal
             </div>
             <div 
                 className='controls-option'
-                onClick={() => {
-                    setModalType('save-changes');
-                    setIsModalOpen(true);
-                }}
+                onClick={isDirty ? () => validateDates() : null}
             >
                 <Save fontSize='large'/>
                 <div>Save</div>

@@ -76,40 +76,45 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
     } 
   }
   
-  const validateDates = (start, end) => {
-    if (end.isBefore(start) || end.isSame(start)) {
-      alert('Your start date cannot be the same or after your end date.');
-      return false;
-    }
-
+  const validateDates = () => {
+    const start = newStart
+    const end = newEnd
     const durationInDays = end.diff(start, 'day');
 
+    if (end.isBefore(start) || end.isSame(start)) {
+      setModalType('date-error-end-before')
+      setIsModalOpen(true);
+    } else
+
     if (durationInDays < 14) {
-        alert('Your calendar must be at least 2 weeks long.');
-        return false;
-    }
+      setModalType('too-short')
+      setIsModalOpen(true);
+    } else
 
     if (durationInDays > 84) {
-        alert('Your calendar may not be greater than 12 weeks long.');
-        return false;
-    }
+      setModalType('too-long')
+      setIsModalOpen(true);
+    } else
 
-    return true;
+    if (start.isBefore(dayjs(), 'day')) {
+      setModalType('in-the-past')
+      setIsModalOpen(true);
+    } else
+
+    setModalType('save-changes')
+    setIsModalOpen(true);
+    return;
   }
-  
+
   const saveChanges = () => {
-    const start = newStart;
-    const end = newEnd;
-    
+    const start = newStart
+    const end = newEnd
+
     const editedCalendar = {
       calendarId: activeCalendar,
       calendarName: newCalName,
       startDate: start.toISOString(),
       endDate: end.toISOString()
-    }
-
-    if (!validateDates(start, end)) {
-      return;
     }
 
     dispatch(updateCalendar(editedCalendar));
@@ -153,6 +158,8 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         setModalType(null);
         break;
       case 'save-changes':
+        saveChanges()
+        break;
       case 'change-calendars':
         saveChanges()
         break;
@@ -165,13 +172,18 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   const rejectChanges = () => {
     switch (modalType) {
       case 'reset-calendar':
-        setIsModalOpen(false);
-        setModalType(null);
-        break;
       case 'delete-calendar':
+      case 'change-calendars':
+      case 'discard-changes':
+      case 'date-error-end-before':
+      case 'too-short':
+      case 'too-long':
+      case 'in-the-past':
+      case 'save-changes':
         setIsModalOpen(false);
         setModalType(null);
         break;
+
       case 'change-name':
         setNewCalName(originalCalName);
         setIsModalOpen(false);
@@ -186,14 +198,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
       case 'change-end':
         setNewEnd(originalEnd);
         setEditEnd(false);
-        setIsModalOpen(false);
-        setModalType(null);
-        break;
-      case 'change-calendars':
-        setIsModalOpen(false);
-        setModalType(null);
-        break;
-      case 'discard-changes':
         setIsModalOpen(false);
         setModalType(null);
         break;
@@ -281,7 +285,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                 }}
               />
             </LocalizationProvider>
-            {editStart ? (
+            {/* {editStart ? (
               <div className='date-confirm'>
                 <Check 
                   className='date-check'
@@ -298,7 +302,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                   }}
                 />
               </div>
-            ) : null}
+            ) : null} */}
           </div>
           <div className='calendar-select'>
             <div className='new-label'>End Date:</div>
@@ -326,7 +330,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                 }}
               />
             </LocalizationProvider>
-            {editEnd ? (
+            {/* {editEnd ? (
               <div className='date-confirm'>
                 <Check 
                   className='date-check'
@@ -343,7 +347,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                   }}
                 />
               </div>
-            ) : null}
+            ) : null} */}
           </div>
       </div>) : null}
       {/* <div className='calendar-table'>
@@ -391,6 +395,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         setIsModalOpen={setIsModalOpen}
         setModalType={setModalType}
         selectedCalendar={selectedCalendar}
+        validateDates={validateDates}
       />
       <Modal 
         isOpen={isModalOpen}
