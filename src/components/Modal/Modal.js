@@ -7,6 +7,9 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
     let message = '';
 
     switch (modalType) {
+        case 'reset-calendar':
+            message = "Are you sure you would like to reset all of your changes?"
+            break;
         case 'delete-calendar':
             message = "Are you sure you want to delete the calendar?"
             break;
@@ -31,6 +34,9 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
         case 'too-long':
             message = "Your calendar may not exceed 12 weeks long!"
             break;
+        case 'too-many-calendars':
+            message = "You may not have more than 5 active projects at once. Please discard one if you'd like to create another."
+            break;
         default:
             message = "Confirm changes?"
     }
@@ -54,6 +60,7 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
             case 'too-short':
             case 'too-long':
             case 'in-the-past':
+            case 'too-many-calendars':
                 return (
                     <div className='modal-buttons'>
                         <button onClick={onClose}>Ok</button>

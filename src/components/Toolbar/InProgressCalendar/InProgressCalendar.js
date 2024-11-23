@@ -29,7 +29,13 @@ const InProgressCalendar = ({ isDirty, setIsModalOpen, setModalType, setSelected
             : 'calendar-menu'}>
             <div 
                 className='toolbar-section-title menu-title' 
-                onClick={() => hideShow('inProgress')}
+                onClick={() => {
+                    if (inProgressCalendars.length >= 5) {
+                        setModalType('save-changes')
+                        setIsModalOpen(true)
+                    } else {
+                    hideShow('inProgress')}
+                }}
             >
                 In Progress
                 {!isOpen 

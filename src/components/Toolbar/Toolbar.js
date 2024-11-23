@@ -81,6 +81,8 @@ const Toolbar = ({ activeIndex, isDirty, navStatus, setActiveIndex, setEditMode,
                             setEditMode={setEditMode}
                             hideShow={hideShow}
                             isOpen={newCalOpen}
+                            setIsModalOpen={setIsModalOpen}
+                            setModalType={setModalType}
                         />
                         {inProgressCalendars.length > 0 ? (
                             <InProgressCalendar 

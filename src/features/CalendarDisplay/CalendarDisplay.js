@@ -178,6 +178,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
       case 'too-long':
       case 'in-the-past':
       case 'save-changes':
+      case 'too-many-calendars':
         setIsModalOpen(false);
         setModalType(null);
         break;

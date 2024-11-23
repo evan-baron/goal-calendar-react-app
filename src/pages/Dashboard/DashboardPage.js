@@ -16,6 +16,7 @@ const DashboardPage = () => {
 
   const calendarId = selectedCalendar?.calendarId;
   const newCalendar = useSelector(selectCalendarById(calendarId))
+  
   useEffect(() => {
     if (selectedCalendar && newCalendar) {
       setSelectedCalendar(newCalendar);
