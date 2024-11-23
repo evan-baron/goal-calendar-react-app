@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './DashboardPage.css'
+import { useSelector } from 'react-redux';
+import { selectCalendarById } from '../../features/CalendarForm/calendarSlice';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import Dashboard from '../../components/Dashboard/Dashboard';
 
@@ -11,6 +13,14 @@ const DashboardPage = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
+
+  const calendarId = selectedCalendar?.calendarId;
+  const newCalendar = useSelector(selectCalendarById(calendarId))
+  useEffect(() => {
+    if (selectedCalendar && newCalendar) {
+      setSelectedCalendar(newCalendar);
+    }
+  }, [selectedCalendar, newCalendar])
 
   return (
     <main className='dashboard-main'>
