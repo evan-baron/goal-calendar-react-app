@@ -126,7 +126,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   
   const acceptChanges = () => {
     switch (modalType) {
-      case 'reset-calendar':
       case 'discard-changes':
         setNewCalName(calendarName);
         setNewStart(dayjs(startDate));
@@ -171,7 +170,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
 
   const rejectChanges = () => {
     switch (modalType) {
-      case 'reset-calendar':
       case 'delete-calendar':
       case 'change-calendars':
       case 'discard-changes':

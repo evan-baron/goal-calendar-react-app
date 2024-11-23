@@ -7,9 +7,6 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
     let message = '';
 
     switch (modalType) {
-        case 'reset-calendar':
-            message = "Are you sure you would like to reset all of your changes?"
-            break;
         case 'delete-calendar':
             message = "Are you sure you want to delete the calendar?"
             break;

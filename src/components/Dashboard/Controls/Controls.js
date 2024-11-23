@@ -21,16 +21,6 @@ const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCal
             {!previewMode 
             ? 
                 <>
-                    <div
-                        className='controls-option'
-                        onClick={isDirty ? () => {
-                            setIsModalOpen(true);
-                            setModalType('reset-calendar');
-                        } : null}
-                    >
-                        <RestartAlt fontSize='large'/>
-                        <div>Reset</div>
-                    </div>
                     <div 
                         className='controls-option'
                         onClick={() => {
