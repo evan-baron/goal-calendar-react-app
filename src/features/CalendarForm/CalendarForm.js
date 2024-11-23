@@ -33,7 +33,6 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
         e.preventDefault();
         const start = dayjs(startDate);
         const end = dayjs(endDate);
-        const length = end.diff(start, 'day');
 
         const createdCalendar = {
             calendarId: uuidv4(),

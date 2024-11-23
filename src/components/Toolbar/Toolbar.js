@@ -9,7 +9,7 @@ import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import InactiveCalendar from './InactiveCalendar/InactiveCalendar';
 import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ selectedCalendar, setSelectedCalendar, activeIndex, setActiveIndex, onDelete, setEditMode, isDirty, setIsDirty, setIsModalOpen, setModalType, navStatus, setNavStatus }) => {
+const Toolbar = ({ activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
     const inProgressCalendars = useSelector(selectInProgressCalendars);
     const inactiveCalendars = useSelector(selectInactiveCalendars);
@@ -56,7 +56,6 @@ const Toolbar = ({ selectedCalendar, setSelectedCalendar, activeIndex, setActive
             <div className='toolbar'>
                 <div className='toolbar-title'>Dashboard</div>
                 <Divider />
-                {/* <div className={calendars ? 'toolbar-section selected' : 'toolbar-section'}> */} {/* add back if i want to keep section title selected */}
                 <div className='toolbar-section'>
                     <div 
                         className='toolbar-title'
@@ -88,12 +87,10 @@ const Toolbar = ({ selectedCalendar, setSelectedCalendar, activeIndex, setActive
                                 hideShow={hideShow} 
                                 isOpen={inProgOpen}
                                 setEditMode={setEditMode}
-                                onDelete={onDelete}
                                 activeIndex={activeIndex}
                                 setActiveIndex={setActiveIndex}
                                 setSelectedCalendar={setSelectedCalendar}
                                 isDirty={isDirty}
-                                setIsDirty={setIsDirty}
                                 setIsModalOpen={setIsModalOpen}
                                 setModalType={setModalType}
                             />

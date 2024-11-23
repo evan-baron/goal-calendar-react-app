@@ -4,18 +4,18 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
-const InProgressCalendar = ({ isDirty, setIsDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
-    const inProgressCalendars = useSelector(selectInProgressCalendars) //ARRAY OF IN PROGRESS CALENDARS
-
-    const [prevLength, setPrevLength] = useState(inProgressCalendars.length);
+const InProgressCalendar = ({ isDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
+    const inProgressCalendars = useSelector(selectInProgressCalendars)
+    
+    const [prevLength, setPrevLength] = useState(inProgressCalendars.length ? 0 : null);
 
     useEffect(() => {
         if (inProgressCalendars.length > prevLength) {
             const newIndex = inProgressCalendars.length -1;
             setActiveIndex(newIndex);
-            setSelectedCalendar(inProgressCalendars[newIndex].calendarId);
+            setSelectedCalendar(inProgressCalendars[newIndex]);
         } else if (inProgressCalendars.length < prevLength) {
-            if (activeIndex !== null && activeIndex >= inProgressCalendars.length) {
+            if (activeIndex !== null || activeIndex >= inProgressCalendars.length) {
                 setActiveIndex(null);
                 setSelectedCalendar(null);
             }
@@ -51,7 +51,8 @@ const InProgressCalendar = ({ isDirty, setIsDirty, setIsModalOpen, setModalType,
                                 const newIndex = activeIndex === index ? null : index;
 
                                 setActiveIndex(newIndex);
-                                setSelectedCalendar(newIndex !== null ? inProgressCalendars[newIndex].calendarId : null)     
+
+                                setSelectedCalendar(newIndex !== null ? inProgressCalendars[newIndex] : null)     
                                 setEditMode(true)
                                 }}
                         >

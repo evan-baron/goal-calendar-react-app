@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './CalendarDisplay.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { selectInProgressCalendars, updateCalendar, deleteCalendar } from '../CalendarForm/calendarSlice';
+import { useDispatch } from 'react-redux';
+import { updateCalendar, deleteCalendar } from '../CalendarForm/calendarSlice';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
@@ -10,9 +10,9 @@ import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import Calendar from '../../components/Calendar/Calendar';
 
-const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, activeIndex, editMode, setEditMode, setNavStatus, setSelectedCalendar, selectedCalendar  }) => {
+const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, modalType, setModalType, editMode, setEditMode, setNavStatus, selectedCalendar  }) => {
 
-  const { calendarId, calendarName, startDate, endDate } = useSelector(selectInProgressCalendars)[activeIndex];
+  const { calendarId, calendarName, startDate, endDate } = selectedCalendar;
   
   //States
   const [originalStart, setOriginalStart] = useState(dayjs(startDate));
@@ -27,8 +27,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
 
   //Variables & Functions
   const dispatch = useDispatch();
-  const inProgressCalendars = useSelector(selectInProgressCalendars); //inProgressCalendars state array
-  const activeCalendar = inProgressCalendars[activeIndex].calendarId; //current inProgressCalendar selected
+  const activeCalendar = calendarId; //current inProgressCalendar selected
   const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of 'start date'
   const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'
   const startMonth = weekStartDay.month();
@@ -50,10 +49,10 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
   // makes the current calendar name equal to the active calendar object's calendar name value, updates when page rerenders and dependency array checks if anything has happened to active index or inprog calendars
   useEffect(() => {
     setEditName(false);
-    setNewCalName(inProgressCalendars[activeIndex]?.calendarName);
-    setOriginalStart(dayjs(inProgressCalendars[activeIndex]?.startDate));
-    setOriginalEnd(dayjs(inProgressCalendars[activeIndex]?.endDate));
-  }, [activeIndex, inProgressCalendars]);
+    setNewCalName(selectedCalendar?.calendarName);
+    setOriginalStart(dayjs(selectedCalendar?.startDate));
+    setOriginalEnd(dayjs(selectedCalendar?.endDate));
+  }, [selectedCalendar]);
 
 
   const toggleEdit = () => {
@@ -77,6 +76,27 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
     } 
   }
   
+  const validateDates = (start, end) => {
+    if (end.isBefore(start) || end.isSame(start)) {
+      alert('Your start date cannot be the same or after your end date.');
+      return false;
+    }
+
+    const durationInDays = end.diff(start, 'day');
+
+    if (durationInDays < 14) {
+        alert('Your calendar must be at least 2 weeks long.');
+        return false;
+    }
+
+    if (durationInDays > 84) {
+        alert('Your calendar may not be greater than 12 weeks long.');
+        return false;
+    }
+
+    return true;
+  }
+  
   const saveChanges = () => {
     const start = newStart;
     const end = newEnd;
@@ -88,18 +108,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
       endDate: end.toISOString()
     }
 
-    if (end.isBefore(start) || end.isSame(start)) {
-      alert('Your start date cannot be the same or after your end date.')
-      return;
-    }
-    
-    if (end.diff(start, 'day') < 14) {
-      alert('Your calendar must be at least 2 weeks long.')
-      return;
-    }
-
-    if (end.diff(start, 'day') > 84) {
-      alert('Your calendar may not be greater than 12 weeks long.')
+    if (!validateDates(start, end)) {
       return;
     }
 
@@ -132,11 +141,13 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         setEditName(false);
         break;
       case 'change-start':
+        //missing logic here maybe??
         setEditStart(false);
         setIsModalOpen(false);
         setModalType(null);
         break;
       case 'change-end':
+        //and here?
         setEditEnd(false);
         setIsModalOpen(false);
         setModalType(null);
@@ -145,15 +156,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
       case 'change-calendars':
         saveChanges()
         break;
-
-      // // case 'too-short-start':
-      // // case 'before-today-start':
-      // // case 'too-long-start':
-      // //   setNewStart(originalStart)
-      // //   setEditStart(false);
-      // //   setIsModalOpen(false);
-      // //   setModalType(null);
-      //   // break;
       default: 
         console.log('Unhandled modalType:', modalType);
         break;
@@ -344,7 +346,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
             ) : null}
           </div>
       </div>) : null}
-      <div className='calendar-table'>
+      {/* <div className='calendar-table'>
         {[...Array(calendarRows * 7)].map((_, index) => {
           const currentDay = weekStartDay.add(index, 'day');
           const isOutsideRange = currentDay.isBefore(dayjs(startDate), 'day') || currentDay.isAfter(dayjs(endDate), 'day');
@@ -366,7 +368,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
                 <>
                   <div className='day-divider'></div>
                   <div className='day-body'>
-                    {/* Add any additional details for days inside the range here */}
                     <span>Details</span>
                   </div>
                   {editMode ? (<Edit sx={{ fontSize: 30 }} className='edit-pencil'/>) : null}
@@ -375,19 +376,18 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
             </div>
           );
         })}
-      </div>
+      </div> */}
       <Calendar 
-        activeIndex={activeIndex}
+        selectedCalendar={selectedCalendar}
         editMode={editMode}
       />
       <Controls 
+        isDirty={isDirty}
         setNewCalName={setNewCalName}
         newCalName={newCalName}
         setEditName={setEditName}
-        editMode={editMode}
         setEditMode={setEditMode}
         setNavStatus={setNavStatus}
-        activeIndex={activeIndex}
         setIsModalOpen={setIsModalOpen}
         setModalType={setModalType}
         selectedCalendar={selectedCalendar}

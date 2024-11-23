@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 import './Controls.css'
-import { useSelector } from 'react-redux';
-import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
 import { Edit, RestartAlt, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
-const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar }) => {
+const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar }) => {
     const [previewMode, setPreviewMode] = useState(false);
-
-    const inProgressCalendars = useSelector(selectInProgressCalendars)
-    const calendar = inProgressCalendars[activeIndex];
 
     return (
         <div className='controls-container'>
@@ -28,10 +23,10 @@ const Controls = ({ setIsModalOpen, setModalType, activeIndex, setNewCalName, ne
                 <>
                     <div
                         className='controls-option'
-                        onClick={() => {
+                        onClick={isDirty ? () => {
                             setIsModalOpen(true);
                             setModalType('reset-calendar');
-                        }}
+                        } : null}
                     >
                         <RestartAlt fontSize='large'/>
                         <div>Reset</div>

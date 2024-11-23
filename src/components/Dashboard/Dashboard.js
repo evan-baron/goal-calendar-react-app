@@ -4,7 +4,7 @@ import { selectInProgressCalendars } from '../../features/CalendarForm/calendarS
 import './Dashboard.css'
 import CalendarDisplay from '../../features/CalendarDisplay/CalendarDisplay'
 
-const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalType, modalType, activeIndex, editMode, setEditMode, setNavStatus, setSelectedCalendar, selectedCalendar }) => {
+const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalType, modalType, activeIndex, editMode, setEditMode, setNavStatus, selectedCalendar }) => {
     const selectedInProgCalendar = useSelector(selectInProgressCalendars); //array of in-progress calendars
 
     useEffect(() => {
@@ -17,7 +17,6 @@ const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalT
                 <CalendarDisplay
                     isDirty={isDirty}
                     setIsDirty={setIsDirty}
-                    activeIndex={activeIndex}
                     editMode={editMode}
                     setEditMode={setEditMode}
                     setNavStatus={setNavStatus}
@@ -25,7 +24,6 @@ const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalT
                     setIsModalOpen={setIsModalOpen}
                     modalType={modalType}
                     setModalType={setModalType}
-                    setSelectedCalendar={setSelectedCalendar}
                     selectedCalendar={selectedCalendar}
                 />
                 {!editMode ? (<div className='dashboard-calendar-support'>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './DashboardPage.css'
-import { useSelector } from 'react-redux';
 import Toolbar from '../../components/Toolbar/Toolbar';
 import Dashboard from '../../components/Dashboard/Dashboard';
 
@@ -17,20 +16,15 @@ const DashboardPage = () => {
     <main className='dashboard-main'>
       <div className='dashboard-page-container'>
         <Toolbar 
-          isDirty={isDirty}
-          setIsDirty={setIsDirty}
-          navStatus={navStatus}
-          setNavStatus={setNavStatus}
-          editMode={editMode}
-          setEditMode={setEditMode}
-          selectedCalendar={selectedCalendar}
-          setSelectedCalendar={setSelectedCalendar}
           activeIndex={activeIndex}
+          isDirty={isDirty}
+          navStatus={navStatus}
           setActiveIndex={setActiveIndex}
-          isModalOpen={isModalOpen}
+          setEditMode={setEditMode}
           setIsModalOpen={setIsModalOpen}
-          modalType={modalType}
           setModalType={setModalType}
+          setNavStatus={setNavStatus}
+          setSelectedCalendar={setSelectedCalendar}
         />
         <Dashboard 
           isDirty={isDirty}
