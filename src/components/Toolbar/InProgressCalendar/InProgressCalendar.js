@@ -4,24 +4,24 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
-const InProgressCalendar = ({ isDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
-    const inProgressCalendars = useSelector(selectInProgressCalendars)
+const InProgressCalendar = ({ prevLength, setPrevLength, inProgressCalendars, isDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
+    // const inProgressCalendars = useSelector(selectInProgressCalendars)
     
-    const [prevLength, setPrevLength] = useState(inProgressCalendars.length ? 0 : null);
+    // const [prevLength, setPrevLength] = useState(inProgressCalendars.length ? 0 : null);
 
-    useEffect(() => {
-        if (inProgressCalendars.length > prevLength) {
-            const newIndex = inProgressCalendars.length -1;
-            setActiveIndex(newIndex);
-            setSelectedCalendar(inProgressCalendars[newIndex]);
-        } else if (inProgressCalendars.length < prevLength) {
-            if (activeIndex !== null || activeIndex >= inProgressCalendars.length) {
-                setActiveIndex(null);
-                setSelectedCalendar(null);
-            }
-        }
-        setPrevLength(inProgressCalendars.length)
-    }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
+    // useEffect(() => {
+    //     if (inProgressCalendars.length > prevLength) {
+    //         const newIndex = inProgressCalendars.length -1;
+    //         setActiveIndex(newIndex);
+    //         setSelectedCalendar(inProgressCalendars[newIndex]);
+    //     } else if (inProgressCalendars.length < prevLength) {
+    //         if (activeIndex !== null || activeIndex >= inProgressCalendars.length) {
+    //             setActiveIndex(null);
+    //             setSelectedCalendar(null);
+    //         }
+    //     }
+    //     setPrevLength(inProgressCalendars.length)
+    // }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
 
     return (
         <div className={isOpen 
