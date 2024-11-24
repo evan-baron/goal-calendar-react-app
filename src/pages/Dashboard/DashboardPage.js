@@ -14,36 +14,31 @@ const DashboardPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
 
-//////////////////////////////////
-
 const inProgressCalendars = useSelector(selectInProgressCalendars)
     
-const [prevLength, setPrevLength] = useState(inProgressCalendars.length ? 0 : null);
+const [prevLength, setPrevLength] = useState(0);
 
 useEffect(() => {
-  if (inProgressCalendars.length > prevLength) {
-      const newIndex = inProgressCalendars.length -1;
+  const calendarsLength = inProgressCalendars.length;
+  if (calendarsLength > prevLength) {
+      const newIndex = calendarsLength - 1;
       setActiveIndex(newIndex);
       setSelectedCalendar(inProgressCalendars[newIndex]);
-  } else if (inProgressCalendars.length < prevLength) {
-      if (activeIndex !== null || activeIndex >= inProgressCalendars.length) {
-          setActiveIndex(null);
-          setSelectedCalendar(null);
-      }
+  } else if (calendarsLength < prevLength) {
+      setActiveIndex(null);
+      setSelectedCalendar(null);
   }
-  setPrevLength(inProgressCalendars.length)
+  setPrevLength(calendarsLength);
 }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
-
-//////////////////////////////////
 
   const calendarId = selectedCalendar?.calendarId;
   const newCalendar = useSelector(selectCalendarById(calendarId))
   
   useEffect(() => {
-    if (selectedCalendar && newCalendar) {
+    if (newCalendar) {
       setSelectedCalendar(newCalendar);
     }
-  }, [prevLength, selectedCalendar, newCalendar])
+  }, [newCalendar])
 
   return (
     <main className='dashboard-main'>
@@ -59,8 +54,8 @@ useEffect(() => {
           setNavStatus={setNavStatus}
           setSelectedCalendar={setSelectedCalendar}
           inProgressCalendars={inProgressCalendars}
-          prevLength={prevLength}
-          setPrevLength={setPrevLength}
+          // prevLength={prevLength}
+          // setPrevLength={setPrevLength}
         />
         <Dashboard 
           isDirty={isDirty}
