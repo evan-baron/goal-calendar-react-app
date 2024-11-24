@@ -4,24 +4,7 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
-const InProgressCalendar = ({ prevLength, setPrevLength, inProgressCalendars, isDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
-    // const inProgressCalendars = useSelector(selectInProgressCalendars)
-    
-    // const [prevLength, setPrevLength] = useState(inProgressCalendars.length ? 0 : null);
-
-    // useEffect(() => {
-    //     if (inProgressCalendars.length > prevLength) {
-    //         const newIndex = inProgressCalendars.length -1;
-    //         setActiveIndex(newIndex);
-    //         setSelectedCalendar(inProgressCalendars[newIndex]);
-    //     } else if (inProgressCalendars.length < prevLength) {
-    //         if (activeIndex !== null || activeIndex >= inProgressCalendars.length) {
-    //             setActiveIndex(null);
-    //             setSelectedCalendar(null);
-    //         }
-    //     }
-    //     setPrevLength(inProgressCalendars.length)
-    // }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
+const InProgressCalendar = ({ inProgressCalendars, isDirty, setIsModalOpen, setModalType, setSelectedCalendar, activeIndex, setActiveIndex, setEditMode, hideShow, isOpen }) => {
 
     return (
         <div className={isOpen 
@@ -30,7 +13,7 @@ const InProgressCalendar = ({ prevLength, setPrevLength, inProgressCalendars, is
             <div 
                 className='toolbar-section-title menu-title' 
                 onClick={() => {
-                    if (inProgressCalendars.length >= 5) {
+                    if (isDirty) {
                         setModalType('save-changes')
                         setIsModalOpen(true)
                     } else {

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Modal.css'; 
 
-const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
+const Modal = ({ isOpen, onClose, onConfirm, modalType, newCalName, setModalType }) => {
     if (!isOpen) return null;
 
     let message = '';
@@ -36,6 +36,9 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, setModalType }) => {
             break;
         case 'too-many-calendars':
             message = "You may not have more than 5 active projects at once. Please discard one if you'd like to create another."
+            break;
+        case 'change-name':
+            message = `Change calendar name to ${newCalName}?`
             break;
         default:
             message = "Confirm changes?"

@@ -9,7 +9,7 @@ import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import InactiveCalendar from './InactiveCalendar/InactiveCalendar';
 import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ prevLength, setPrevLength, inProgressCalendars, activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
+const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
     // const inProgressCalendars = useSelector(selectInProgressCalendars);
     const inactiveCalendars = useSelector(selectInactiveCalendars);
@@ -59,7 +59,14 @@ const Toolbar = ({ prevLength, setPrevLength, inProgressCalendars, activeIndex, 
                 <div className='toolbar-section'>
                     <div 
                         className='toolbar-title'
-                        onClick={() => setCalendars(prev => !prev)}
+                        onClick={() => {
+                            if (isDirty) {
+                                setModalType('save-changes')
+                                setIsModalOpen(true)
+                            } else {
+                                setCalendars(prev => !prev)
+                            }
+                        }}
                     >
                         Calendars
                     </div>
@@ -83,6 +90,7 @@ const Toolbar = ({ prevLength, setPrevLength, inProgressCalendars, activeIndex, 
                             isOpen={newCalOpen}
                             setIsModalOpen={setIsModalOpen}
                             setModalType={setModalType}
+                            isDirty={isDirty}
                         />
                         {inProgressCalendars.length > 0 ? (
                             <InProgressCalendar 
@@ -96,8 +104,6 @@ const Toolbar = ({ prevLength, setPrevLength, inProgressCalendars, activeIndex, 
                                 isDirty={isDirty}
                                 setIsModalOpen={setIsModalOpen}
                                 setModalType={setModalType}
-                                prevLength={prevLength}
-                                setPrevLength={setPrevLength}
                             />
                         ) : null}
                         {inactiveCalendars.length > 0 ? (

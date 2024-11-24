@@ -402,6 +402,7 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
         onConfirm={acceptChanges}
         modalType={modalType}
         setModalType={setModalType}
+        newCalName={newCalName}
       />
     </div>
   );

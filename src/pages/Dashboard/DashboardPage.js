@@ -54,8 +54,6 @@ useEffect(() => {
           setNavStatus={setNavStatus}
           setSelectedCalendar={setSelectedCalendar}
           inProgressCalendars={inProgressCalendars}
-          // prevLength={prevLength}
-          // setPrevLength={setPrevLength}
         />
         <Dashboard 
           isDirty={isDirty}

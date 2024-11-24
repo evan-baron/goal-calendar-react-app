@@ -5,7 +5,7 @@ import { selectInProgressCalendars } from '../../../features/CalendarForm/calend
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 import CalendarForm from '../../../features/CalendarForm/CalendarForm';
 
-const NewCalendar = ({ hideShow, isOpen, setEditMode, setIsModalOpen, setModalType }) => {
+const NewCalendar = ({ isDirty, hideShow, isOpen, setEditMode, setIsModalOpen, setModalType }) => {
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
     return (
@@ -13,12 +13,16 @@ const NewCalendar = ({ hideShow, isOpen, setEditMode, setIsModalOpen, setModalTy
             <div 
                 className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
                 onClick={() => {
-                    if (inProgressCalendars.length >= 5) {
+                    if (isDirty) {
+                        setModalType('save-changes')
+                        setIsModalOpen(true)
+                    } else if (inProgressCalendars.length >= 5) {
                         setModalType('too-many-calendars')
                         setIsModalOpen(true)
-                    } else {
-                    hideShow('new')}}
-                }
+                    }  else {
+                        hideShow('new')
+                    }
+                }}
             >
                 New Calendar
             {!isOpen 
