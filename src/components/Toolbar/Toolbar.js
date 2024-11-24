@@ -9,9 +9,9 @@ import CurrentCalendar from './CurrentCalendar/CurrentCalendar';
 import InactiveCalendar from './InactiveCalendar/InactiveCalendar';
 import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar, inProgressCalendars }) => {
+const Toolbar = ({ activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
-    // const inProgressCalendars = useSelector(selectInProgressCalendars);
+    const inProgressCalendars = useSelector(selectInProgressCalendars);
     const inactiveCalendars = useSelector(selectInactiveCalendars);
 
     const [newCalOpen, setNewCalOpen] = useState(false);
@@ -95,7 +95,6 @@ const Toolbar = ({ activeIndex, isDirty, navStatus, setActiveIndex, setEditMode,
                                 isDirty={isDirty}
                                 setIsModalOpen={setIsModalOpen}
                                 setModalType={setModalType}
-                                inProgressCalendars={inProgressCalendars}
                             />
                         ) : null}
                         {inactiveCalendars.length > 0 ? (
