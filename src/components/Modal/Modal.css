@@ -58,10 +58,10 @@
 .change-buttons {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 80%;
 }
 
 .modal-cancel-button {
     font-size: 1.25rem !important;
-    width: 100% !important;
+    width: 10rem !important;
 }
