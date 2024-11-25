@@ -348,14 +348,18 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
           validateDates={validateDates}
         />
       </div>
-        <Modal 
-          isOpen={isModalOpen}
-          onClose={rejectChanges}
-          onConfirm={acceptChanges}
-          modalType={modalType}
-          setModalType={setModalType}
-          newCalName={newCalName}
-        />
+      {!editMode ? (<div className='dashboard-calendar-support'>
+          <div className='support-container dashboard-tasks'>Current Day Tasks</div>
+          <div className='support-container dashboard-stats'>Calendar Stats</div>
+      </div>) : null}
+      <Modal 
+        isOpen={isModalOpen}
+        onClose={rejectChanges}
+        onConfirm={acceptChanges}
+        modalType={modalType}
+        setModalType={setModalType}
+        newCalName={newCalName}
+      />
     </div>
   );
 }

@@ -26,10 +26,6 @@ const Dashboard = ({ isDirty, setIsDirty, setIsModalOpen, isModalOpen, setModalT
                     setModalType={setModalType}
                     selectedCalendar={selectedCalendar}
                 />
-                {!editMode ? (<div className='dashboard-calendar-support'>
-                    <div className='support-container dashboard-tasks'>Current Day Tasks</div>
-                    <div className='support-container dashboard-stats'>Calendar Stats</div>
-                </div>) : null}
             </div>
         ) : null
     )
