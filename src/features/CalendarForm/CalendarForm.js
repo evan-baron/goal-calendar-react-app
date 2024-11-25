@@ -12,6 +12,7 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
+    const [placeholderText, setPlaceholderText] = useState('Ex: Goal Calendar');
     const [calendarName, setCalendarName] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
@@ -96,7 +97,9 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
                     <input 
                         type="text"
                         value={calendarName}
-                        placeholder={'Goal Calendar'}
+                        placeholder={placeholderText}
+                        onFocus={() => setPlaceholderText('')}
+                        onBlur={() => setPlaceholderText('Ex: Goal Calendar')}
                         // placeholder={dayjs().format('MMMM')+' Calendar'}
                         onChange={(e) => setCalendarName(e.target.value)}
                     />
