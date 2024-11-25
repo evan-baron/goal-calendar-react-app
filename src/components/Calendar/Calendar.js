@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import dayjs from 'dayjs';
 import './Calendar.css'
 import { Edit, West, East } from '@mui/icons-material';
 
 const Calendar = ({ editMode, selectedCalendar }) => {
-
-    const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
-    const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
-    let calendarMonths = []; //the months the calendar spans from start to finish
-    
     const { startDate, endDate } = selectedCalendar;
     const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'            
     const startMonth = dayjs(startDate).month();
@@ -16,19 +11,25 @@ const Calendar = ({ editMode, selectedCalendar }) => {
     const startYear = dayjs(startDate).year();
     const endYear = dayjs(endDate).year();
 
-    
-    //finds the active months during calendar start and end date and pushes to calendarMonths array
-    for (let year = startYear; year <= endYear; year++) {
-        const monthLimit = year === endYear ? endMonth : 11;
-        for (let month = (year === startYear ? startMonth : 0); month <= monthLimit; month++) {
-            const currentMonth = dayjs().month(month).year(year);
-            calendarMonths.push({
-                month: currentMonth.format('MMMM YYYY'),
-                start: currentMonth.startOf('month').startOf('week'),
-                end: currentMonth.endOf('month').endOf('week')
-            });
+    const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
+    const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
+    const calendarMonths = useMemo(() => {
+        const months = [];
+            
+        //below function finds the active months during calendar start and end date and pushes to calendarMonths array
+        for (let year = startYear; year <= endYear; year++) {
+            const monthLimit = year === endYear ? endMonth : 11;
+            for (let month = (year === startYear ? startMonth : 0); month <= monthLimit; month++) {
+                const currentMonth = dayjs().month(month).year(year);
+                months.push({
+                    month: currentMonth.format('MMMM YYYY'),
+                    start: currentMonth.startOf('month').startOf('week'),
+                    end: currentMonth.endOf('month').endOf('week')
+                });
+            }
         }
-    }
+        return months;
+    }, [startDate, endDate]); //the months the calendar spans from start to finish   
 
     useEffect(() => {
         setActiveCalendarIndex(0)
@@ -58,7 +59,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
         } else {
             setCalendarMonthsToRender(calendarMonths);
         }
-    }, [calendarMonths, weekEndDay])
+    }, [calendarMonths])
 
     return (
         calendarMonthsToRender.map((calendar, index) => {
@@ -66,7 +67,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
             if (index !== activeCalendarIndex) return null;
 
             return (
-                <div className='displayed-calendar'>
+                <div className='displayed-calendar' key={calendar+index}>
                     <div className='calendar-table-container'>
                         <div className='calendar-month-title'>
                             {index > 0 ? <West 
@@ -81,7 +82,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
                                         color: 'rgb(25, 25, 75)',
                                     }} 
                                 /> : null}
-                            <div className='calendar-month' key={index}>{calendar.month}</div>
+                            <div className='calendar-month'>{calendar.month}</div>
                             {index < calendarMonthsToRender.length - 1 ? <East 
                                 className='right-arrow' 
                                 onClick={() => {

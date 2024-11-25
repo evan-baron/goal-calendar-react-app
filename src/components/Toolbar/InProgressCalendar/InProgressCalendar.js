@@ -28,6 +28,7 @@ const InProgressCalendar = ({ inProgressCalendars, isDirty, setIsModalOpen, setM
                     <div className={activeIndex === index ? 'in-prog-calendar active-calendar' : 'in-prog-calendar'} key={index}>
                         <div 
                             className='in-prog-calendar-title' 
+                            id={calendar.calendarId}
                             onClick={() => {
                                 if (isDirty) {
                                     setModalType('change-calendars')
