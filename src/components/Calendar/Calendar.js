@@ -39,7 +39,10 @@ const Calendar = ({ editMode, selectedCalendar }) => {
             });
         }
     }
-    
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // NEED TO CHECK IF FIRST MONTH NEEDS TO BE RENDERED OR IF CALENDAR SHOULD START FROM SECOND MONTH
+
     let calendarMonthsToRender = [];
     const secondToLastMonthEndDay = calendarMonths[calendarMonths.length-2].end;
     const lastMonthStartDay = weekEndDay.startOf('week');
@@ -54,6 +57,8 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
     const calendarMonthIndexes = calendarMonthsToRender.map((month) => dayjs(month.month, 'MMMM YYYY').month());
     console.log(calendarMonthIndexes);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         calendarMonthsToRender.map((calendar, index) => {
