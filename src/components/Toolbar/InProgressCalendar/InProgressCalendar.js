@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux';
-import { selectInProgressCalendars } from '../../../features/CalendarForm/calendarSlice'
+import React from 'react'
 import './InProgressCalendar.css'
 import { KeyboardArrowRight, KeyboardArrowDown } from '@mui/icons-material';
 
