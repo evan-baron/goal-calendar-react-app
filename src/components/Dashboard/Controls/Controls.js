@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Controls.css'
-import { Edit, RestartAlt, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
+import { Edit, Delete, Preview, Save, RocketLaunch } from '@mui/icons-material';
 
 const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCalName, setEditMode, setEditName, setNavStatus, selectedCalendar, validateDates }) => {
     const [previewMode, setPreviewMode] = useState(false);
@@ -55,7 +55,9 @@ const Controls = ({ isDirty, setIsModalOpen, setModalType, setNewCalName, newCal
             </div>
             <div 
                 className='controls-option'
-                onClick={() => console.log(selectedCalendar)}
+                onClick={() => {
+                    console.log(selectedCalendar);
+                }}
             >
                 <RocketLaunch fontSize='large'/>
                 <div>Launch</div>
