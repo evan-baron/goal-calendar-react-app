@@ -1,23 +1,25 @@
 import React from 'react'
-import './InactiveCalendar.css'
+import './ActiveCalendar.css'
+import { KeyboardArrowRight, KeyboardArrowDown, Add, Remove } from '@mui/icons-material';
 
-const InactiveCalendar = ({ isDirty, isOpen, hideShow }) => {
+const ActiveCalendar = ({ hideShow, isOpen, activeCalendar }) => {
   return (
     <div className='calendar-menu current-calendar-menu'>
-        <div 
-            className='toolbar-section-title' 
-        >
         {/* <div 
             className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
-            onClick={() => hideShow('inactive')}
+            onClick={() => hideShow('current')}
         > */}
-            Previous Calendars
+        <div 
+            className='toolbar-section-title' 
+            onClick={() => hideShow('current')}
+        >
+            Active Calendar
             {/* {!isOpen 
                         ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
                         : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />} */}
         </div>
-        <div className='previous-calendars'>
-            <div className='previous-calendar-title'>Placeholder</div>
+        <div className='active-calendar'>
+          <div className='active-calendar-title'>Placeholder</div>
         </div>
         {/* {isOpen ? (
             <div>Placeholder</div>
@@ -26,4 +28,4 @@ const InactiveCalendar = ({ isDirty, isOpen, hideShow }) => {
   )
 }
 
-export default InactiveCalendar
+export default ActiveCalendar

@@ -2,7 +2,8 @@
     display: flex;
     align-self: center;
     height: 2px;
-    width: calc(100% - 2rem);
+    width: 100%;
+    /* width: calc(100% - 2rem); */
     margin: .5rem 0;
     background-color: rgba(140, 220, 255, .5);
 }

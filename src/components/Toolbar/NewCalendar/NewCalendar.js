@@ -11,7 +11,7 @@ const NewCalendar = ({ isDirty, hideShow, isOpen, setEditMode, setIsModalOpen, s
     return (
         <div className='calendar-menu'>
             <div 
-                className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
+                className='toolbar-section-title' 
                 onClick={() => {
                     if (isDirty) {
                         setModalType('save-changes')
@@ -23,17 +23,29 @@ const NewCalendar = ({ isDirty, hideShow, isOpen, setEditMode, setIsModalOpen, s
                         hideShow('new')
                     }
                 }}
+                // className={isOpen ? 'toolbar-section-title menu-title selected' : 'toolbar-section-title menu-title'} 
+                // onClick={() => {
+                //     if (isDirty) {
+                //         setModalType('save-changes')
+                //         setIsModalOpen(true)
+                //     } else if (inProgressCalendars.length >= 5) {
+                //         setModalType('too-many-calendars')
+                //         setIsModalOpen(true)
+                //     }  else {
+                //         hideShow('new')
+                //     }
+                // }}
             >
                 New Calendar
-            {!isOpen 
+            {/* {!isOpen 
                         ? <KeyboardArrowRight fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />}
+                        : <KeyboardArrowDown fontSize='large' sx={{cursor: 'pointer'}} />} */}
             </div>
-            <CalendarForm 
+            {/* <CalendarForm 
                 setEditMode={setEditMode}
                 hideShow={hideShow}
                 isOpen={isOpen}
-            />
+            /> */}
         </div>
     )
 }

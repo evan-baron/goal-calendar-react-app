@@ -6,6 +6,7 @@ import { selectInProgressCalendars, createCalendar } from './calendarSlice';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
+import Divider from '../../components/Divider/Divider';
 
 const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
     const dispatch = useDispatch();
@@ -82,16 +83,21 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
     }
     
     return (
-        isOpen ? (
+        // isOpen ? (
+        <div className='calendar-form-container'>
             <form 
                 className='new-calendar-form'
                 onSubmit={handleSubmit}
             >
                 <div className='calendar-name'>
+                    <div className='new-calendar-title'>Create New Calendar</div>
+                    <Divider className='new-cal-divider' />
                     <div className='form-title'>Calendar Name:</div>
                     <input 
                         type="text"
                         value={calendarName}
+                        placeholder={'Goal Calendar'}
+                        // placeholder={dayjs().format('MMMM')+' Calendar'}
                         onChange={(e) => setCalendarName(e.target.value)}
                     />
                 </div>
@@ -159,7 +165,8 @@ const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
                     <button className='create-calendar' onClick={cancelCreate}>Cancel</button>
                 </div>
             </form>
-        ) : null
+        </div>
+        // ) : null
     )
 }
 

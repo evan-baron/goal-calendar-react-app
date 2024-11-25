@@ -1,8 +1,8 @@
-.previous-calendars {
+.upcoming-calendars {
     padding: 0 1rem;
 }
 
-.previous-calendar-title {
+.upcoming-calendar-title {
     display: flex;
     align-items: center;
     width: 100%;
