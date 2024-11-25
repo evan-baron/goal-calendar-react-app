@@ -1,12 +1,15 @@
 .modal-overlay {
     z-index: 10000;
     position: absolute;
-    height: 100dvh;
+    /* height: calc(100% + 16.5rem); */
     width: 100dvw;
+    top: -4rem;
+    bottom: -12.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(255, 255, 255, .5);
+    border: 1px solid red;
 }
 
 .modal-content {
@@ -17,7 +20,7 @@
     align-items: center;
     gap: 1rem;
     width: 30rem;
-    transform: translateY(-7rem);
+    transform: translateY(-50%);
     font-size: 1.5rem;
     background: white;
     padding: 2rem;

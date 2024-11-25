@@ -7,11 +7,14 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import Divider from '../../components/Divider/Divider';
+import Modal from '../../components/Modal/Modal';
 
 const CalendarForm = ({ hideShow, setEditMode }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+    const [formModalType, setFormModalType] = useState(null);
     const [placeholderText, setPlaceholderText] = useState('Ex: Goal Calendar');
     const [calendarName, setCalendarName] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
@@ -31,45 +34,83 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
         hideShow('new');
     }
 
+    const validateDates = (start, end) => {
+        const durationInDays = end.diff(start, 'day');
+    
+        if (end.isBefore(start) || end.isSame(start)) {
+            setFormModalType('date-error-end-before')
+            setIsFormModalOpen(true);
+            return true;
+          } else
+      
+          if (durationInDays < 14) {
+            setFormModalType('too-short')
+            setIsFormModalOpen(true);
+            return true;
+          } else
+      
+          if (durationInDays > 84) {
+            setFormModalType('too-long')
+            setIsFormModalOpen(true);
+            return true;
+          } else
+      
+          if (start.isBefore(dayjs(), 'day')) {
+            setFormModalType('in-the-past')
+            setIsFormModalOpen(true);
+            return true;
+          } else
+
+        return false;
+    }
+    
+
+    const formModalConfirm = () => {
+        switch (formModalType) {
+            case 'date-error-end-before':
+            case 'too-short':
+            case 'too-long':
+            case 'in-the-past':
+                setFormModalType(null);
+                setIsFormModalOpen(false);
+                break;
+            default:
+                setFormModalType(null);
+                setIsFormModalOpen(false);
+                break;
+        }
+    }
+
+    const formModalReject = () => {
+        switch (formModalType) {
+            case 'date-error-end-before':
+            case 'too-short':
+            case 'too-long':
+            case 'in-the-past':
+                setFormModalType(null);
+                setIsFormModalOpen(false);
+                break;
+            default:
+                setFormModalType(null);
+                setIsFormModalOpen(false);
+                break;
+        }
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         const start = dayjs(startDate);
         const end = dayjs(endDate);
 
+        if (validateDates(start, end)) {
+            return;
+        } 
+            
         const createdCalendar = {
             calendarId: uuidv4(),
             calendarName: calendarName === '' ? `${dayjs().format('MMMM')} Calendar` : calendarName,
             startDate: start.toISOString(),
             endDate: end.toISOString(),
-        }
-
-        if (startDate && endDate) {
-    
-            // Check if endDate is before or equal to startDate
-            if (end.isBefore(start) || end.isSame(start)) {
-                alert('Your end date must be after your start date!');
-                return;
-            }
-    
-            // Check if the span is less than 14 days
-            const dateDifference = end.diff(start, 'day'); // difference in days
-            if (dateDifference < 14) {
-                alert('The date span must be at least 14 days!');
-                return;
-            }
-
-            if (dateDifference > 84) {
-                alert('The date span must be no more than 12 weeks!')
-                setEndDate(dayjs().add(12, 'week'));
-                return;
-            }
-        }
-
-        // SET THE BELOW BACK TO 1 IF ONLY ALLOWED TO CREATE ONE CALENDAR
-
-        if (inProgressCalendars.length >= 5) {
-            alert('You are already working on a calendar. You should finish it!');
-            return;
         }
 
         dispatch(createCalendar(createdCalendar));
@@ -80,6 +121,18 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
         hideShow('new');
         setEditMode(true);
         hideShow('inProgress');
+        
+
+
+
+
+        // SET THE BELOW BACK TO 1 IF ONLY ALLOWED TO CREATE ONE CALENDAR
+
+        if (inProgressCalendars.length >= 5) {
+            alert('You are already working on a calendar. You should finish it!');
+            return;
+        }
+
         // this is where the active new calendar logic needs to be
     }
     
@@ -168,6 +221,12 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
                     <button className='create-calendar' onClick={cancelCreate}>Cancel</button>
                 </div>
             </form>
+            <Modal 
+                modalType={formModalType}
+                isOpen={isFormModalOpen}
+                onConfirm={formModalConfirm}
+                onClose={formModalReject}
+            />
         </div>
         // ) : null
     )

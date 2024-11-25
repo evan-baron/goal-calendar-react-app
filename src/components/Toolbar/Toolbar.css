@@ -1,5 +1,11 @@
+.toolbar-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
 .nav-container {
-    z-index: 1000;
+    z-index: 100;
     position: absolute;
     display: flex;
     width: 20rem;
@@ -27,7 +33,7 @@
 }
 
 .nav-hide {
-    transform: translateX(-18.5rem);
+    transform: translateX(calc(-18.5rem - 2px));
     transition: transform .5s ease;
 }
 

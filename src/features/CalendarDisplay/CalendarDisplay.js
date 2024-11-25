@@ -188,172 +188,174 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
 
 
   return (
-    <div className='calendar-container'>
-      <div className={editMode && !editName ? 'calendar-title edit-mode' : 'calendar-title'}>
-        {editName 
-          ? (
-            <>
-              <input
-                className='edit-name-input'
-                value={newCalName}
-                onChange={(e) => {
-                  setIsDirty(true);
-                  setNewCalName(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
+    <div className='calendar-main'>
+      <div className='calendar-container'>
+        <div className={editMode && !editName ? 'calendar-title edit-mode' : 'calendar-title'}>
+          {editName 
+            ? (
+              <>
+                <input
+                  className='edit-name-input'
+                  value={newCalName}
+                  onChange={(e) => {
+                    setIsDirty(true);
+                    setNewCalName(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (newCalName !== originalCalName) {
+                        setIsModalOpen(true)
+                        setModalType('change-name')
+                      }
+                    }
+                  }}
+                /> 
+                <Check 
+                  className='check-icon' 
+                  onClick={() => {
                     if (newCalName !== originalCalName) {
                       setIsModalOpen(true)
                       setModalType('change-name')
                     }
-                  }
-                }}
-              /> 
-              <Check 
-                className='check-icon' 
-                onClick={() => {
-                  if (newCalName !== originalCalName) {
-                    setIsModalOpen(true)
-                    setModalType('change-name')
-                  }
-                }}
-                sx={{ fontSize: 50 }} 
-              />
-              <DoNotDisturb 
-                className='cancel-icon'
-                onClick={() => {
-                  setEditName(false);
-                  setNewCalName(originalCalName);
-                }} 
-                sx={{ fontSize: 40 }} 
-              />
-            </>
-          )
-          : <div className='calendar-name' onClick={editMode ? toggleEdit : null}>{newCalName}</div>
-        }
-        {editMode && !editName
-          ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> 
-          : null
-        }
-      </div>
-      {editMode ? (
-        <div className='edit-dates'>
-          <div className='calendar-select'>
-            <div className='new-label'>Start Date:</div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker 
-                value={dayjs(startDate)}
-                onChange={changeStartDate}
-                required
-                slotProps={{
-                  textField: {
-                  sx: {
-                    '& .MuiInputBase-root': {
-                      height: '1.75rem',
-                      width: '8rem',
-                      padding: '.25rem',
-                      margin: '0',
-                      background: 'white'
-                    },
-                    '& .MuiInputBase-input': {
+                  }}
+                  sx={{ fontSize: 50 }} 
+                />
+                <DoNotDisturb 
+                  className='cancel-icon'
+                  onClick={() => {
+                    setEditName(false);
+                    setNewCalName(originalCalName);
+                  }} 
+                  sx={{ fontSize: 40 }} 
+                />
+              </>
+            )
+            : <div className='calendar-name' onClick={editMode ? toggleEdit : null}>{newCalName}</div>
+          }
+          {editMode && !editName
+            ? <Edit className='title-pencil' sx={{ fontSize: 40 }}/> 
+            : null
+          }
+        </div>
+        {editMode ? (
+          <div className='edit-dates'>
+            <div className='calendar-select'>
+              <div className='new-label'>Start Date:</div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker 
+                  value={dayjs(startDate)}
+                  onChange={changeStartDate}
+                  required
+                  slotProps={{
+                    textField: {
+                    sx: {
+                      '& .MuiInputBase-root': {
+                        height: '1.75rem',
+                        width: '8rem',
+                        padding: '.25rem',
+                        margin: '0',
+                        background: 'white'
+                      },
+                      '& .MuiInputBase-input': {
+                        color: 'rgb(25, 25, 75)',
+                        padding: '0'
+                      }
+                    }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+              {/* {editStart ? (
+                <div className='date-confirm'>
+                  <Check 
+                    className='date-check'
+                    onClick={() => {
+                      setIsModalOpen(true)
+                      setModalType('change-start')
+                    }}
+                  />
+                  <DoNotDisturb 
+                    className='date-cancel'
+                    onClick={() => {
+                      setNewStart(originalStart);
+                      setEditStart(false);
+                    }}
+                  />
+                </div>
+              ) : null} */}
+            </div>
+            <div className='calendar-select'>
+              <div className='new-label'>End Date:</div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker 
+                  value={dayjs(endDate)}
+                  onChange={changeEndDate}
+                  required
+                  slotProps={{
+                    textField: {
+                    sx: {
+                      '& .MuiInputBase-root': {
+                        height: '1.75rem',
+                        width: '8rem',
+                        padding: '.25rem',
+                        margin: '0',
+                        background: 'white'
+                      },
+                      '& .MuiInputBase-input': {
                       color: 'rgb(25, 25, 75)',
                       padding: '0'
+                      }
                     }
-                  }
-                  }
-                }}
-              />
-            </LocalizationProvider>
-            {/* {editStart ? (
-              <div className='date-confirm'>
-                <Check 
-                  className='date-check'
-                  onClick={() => {
-                    setIsModalOpen(true)
-                    setModalType('change-start')
-                  }}
-                />
-                <DoNotDisturb 
-                  className='date-cancel'
-                  onClick={() => {
-                    setNewStart(originalStart);
-                    setEditStart(false);
-                  }}
-                />
-              </div>
-            ) : null} */}
-          </div>
-          <div className='calendar-select'>
-            <div className='new-label'>End Date:</div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker 
-                value={dayjs(endDate)}
-                onChange={changeEndDate}
-                required
-                slotProps={{
-                  textField: {
-                  sx: {
-                    '& .MuiInputBase-root': {
-                      height: '1.75rem',
-                      width: '8rem',
-                      padding: '.25rem',
-                      margin: '0',
-                      background: 'white'
-                    },
-                    '& .MuiInputBase-input': {
-                    color: 'rgb(25, 25, 75)',
-                    padding: '0'
                     }
-                  }
-                  }
-                }}
-              />
-            </LocalizationProvider>
-            {/* {editEnd ? (
-              <div className='date-confirm'>
-                <Check 
-                  className='date-check'
-                  onClick={() => {
-                    setIsModalOpen(true)
-                    setModalType('change-end')
                   }}
                 />
-                <DoNotDisturb 
-                  className='date-cancel'
-                  onClick={() => {
-                    setEditEnd(false)
-                    setNewEnd(originalEnd)
-                  }}
-                />
-              </div>
-            ) : null} */}
-          </div>
-      </div>) : null}
-      <Calendar 
-        editMode={editMode}
-        selectedCalendar={selectedCalendar}
-      />
-      <Controls 
-        isDirty={isDirty}
-        setNewCalName={setNewCalName}
-        newCalName={newCalName}
-        setEditName={setEditName}
-        setEditMode={setEditMode}
-        setNavStatus={setNavStatus}
-        setIsModalOpen={setIsModalOpen}
-        setModalType={setModalType}
-        selectedCalendar={selectedCalendar}
-        validateDates={validateDates}
-      />
-      <Modal 
-        isOpen={isModalOpen}
-        onClose={rejectChanges}
-        onConfirm={acceptChanges}
-        modalType={modalType}
-        setModalType={setModalType}
-        newCalName={newCalName}
-      />
+              </LocalizationProvider>
+              {/* {editEnd ? (
+                <div className='date-confirm'>
+                  <Check 
+                    className='date-check'
+                    onClick={() => {
+                      setIsModalOpen(true)
+                      setModalType('change-end')
+                    }}
+                  />
+                  <DoNotDisturb 
+                    className='date-cancel'
+                    onClick={() => {
+                      setEditEnd(false)
+                      setNewEnd(originalEnd)
+                    }}
+                  />
+                </div>
+              ) : null} */}
+            </div>
+        </div>) : null}
+        <Calendar 
+          editMode={editMode}
+          selectedCalendar={selectedCalendar}
+        />
+        <Controls 
+          isDirty={isDirty}
+          setNewCalName={setNewCalName}
+          newCalName={newCalName}
+          setEditName={setEditName}
+          setEditMode={setEditMode}
+          setNavStatus={setNavStatus}
+          setIsModalOpen={setIsModalOpen}
+          setModalType={setModalType}
+          selectedCalendar={selectedCalendar}
+          validateDates={validateDates}
+        />
+      </div>
+        <Modal 
+          isOpen={isModalOpen}
+          onClose={rejectChanges}
+          onConfirm={acceptChanges}
+          modalType={modalType}
+          setModalType={setModalType}
+          newCalName={newCalName}
+        />
     </div>
   );
 }

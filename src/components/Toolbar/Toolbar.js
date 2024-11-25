@@ -10,7 +10,7 @@ import UpcomingCalendar from './UpcomingCalendar/UpcomingCalendar';
 import CalendarForm from '../../features/CalendarForm/CalendarForm';
 import { Add, Remove } from '@mui/icons-material';
 
-const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
+const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, isModalOpen, setModalType, modalType, setNavStatus, setSelectedCalendar }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
 
     const [newCalOpen, setNewCalOpen] = useState(false);
@@ -63,94 +63,82 @@ const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActi
     }
 
     return (
-        <div className={`nav-container ${navStatus ? 'nav-show' : 'nav-hide'}`}>
-            <div className='toolbar'>
-                <div className='toolbar-title'>
-                    Dashboard
-                    <Divider />
-                </div>
-                <div className='toolbar-section'>
-                    <div 
-                        className='toolbar-title'
-                        onClick={() => {
-                            if (isDirty) {
-                                setModalType('save-changes')
-                                setIsModalOpen(true)
-                            } else {
-                                setCalendars(prev => !prev)
-                            }
-                        }}
-                    >
-                        Calendars
+        <div className='toolbar-container'>
+            <div className={`nav-container ${navStatus ? 'nav-show' : 'nav-hide'}`}>
+                <div className='toolbar'>
+                    <div className='toolbar-title'>
+                        Dashboard
+                        <Divider />
                     </div>
-                    {!calendars 
-                        ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
-                        : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
-                </div>
-                {calendars ? (
-                    <div className='toolbar-menu'>
-                        {inProgressCalendars.length <= 4 ? <div 
-                            className='new-calendar-button' 
+                    <div className='toolbar-section'>
+                        <div 
+                            className='toolbar-title'
                             onClick={() => {
                                 if (isDirty) {
                                     setModalType('save-changes')
                                     setIsModalOpen(true)
-                                } else if (inProgressCalendars.length >= 5) {
-                                    setModalType('too-many-calendars')
-                                    setIsModalOpen(true)
-                                }  else {
-                                    hideShow('new')
+                                } else {
+                                    setCalendars(prev => !prev)
                                 }
                             }}
-                        >Start New Calendar</div> : null}
-                        <ActiveCalendar 
-                            hideShow={hideShow}
-                            isOpen={curCalOpen}
-                            activeCalendar={activeCalendar}
-                            setSelectedCalendar={setSelectedCalendar}
-                        />
-                        {/* {activeCalendar.length > 0 ? (
-                            <CurrentCalendar 
+                        >
+                            Calendars
+                        </div>
+                        {!calendars 
+                            ? <Add fontSize='large' sx={{cursor: 'pointer'}} /> 
+                            : <Remove fontSize='large' sx={{cursor: 'pointer'}} />}
+                    </div>
+                    {calendars ? (
+                        <div className='toolbar-menu'>
+                            {inProgressCalendars.length <= 4 ? <div 
+                                className='new-calendar-button' 
+                                onClick={() => {
+                                    if (isDirty) {
+                                        setModalType('save-changes')
+                                        setIsModalOpen(true)
+                                    } else if (inProgressCalendars.length >= 5) {
+                                        setModalType('too-many-calendars')
+                                        setIsModalOpen(true)
+                                    }  else {
+                                        hideShow('new')
+                                    }
+                                }}
+                            >Start New Calendar</div> : null}
+                            <ActiveCalendar 
                                 hideShow={hideShow}
                                 isOpen={curCalOpen}
                                 activeCalendar={activeCalendar}
                                 setSelectedCalendar={setSelectedCalendar}
+                            />
+                            {/* {activeCalendar.length > 0 ? (
+                                <CurrentCalendar 
+                                    hideShow={hideShow}
+                                    isOpen={curCalOpen}
+                                    activeCalendar={activeCalendar}
+                                    setSelectedCalendar={setSelectedCalendar}
+                                    />
+                                    ) : null} */}
+                            <UpcomingCalendar 
+                                isDirty={isDirty}
+                                isOpen={upcomingOpen}
+                                hideShow={hideShow}
+                            />
+                            <InactiveCalendar 
+                                hideShow={hideShow}
+                                isOpen={inactiveOpen}
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                                setSelectedCalendar={setSelectedCalendar}
+                            />
+                            {/* {inactiveCalendars.length > 0 ? (
+                                <InactiveCalendar 
+                                hideShow={hideShow}
+                                isOpen={inactiveOpen}
+                                activeIndex={activeIndex}
+                                setActiveIndex={setActiveIndex}
+                                setSelectedCalendar={setSelectedCalendar}
                                 />
                                 ) : null} */}
-                        <UpcomingCalendar 
-                            isDirty={isDirty}
-                            isOpen={upcomingOpen}
-                            hideShow={hideShow}
-                        />
-                        <InactiveCalendar 
-                            hideShow={hideShow}
-                            isOpen={inactiveOpen}
-                            activeIndex={activeIndex}
-                            setActiveIndex={setActiveIndex}
-                            setSelectedCalendar={setSelectedCalendar}
-                        />
-                        {/* {inactiveCalendars.length > 0 ? (
-                            <InactiveCalendar 
-                            hideShow={hideShow}
-                            isOpen={inactiveOpen}
-                            activeIndex={activeIndex}
-                            setActiveIndex={setActiveIndex}
-                            setSelectedCalendar={setSelectedCalendar}
-                            />
-                            ) : null} */}
-                        <InProgressCalendar 
-                            inProgressCalendars={inProgressCalendars}
-                            hideShow={hideShow} 
-                            isOpen={inProgOpen}
-                            setEditMode={setEditMode}
-                            activeIndex={activeIndex}
-                            setActiveIndex={setActiveIndex}
-                            setSelectedCalendar={setSelectedCalendar}
-                            isDirty={isDirty}
-                            setIsModalOpen={setIsModalOpen}
-                            setModalType={setModalType}
-                        />
-                        {/* {inProgressCalendars.length > 0 ? (
                             <InProgressCalendar 
                                 inProgressCalendars={inProgressCalendars}
                                 hideShow={hideShow} 
@@ -163,27 +151,45 @@ const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActi
                                 setIsModalOpen={setIsModalOpen}
                                 setModalType={setModalType}
                             />
-                        ) : null} */}
+                            {/* {inProgressCalendars.length > 0 ? (
+                                <InProgressCalendar 
+                                    inProgressCalendars={inProgressCalendars}
+                                    hideShow={hideShow} 
+                                    isOpen={inProgOpen}
+                                    setEditMode={setEditMode}
+                                    activeIndex={activeIndex}
+                                    setActiveIndex={setActiveIndex}
+                                    setSelectedCalendar={setSelectedCalendar}
+                                    isDirty={isDirty}
+                                    setIsModalOpen={setIsModalOpen}
+                                    setModalType={setModalType}
+                                />
+                            ) : null} */}
+                        </div>
+                    ) : null}
+                    {/* <NewCalendar 
+                        setEditMode={setEditMode}
+                        hideShow={hideShow}
+                        isOpen={newCalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                        setModalType={setModalType}
+                        isDirty={isDirty}
+                    /> */}
+                </div>
+                <div className='nav-hideshow' onClick={() => setNavStatus(status => !status)}>
+                    <div className='nav-hideshow-btn'>
+                        <div className={`nav-arrow ${navStatus ? 'nav-arrow-rotated' : ''}`}></div>
                     </div>
-                ) : null}
-                {/* <NewCalendar 
+                </div>
+                {newCalOpen ? <CalendarForm 
                     setEditMode={setEditMode}
                     hideShow={hideShow}
-                    isOpen={newCalOpen}
                     setIsModalOpen={setIsModalOpen}
+                    isModalOpen={isModalOpen}
                     setModalType={setModalType}
-                    isDirty={isDirty}
-                /> */}
+                    modalType={modalType}
+                /> : null}
             </div>
-            <div className='nav-hideshow' onClick={() => setNavStatus(status => !status)}>
-                <div className='nav-hideshow-btn'>
-                    <div className={`nav-arrow ${navStatus ? 'nav-arrow-rotated' : ''}`}></div>
-                </div>
-            </div>
-            {newCalOpen ? <CalendarForm 
-                setEditMode={setEditMode}
-                hideShow={hideShow}
-            /> : null}
         </div>
     )
 }
