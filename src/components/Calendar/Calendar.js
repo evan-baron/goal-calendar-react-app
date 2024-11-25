@@ -6,26 +6,16 @@ import { Edit, West, East } from '@mui/icons-material';
 const Calendar = ({ editMode, selectedCalendar }) => {
 
     const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
-
-    useEffect(() => {
-        setActiveCalendarIndex(0)
-    }, [selectedCalendar])
-
-    const { startDate, endDate } = selectedCalendar;
-    const weekStartDay = dayjs(startDate).startOf('week'); //returns the first day of the week of 'start date'
-    const calendarStartDay = dayjs(startDate).startOf('month').startOf('week');
-    const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'
-    const calendarEndDay = dayjs(endDate).endOf('month').endOf('week');
-        
-    const totalDays = calendarEndDay.diff(calendarStartDay, 'day') + 1;
-    const calendarRows = Math.ceil(totalDays)/7;
+    const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
+    let calendarMonths = []; //the months the calendar spans from start to finish
     
+    const { startDate, endDate } = selectedCalendar;
+    const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'            
     const startMonth = dayjs(startDate).month();
     const endMonth = dayjs(endDate).month();
     const startYear = dayjs(startDate).year();
     const endYear = dayjs(endDate).year();
 
-    let calendarMonths = []; //the months the calendar spans from start to finish
     
     //finds the active months during calendar start and end date and pushes to calendarMonths array
     for (let year = startYear; year <= endYear; year++) {
@@ -40,25 +30,35 @@ const Calendar = ({ editMode, selectedCalendar }) => {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    // NEED TO CHECK IF FIRST MONTH NEEDS TO BE RENDERED OR IF CALENDAR SHOULD START FROM SECOND MONTH
+    useEffect(() => {
+        setActiveCalendarIndex(0)
+    }, [selectedCalendar])
 
-    let calendarMonthsToRender = [];
-    const secondToLastMonthEndDay = calendarMonths[calendarMonths.length-2].end;
-    const lastMonthStartDay = weekEndDay.startOf('week');
+    useEffect(() => {
+        if (calendarMonths.length > 1) {
+            const firstMonthEndDay = calendarMonths[0].end.startOf('week');
+            const secondMonthStartDay = calendarMonths[1].start;
+            const secondToLastMonthEndDay = calendarMonths[calendarMonths.length-2].end;
+            const lastMonthStartDay = weekEndDay.startOf('week');
+
+            let updatedCalendarMonths = [...calendarMonths];
+            
+            if (firstMonthEndDay.isSame(secondMonthStartDay)) {
+                updatedCalendarMonths = updatedCalendarMonths.slice(1)
+            }
+
+            const lastMonthNeeded = (lastMonthStartDay.isBefore(secondToLastMonthEndDay));
     
-    const lastMonthNeeded = (lastMonthStartDay.isBefore(secondToLastMonthEndDay));
+            if (lastMonthNeeded) {
+                updatedCalendarMonths = updatedCalendarMonths.slice(0, updatedCalendarMonths.length - 1)
+            } 
+            
+            setCalendarMonthsToRender(updatedCalendarMonths);
 
-    if (lastMonthNeeded) {
-        calendarMonthsToRender = calendarMonths.slice(0, calendarMonths.length - 1)
-    } else {
-        calendarMonthsToRender = calendarMonths
-    }
-
-    const calendarMonthIndexes = calendarMonthsToRender.map((month) => dayjs(month.month, 'MMMM YYYY').month());
-    console.log(calendarMonthIndexes);
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+        } else {
+            setCalendarMonthsToRender(calendarMonths);
+        }
+    }, [calendarMonths, weekEndDay])
 
     return (
         calendarMonthsToRender.map((calendar, index) => {
