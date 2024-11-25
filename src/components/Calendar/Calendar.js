@@ -5,7 +5,7 @@ import { Edit, West, East } from '@mui/icons-material';
 
 const Calendar = ({ editMode, selectedCalendar }) => {
     const { startDate, endDate } = selectedCalendar;
-    const weekEndDay = dayjs(endDate).endOf('week'); //returns the last day of the week of 'end date'            
+    const weekEndDay = useMemo(() => dayjs(endDate).endOf('week').startOf('day'), [endDate]); //returns the last day of the week of 'end date'            
     const startMonth = dayjs(startDate).month();
     const endMonth = dayjs(endDate).month();
     const startYear = dayjs(startDate).year();
@@ -33,10 +33,11 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
     useEffect(() => {
         setActiveCalendarIndex(0)
-    }, [selectedCalendar])
+    }, [calendarMonths, selectedCalendar])
 
     useEffect(() => {
         if (calendarMonths.length > 1) {
+            const firstMonthStartDay = calendarMonths[0].start.startOf('week');
             const firstMonthEndDay = calendarMonths[0].end.startOf('week');
             const secondMonthStartDay = calendarMonths[1].start;
             const secondToLastMonthEndDay = calendarMonths[calendarMonths.length-2].end;
@@ -44,11 +45,11 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
             let updatedCalendarMonths = [...calendarMonths];
             
-            if (firstMonthEndDay.isSame(secondMonthStartDay)) {
+            if (firstMonthEndDay.isSame(secondMonthStartDay) && !lastMonthStartDay.startOf('week').isSame(firstMonthStartDay)) {
                 updatedCalendarMonths = updatedCalendarMonths.slice(1)
             }
 
-            const lastMonthNeeded = (lastMonthStartDay.isBefore(secondToLastMonthEndDay));
+            const lastMonthNeeded = (lastMonthStartDay.isBefore(secondToLastMonthEndDay)); //checking if the last month's start day is before the second to last month's end day
     
             if (lastMonthNeeded) {
                 updatedCalendarMonths = updatedCalendarMonths.slice(0, updatedCalendarMonths.length - 1)
@@ -59,7 +60,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
         } else {
             setCalendarMonthsToRender(calendarMonths);
         }
-    }, [calendarMonths])
+    }, [calendarMonths, weekEndDay])
 
     return (
         calendarMonthsToRender.map((calendar, index) => {

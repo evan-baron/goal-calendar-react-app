@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import Divider from '../../components/Divider/Divider';
 
-const CalendarForm = ({ hideShow, isOpen, setEditMode }) => {
+const CalendarForm = ({ hideShow, setEditMode }) => {
     const dispatch = useDispatch();
     const inProgressCalendars = useSelector(selectInProgressCalendars);
 

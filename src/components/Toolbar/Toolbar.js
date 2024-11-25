@@ -3,7 +3,6 @@ import './Toolbar.css'
 import { useSelector } from 'react-redux';
 import { selectActiveCalendars, selectInactiveCalendars } from '../../features/CalendarForm/calendarSlice';
 import Divider from '../Divider/Divider'
-import NewCalendar from './NewCalendar/NewCalendar';
 import InProgressCalendar from './InProgressCalendar/InProgressCalendar';
 import ActiveCalendar from './ActiveCalendar/ActiveCalendar';
 import InactiveCalendar from './InactiveCalendar/InactiveCalendar';
@@ -13,7 +12,6 @@ import { Add, Remove } from '@mui/icons-material';
 
 const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActiveIndex, setEditMode, setIsModalOpen, setModalType, setNavStatus, setSelectedCalendar }) => {
     const activeCalendar = useSelector(selectActiveCalendars);
-    const inactiveCalendars = useSelector(selectInactiveCalendars);
 
     const [newCalOpen, setNewCalOpen] = useState(false);
     const [inProgOpen, setInProgOpen] = useState(false);
@@ -185,7 +183,6 @@ const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActi
             {newCalOpen ? <CalendarForm 
                 setEditMode={setEditMode}
                 hideShow={hideShow}
-                isOpen={newCalOpen}
             /> : null}
         </div>
     )
