@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import './DashboardPage.css'
-import { useSelector } from 'react-redux';
-import { selectInProgressCalendars, selectCalendarById } from '../../features/CalendarForm/calendarSlice';
-import Toolbar from '../../components/Toolbar/Toolbar';
-import Dashboard from '../../components/Dashboard/Dashboard';
+import React, { useState, useEffect } from "react";
+import "./DashboardPage.css";
+import { useSelector } from "react-redux";
+import {
+  selectInProgressCalendars,
+  selectCalendarById,
+} from "../../features/CalendarForm/calendarSlice";
+import Toolbar from "../../components/Toolbar/Toolbar";
+import Dashboard from "../../components/Dashboard/Dashboard";
 
 const DashboardPage = () => {
   const [selectedCalendar, setSelectedCalendar] = useState(null);
@@ -14,36 +17,36 @@ const DashboardPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
 
-const inProgressCalendars = useSelector(selectInProgressCalendars)
-    
-const [prevLength, setPrevLength] = useState(0);
+  const inProgressCalendars = useSelector(selectInProgressCalendars);
 
-useEffect(() => {
-  const calendarsLength = inProgressCalendars.length;
-  if (calendarsLength > prevLength) {
+  const [prevLength, setPrevLength] = useState(0);
+
+  useEffect(() => {
+    const calendarsLength = inProgressCalendars.length;
+    if (calendarsLength > prevLength) {
       const newIndex = calendarsLength - 1;
       setActiveIndex(newIndex);
       setSelectedCalendar(inProgressCalendars[newIndex]);
-  } else if (calendarsLength < prevLength) {
+    } else if (calendarsLength < prevLength) {
       setActiveIndex(null);
       setSelectedCalendar(null);
-  }
-  setPrevLength(calendarsLength);
-}, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
+    }
+    setPrevLength(calendarsLength);
+  }, [inProgressCalendars, prevLength, setActiveIndex, setSelectedCalendar]);
 
   const calendarId = selectedCalendar?.calendarId;
-  const newCalendar = useSelector(selectCalendarById(calendarId))
-  
+  const newCalendar = useSelector(selectCalendarById(calendarId));
+
   useEffect(() => {
     if (newCalendar) {
       setSelectedCalendar(newCalendar);
     }
-  }, [newCalendar])
+  }, [newCalendar]);
 
   return (
-    <main className='dashboard-main'>
-      <div className='dashboard-page-container'>
-        <Toolbar 
+    <main className="dashboard-main">
+      <div className="dashboard-page-container">
+        <Toolbar
           activeIndex={activeIndex}
           isDirty={isDirty}
           navStatus={navStatus}
@@ -57,14 +60,14 @@ useEffect(() => {
           setSelectedCalendar={setSelectedCalendar}
           inProgressCalendars={inProgressCalendars}
         />
-        <Dashboard 
+        <Dashboard
           isDirty={isDirty}
           setIsDirty={setIsDirty}
           editMode={editMode}
           setEditMode={setEditMode}
           selectedCalendar={selectedCalendar}
           setSelectedCalendar={setSelectedCalendar}
-          activeIndex={activeIndex} 
+          activeIndex={activeIndex}
           setNavStatus={setNavStatus}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
@@ -73,7 +76,7 @@ useEffect(() => {
         />
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
