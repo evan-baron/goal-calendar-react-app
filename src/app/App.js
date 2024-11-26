@@ -16,7 +16,6 @@ import PrivacyPage from '../pages/PrivacyPolicy/PrivacyPage'
 import DashboardPage from '../pages/Dashboard/DashboardPage'
 import Footer from '../layout/Footer/Footer'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
-import ModalScreen from '../components/Modal/ModalScreen'
 
 const App = () => {
   return (

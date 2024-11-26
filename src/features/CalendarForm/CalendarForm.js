@@ -20,13 +20,6 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
 
-    // Check if startDate is before today
-    if (dayjs(startDate).isBefore(dayjs(), 'day')) {
-        alert('You cannot create a calendar beginning before today!');
-        setStartDate(dayjs());
-        return;
-    }
-
     const cancelCreate = () => {
         setCalendarName('');
         setStartDate(dayjs());
@@ -37,29 +30,29 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
     const validateDates = (start, end) => {
         const durationInDays = end.diff(start, 'day');
     
+        if (start.isBefore(dayjs(), 'day')) {
+          setFormModalType('in-the-past')
+          setIsFormModalOpen(true);
+          return true;
+        } else
+
         if (end.isBefore(start) || end.isSame(start)) {
             setFormModalType('date-error-end-before')
             setIsFormModalOpen(true);
             return true;
           } else
       
-          if (durationInDays < 14) {
-            setFormModalType('too-short')
-            setIsFormModalOpen(true);
-            return true;
-          } else
-      
-          if (durationInDays > 84) {
-            setFormModalType('too-long')
-            setIsFormModalOpen(true);
-            return true;
-          } else
-      
-          if (start.isBefore(dayjs(), 'day')) {
-            setFormModalType('in-the-past')
-            setIsFormModalOpen(true);
-            return true;
-          } else
+        if (durationInDays < 14) {
+        setFormModalType('too-short')
+        setIsFormModalOpen(true);
+        return true;
+        } else
+    
+        if (durationInDays > 84) {
+        setFormModalType('too-long')
+        setIsFormModalOpen(true);
+        return true;
+        } else
 
         return false;
     }

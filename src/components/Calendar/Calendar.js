@@ -15,7 +15,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
     const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
     const calendarMonths = useMemo(() => {
         const months = [];
-            
+
         //below function finds the active months during calendar start and end date and pushes to calendarMonths array
         for (let year = startYear; year <= endYear; year++) {
             const monthLimit = year === endYear ? endMonth : 11;
@@ -40,21 +40,21 @@ const Calendar = ({ editMode, selectedCalendar }) => {
             const firstMonthStartDay = calendarMonths[0].start.startOf('week');
             const firstMonthEndDay = calendarMonths[0].end.startOf('week');
             const secondMonthStartDay = calendarMonths[1].start;
-            const secondToLastMonthEndDay = calendarMonths[calendarMonths.length-2].end;
+            const secondToLastMonthEndDay = calendarMonths[calendarMonths.length - 2].end;
             const lastMonthStartDay = weekEndDay.startOf('week');
 
             let updatedCalendarMonths = [...calendarMonths];
-            
+
             if (firstMonthEndDay.isSame(secondMonthStartDay) && dayjs(startDate).startOf('week').isSame(secondMonthStartDay) && !lastMonthStartDay.startOf('week').isSame(firstMonthStartDay)) {
                 updatedCalendarMonths = updatedCalendarMonths.slice(1)
             }
 
             const lastMonthNeeded = (lastMonthStartDay.isBefore(secondToLastMonthEndDay)); //checking if the last month's start day is before the second to last month's end day
-    
+
             if (lastMonthNeeded) {
                 updatedCalendarMonths = updatedCalendarMonths.slice(0, updatedCalendarMonths.length - 1)
-            } 
-            
+            }
+
             setCalendarMonthsToRender(updatedCalendarMonths);
 
         } else {
@@ -68,33 +68,33 @@ const Calendar = ({ editMode, selectedCalendar }) => {
             if (index !== activeCalendarIndex) return null;
 
             return (
-                <div className='displayed-calendar' key={calendar+index}>
+                <div className='displayed-calendar' key={calendar + index}>
                     <div className='calendar-table-container'>
                         <div className='calendar-month-title'>
-                            {index > 0 ? <West 
-                                    className='left-arrow'
-                                    onClick={() => {
-                                        if (index > 0) {
-                                            setActiveCalendarIndex(prev => prev - 1)
-                                        }
-                                    }}
-                                    sx={{
-                                        fontSize: 40,
-                                        color: 'rgb(25, 25, 75)',
-                                    }} 
-                                /> : null}
-                            <div className='calendar-month'>{calendar.month}</div>
-                            {index < calendarMonthsToRender.length - 1 ? <East 
-                                className='right-arrow' 
+                            {index > 0 ? <West
+                                className='left-arrow'
                                 onClick={() => {
-                                    if (index < calendarMonthsToRender.length -1) {
+                                    if (index > 0) {
+                                        setActiveCalendarIndex(prev => prev - 1)
+                                    }
+                                }}
+                                sx={{
+                                    fontSize: 40,
+                                    color: 'rgb(25, 25, 75)',
+                                }}
+                            /> : null}
+                            <div className='calendar-month'>{calendar.month}</div>
+                            {index < calendarMonthsToRender.length - 1 ? <East
+                                className='right-arrow'
+                                onClick={() => {
+                                    if (index < calendarMonthsToRender.length - 1) {
                                         setActiveCalendarIndex(prev => prev + 1)
                                     }
                                 }}
                                 sx={{
                                     fontSize: 40,
                                     color: 'rgb(25, 25, 75)',
-                                }} 
+                                }}
                             /> : null}
                         </div>
                         <div className='calendar-table'>
@@ -109,13 +109,12 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
                                 return (
                                     <div
-                                        className={`calendar-day ${
-                                            isOutsideRange
+                                        className={`calendar-day ${isOutsideRange
                                                 ? 'outside-range'
                                                 : editMode
-                                                ? 'inside-range edit-mode'
-                                                : 'inside-range'
-                                        }`}
+                                                    ? 'inside-range edit-mode'
+                                                    : 'inside-range'
+                                            }`}
                                         key={dayIndex}
                                     >
                                         <div className="day-title">
@@ -137,7 +136,6 @@ const Calendar = ({ editMode, selectedCalendar }) => {
                                     </div>
                                 )
                             })
-
                             }
                         </div>
                     </div>

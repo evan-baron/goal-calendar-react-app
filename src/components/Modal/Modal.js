@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose, onConfirm, modalType, newCalName, setModalType
             message = "Your calendar may not be shorter than 2 weeks!"
             break;
         case 'in-the-past':
-            message = "Your calendar must start either today or after!"
+            message = "You cannot start your calendar in the past."
             break;
         case 'too-long':
             message = "Your calendar may not exceed 12 weeks long!"

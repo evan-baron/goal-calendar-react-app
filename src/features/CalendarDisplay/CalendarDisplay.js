@@ -62,47 +62,55 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
     const end = newEnd
     const durationInDays = end.diff(start, 'day');
 
+    if (start.isBefore(dayjs(), 'day')) {
+      setModalType('in-the-past')
+      setIsModalOpen(true);
+      return true;
+    } else
+
     if (end.isBefore(start) || end.isSame(start)) {
       setModalType('date-error-end-before')
       setIsModalOpen(true);
+      return true;
     } else
 
     if (durationInDays < 14) {
       setModalType('too-short')
       setIsModalOpen(true);
+      return true;
     } else
 
     if (durationInDays > 84) {
       setModalType('too-long')
       setIsModalOpen(true);
-    } else
-
-    if (start.isBefore(dayjs(), 'day')) {
-      setModalType('in-the-past')
-      setIsModalOpen(true);
+      return true;
     } else
 
     setModalType('save-changes')
     setIsModalOpen(true);
-    return;
+    return false;
   }
 
   const saveChanges = () => {
     const start = newStart
     const end = newEnd
 
-    const editedCalendar = {
-      calendarId: calendarId,
-      calendarName: newCalName,
-      startDate: start.toISOString(),
-      endDate: end.toISOString()
+    if (!validateDates()) {
+
+      const editedCalendar = {
+        calendarId: calendarId,
+        calendarName: newCalName,
+        startDate: start.toISOString(),
+        endDate: end.toISOString()
+      }
+
+      dispatch(updateCalendar(editedCalendar));
+
+      setIsModalOpen(false);
+      setIsDirty(false);
+      setModalType(null);
     }
-
-    dispatch(updateCalendar(editedCalendar));
-
-    setIsModalOpen(false);
-    setIsDirty(false);
-    setModalType(null);
+    return;
   }
   
   const acceptChanges = () => {

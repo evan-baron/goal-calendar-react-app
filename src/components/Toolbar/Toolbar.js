@@ -181,14 +181,10 @@ const Toolbar = ({ inProgressCalendars, activeIndex, isDirty, navStatus, setActi
                         <div className={`nav-arrow ${navStatus ? 'nav-arrow-rotated' : ''}`}></div>
                     </div>
                 </div>
-                {newCalOpen ? <CalendarForm 
+                {newCalOpen && <CalendarForm 
                     setEditMode={setEditMode}
                     hideShow={hideShow}
-                    setIsModalOpen={setIsModalOpen}
-                    isModalOpen={isModalOpen}
-                    setModalType={setModalType}
-                    modalType={modalType}
-                /> : null}
+                />}
             </div>
         </div>
     )
