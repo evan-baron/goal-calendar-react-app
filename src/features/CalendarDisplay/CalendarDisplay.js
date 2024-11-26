@@ -186,7 +186,6 @@ const CalendarDisplay = ({ isDirty, setIsDirty, isModalOpen, setIsModalOpen, mod
     }
   }
 
-
   return (
     <div className='calendar-main'>
       <div className='calendar-container'>

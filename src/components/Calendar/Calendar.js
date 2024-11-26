@@ -45,7 +45,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
             let updatedCalendarMonths = [...calendarMonths];
             
-            if (firstMonthEndDay.isSame(secondMonthStartDay) && !lastMonthStartDay.startOf('week').isSame(firstMonthStartDay)) {
+            if (firstMonthEndDay.isSame(secondMonthStartDay) && dayjs(startDate).startOf('week').isSame(secondMonthStartDay) && !lastMonthStartDay.startOf('week').isSame(firstMonthStartDay)) {
                 updatedCalendarMonths = updatedCalendarMonths.slice(1)
             }
 
