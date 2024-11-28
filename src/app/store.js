@@ -5,6 +5,6 @@ import newCalendarReducer from '../features/CalendarForm/calendarSlice';
 export default configureStore({
     reducer: {
         login: loginReducer,
-        calendars: newCalendarReducer
+        calendars: newCalendarReducer,
     },
-})
+});

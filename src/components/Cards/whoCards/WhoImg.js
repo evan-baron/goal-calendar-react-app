@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
 const WhoImg = (props) => {
-  return (
-    <div 
-        className='who-img-container'
-        style={{ backgroundImage: `url(${props.src})` }}
-    ></div>
-  )
-}
+	return (
+		<div
+			className='who-img-container'
+			style={{ backgroundImage: `url(${props.src})` }}
+		></div>
+	);
+};
 
-export default WhoImg
+export default WhoImg;

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const AccountPage = () => {
-  return (
-    <main>
-      <div>AccountPage</div>
-    </main>
-  )
-}
+	return (
+		<main>
+			<div>AccountPage</div>
+		</main>
+	);
+};
 
-export default AccountPage
+export default AccountPage;

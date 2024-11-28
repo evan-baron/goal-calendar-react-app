@@ -1,10 +1,8 @@
-import React from 'react'
-import './Modal.css'
+import React from 'react';
+import './Modal.css';
 
 const ModalScreen = () => {
-  return (
-    <div className='modal-screen'></div>
-  )
-}
+	return <div className='modal-screen'></div>;
+};
 
-export default ModalScreen
+export default ModalScreen;
