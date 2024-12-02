@@ -19,6 +19,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 	const [calendarName, setCalendarName] = useState('');
 	const [startDate, setStartDate] = useState(dayjs());
 	const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
+	const [toggleWeekends, setToggleWeekends] = useState(false);
 
 	const cancelCreate = () => {
 		setCalendarName('');
@@ -26,6 +27,10 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		setEndDate(dayjs().add(4, 'week'));
 		hideShow('new');
 	};
+
+	const handleRadioChange = (e) => {
+		setToggleWeekends(e.target.value === "true")
+	}
 
 	const validateDates = (start, end) => {
 		const durationInDays = end.diff(start, 'day');
@@ -98,6 +103,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 					: calendarName,
 			startDate: start.toISOString(),
 			endDate: end.toISOString(),
+			weekends: toggleWeekends,
 		};
 
 		dispatch(createCalendar(createdCalendar));
@@ -199,6 +205,29 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 							/>
 						</LocalizationProvider>
 					</div>
+				</div>
+				<div classname='weekend-prompt-container'>
+					<legend>Include Weekends?</legend>
+					<label>
+						Yes
+						<input 
+							type='radio' 
+							name='weekends'
+							value='true'
+							checked={toggleWeekends === true}
+							onChange={handleRadioChange}
+						/>
+					</label>
+					<label>
+						No
+						<input 
+							type='radio' 
+							name='weekends'
+							value='false'
+							checked={toggleWeekends === false}
+							onChange={handleRadioChange}
+						/>
+					</label>
 				</div>
 				<div className='new-cal-button-container'>
 					<button className='create-calendar' type='submit'>

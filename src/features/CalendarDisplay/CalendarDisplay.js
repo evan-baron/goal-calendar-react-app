@@ -282,24 +282,24 @@ const CalendarDisplay = ({
 									}}
 								/>
 							</LocalizationProvider>
-							{/* {editStart ? (
-                <div className='date-confirm'>
-                  <Check 
-                    className='date-check'
-                    onClick={() => {
-                      setIsModalOpen(true)
-                      setModalType('change-start')
-                    }}
-                  />
-                  <DoNotDisturb 
-                    className='date-cancel'
-                    onClick={() => {
-                      setNewStart(originalStart);
-                      setEditStart(false);
-                    }}
-                  />
-                </div>
-              ) : null} */}
+							{editStart ? (
+								<div className='date-confirm'>
+									<Check
+										className='date-check'
+										onClick={() => {
+											setIsModalOpen(true);
+											setModalType('change-start');
+										}}
+									/>
+									<DoNotDisturb
+										className='date-cancel'
+										onClick={() => {
+											setNewStart(originalStart);
+											setEditStart(false);
+										}}
+									/>
+								</div>
+							) : null}
 						</div>
 						<div className='calendar-select'>
 							<div className='new-label'>End Date:</div>
@@ -327,30 +327,32 @@ const CalendarDisplay = ({
 									}}
 								/>
 							</LocalizationProvider>
-							{/* {editEnd ? (
-                <div className='date-confirm'>
-                  <Check 
-                    className='date-check'
-                    onClick={() => {
-                      setIsModalOpen(true)
-                      setModalType('change-end')
-                    }}
-                  />
-                  <DoNotDisturb 
-                    className='date-cancel'
-                    onClick={() => {
-                      setEditEnd(false)
-                      setNewEnd(originalEnd)
-                    }}
-                  />
-                </div>
-              ) : null} */}
+							{editEnd ? (
+								<div className='date-confirm'>
+									<Check
+										className='date-check'
+										onClick={() => {
+											setIsModalOpen(true);
+											setModalType('change-end');
+										}}
+									/>
+									<DoNotDisturb
+										className='date-cancel'
+										onClick={() => {
+											setEditEnd(false);
+											setNewEnd(originalEnd);
+										}}
+									/>
+								</div>
+							) : null}
 						</div>
 					</div>
 				) : null}
 				<Calendar
 					editMode={editMode}
 					selectedCalendar={selectedCalendar}
+					newStart={newStart}
+					newEnd={newEnd}
 				/>
 				<Controls
 					isDirty={isDirty}

@@ -3,16 +3,16 @@ import dayjs from 'dayjs';
 import './Calendar.css';
 import { Edit, West, East } from '@mui/icons-material';
 
-const Calendar = ({ editMode, selectedCalendar }) => {
-	const { startDate, endDate } = selectedCalendar;
+const Calendar = ({ editMode, selectedCalendar, newStart, newEnd }) => {
+	const { startDate, endDate, weekends } = selectedCalendar;
 	const weekEndDay = useMemo(
-		() => dayjs(endDate).endOf('week').startOf('day'),
-		[endDate]
-	); //returns the last day of the week of 'end date'
-	const startMonth = dayjs(startDate).month();
-	const endMonth = dayjs(endDate).month();
-	const startYear = dayjs(startDate).year();
-	const endYear = dayjs(endDate).year();
+		() => dayjs(newEnd).endOf('week').startOf('day'),
+		[newEnd]
+	); //returns the last day of the week of 'end date'w
+	const startMonth = dayjs(newStart).month();
+	const endMonth = dayjs(newEnd).month();
+	const startYear = dayjs(newStart).year();
+	const endYear = dayjs(newEnd).year();
 
 	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
 	const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
@@ -36,7 +36,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 			}
 		}
 		return months;
-	}, [startDate, endDate]); //the months the calendar spans from start to finish
+	}, [newStart, newEnd]); //the months the calendar spans from start to finish
 
 	useEffect(() => {
 		setActiveCalendarIndex(0);
@@ -55,7 +55,7 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 
 			if (
 				firstMonthEndDay.isSame(secondMonthStartDay) &&
-				dayjs(startDate).startOf('week').isSame(secondMonthStartDay) &&
+				dayjs(newStart).startOf('week').isSame(secondMonthStartDay) &&
 				!lastMonthStartDay.startOf('week').isSame(firstMonthStartDay)
 			) {
 				updatedCalendarMonths = updatedCalendarMonths.slice(1);
@@ -122,7 +122,12 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 							/>
 						) : null}
 					</div>
-					<div className='calendar-table'>
+					<div 
+						className='calendar-table'
+						style={{
+							gridTemplateColumns: weekends ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)',
+					  	}}
+					>
 						{[
 							...Array(
 								calendar.end.diff(calendar.start, 'day') + 1
@@ -132,12 +137,18 @@ const Calendar = ({ editMode, selectedCalendar }) => {
 								dayIndex,
 								'day'
 							);
+
+							const isWeekend = currentDay.day() === 0 || currentDay.day() === 6;
+
+							if (!weekends && isWeekend) {
+								return null;
+							}
 							// const calendarMonthIndex = dayjs(calendar.month, 'MMMM, YYYY').month();
 
 							const isOutsideRange =
 								// currentDay.month() !== calendarMonthIndex ||
-								currentDay.isBefore(dayjs(startDate), 'day') ||
-								currentDay.isAfter(dayjs(endDate), 'day');
+								currentDay.isBefore(dayjs(newStart), 'day') ||
+								currentDay.isAfter(dayjs(newEnd), 'day');
 
 							return (
 								<div
