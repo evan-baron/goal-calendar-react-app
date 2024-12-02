@@ -11,7 +11,7 @@ export const newCalendarSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		createCalendar: (state, action) => {
-			const { calendarId, calendarName, startDate, endDate, weekends } =
+			const { calendarId, calendarName, startDate, endDate, weekends, tasks } =
 				action.payload;
 			const newCalendar = {
 				calendarId: calendarId,
@@ -23,23 +23,7 @@ export const newCalendarSlice = createSlice({
 				weekends: weekends,
 				reward: '',
 				totalPointsPossible: 0,
-				tasks: {
-					date: {
-						tasks: {
-							task1: '',
-							task2: '',
-							task3: '',
-						},
-						bonus: {
-							bonus1: '',
-							bonus2: '',
-							bonus3: '',
-						},
-						completed: false,
-						pointsPossible: 0,
-						pointsAwarded: 0,
-					},
-				},
+				tasks: tasks,
 				loaded: true,
 				isLoading: false,
 				error: false,
@@ -48,7 +32,7 @@ export const newCalendarSlice = createSlice({
 			state.inProgressCalendars.push(newCalendar);
 		},
 		updateCalendar: (state, action) => {
-			const { calendarId, calendarName, startDate, endDate, weekends } =
+			const { calendarId, calendarName, startDate, endDate, weekends, tasks } =
 				action.payload;
 			const calendarIndex = state.inProgressCalendars.findIndex(
 				(calendar) => calendar.calendarId === calendarId
@@ -60,6 +44,7 @@ export const newCalendarSlice = createSlice({
 				state.inProgressCalendars[calendarIndex].startDate = startDate;
 				state.inProgressCalendars[calendarIndex].endDate = endDate;
 				state.inProgressCalendars[calendarIndex].weekends = weekends;
+				state.inProgressCalendars[calendarIndex].tasks = tasks;
 			} else {
 				console.warn(`Calendar with ID ${calendarId} not found.`);
 			}

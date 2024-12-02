@@ -3,7 +3,13 @@ import dayjs from 'dayjs';
 import './Calendar.css';
 import { Edit, West, East } from '@mui/icons-material';
 
-const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends }) => {
+const Calendar = ({
+	editMode,
+	selectedCalendar,
+	newStart,
+	newEnd,
+	toggleWeekends,
+}) => {
 	const { startDate, endDate } = selectedCalendar;
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
@@ -122,11 +128,13 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends
 							/>
 						) : null}
 					</div>
-					<div 
+					<div
 						className='calendar-table'
 						style={{
-							gridTemplateColumns: toggleWeekends ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)',
-					  	}}
+							gridTemplateColumns: toggleWeekends
+								? 'repeat(7, 1fr)'
+								: 'repeat(5, 1fr)',
+						}}
 					>
 						{[
 							...Array(
@@ -138,7 +146,9 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends
 								'day'
 							);
 
-							const isWeekend = currentDay.day() === 0 || currentDay.day() === 6;
+							const isWeekend =
+								currentDay.day() === 0 ||
+								currentDay.day() === 6;
 
 							if (!toggleWeekends && isWeekend) {
 								return null;
@@ -150,6 +160,8 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
 
+							const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); //used for onClick function on each day to locate day in state object and return tasks
+
 							return (
 								<div
 									className={`calendar-day ${
@@ -160,6 +172,7 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends
 											: 'inside-range'
 									}`}
 									key={dayIndex}
+									onClick={() => console.log(selectedCalendar.tasks[calendarIndex])} //the clicked-day's date and tasks
 								>
 									<div className='day-title'>
 										<div>{currentDay.format('MMM')}</div>

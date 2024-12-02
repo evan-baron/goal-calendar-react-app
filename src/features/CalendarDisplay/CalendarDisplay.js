@@ -102,6 +102,29 @@ const CalendarDisplay = ({
 		const start = newStart;
 		const end = newEnd;
 
+		const tasks = () => {
+			return [...Array(end.diff(start, 'day') + 1)].reduce((tasksArr, _, dayIndex) => {
+				const currentDay = start.add(dayIndex, 'day');
+
+				const isWeekend =
+					currentDay.day() === 0 || currentDay.day() === 6;
+
+				if (!toggleWeekends && isWeekend) {
+					return tasksArr;
+				}
+
+				tasksArr.push({
+					date: currentDay.format('YYYY-MM-DD'),
+					tasks: {
+						daily: {},
+						bonus: {},
+					},
+				});
+
+				return tasksArr;
+			}, []);
+		};
+
 		if (!validateDates()) {
 			const editedCalendar = {
 				calendarId: calendarId,
@@ -109,6 +132,7 @@ const CalendarDisplay = ({
 				startDate: start.toISOString(),
 				endDate: end.toISOString(),
 				weekends: toggleWeekends,
+				tasks: tasks()
 			};
 
 			dispatch(updateCalendar(editedCalendar));

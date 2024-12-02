@@ -29,8 +29,8 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 	};
 
 	const handleRadioChange = (e) => {
-		setToggleWeekends(e.target.value === "true")
-	}
+		setToggleWeekends(e.target.value === 'true');
+	};
 
 	const validateDates = (start, end) => {
 		const durationInDays = end.diff(start, 'day');
@@ -91,6 +91,29 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		const start = dayjs(startDate);
 		const end = dayjs(endDate);
 
+		const tasks = () => {
+			return [...Array(end.diff(start, 'day') + 1)].reduce((tasksArr, _, dayIndex) => {
+				const currentDay = start.add(dayIndex, 'day');
+
+				const isWeekend =
+					currentDay.day() === 0 || currentDay.day() === 6;
+
+				if (!toggleWeekends && isWeekend) {
+					return tasksArr;
+				}
+
+				tasksArr.push({
+					date: currentDay.format('YYYY-MM-DD'),
+					tasks: {
+						daily: {},
+						bonus: {},
+					},
+				});
+
+				return tasksArr;
+			}, []);
+		};
+
 		if (validateDates(start, end)) {
 			return;
 		}
@@ -104,6 +127,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 			startDate: start.toISOString(),
 			endDate: end.toISOString(),
 			weekends: toggleWeekends,
+			tasks: tasks()
 		};
 
 		dispatch(createCalendar(createdCalendar));
@@ -210,8 +234,8 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 					<legend>Include Weekends?</legend>
 					<label>
 						Yes
-						<input 
-							type='radio' 
+						<input
+							type='radio'
 							name='weekends'
 							value='true'
 							checked={toggleWeekends === true}
@@ -220,8 +244,8 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 					</label>
 					<label>
 						No
-						<input 
-							type='radio' 
+						<input
+							type='radio'
 							name='weekends'
 							value='false'
 							checked={toggleWeekends === false}
