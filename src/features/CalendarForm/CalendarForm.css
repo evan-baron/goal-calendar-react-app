@@ -102,3 +102,7 @@
 .create-calendar:active {
     background-color: rgba(140, 220, 255, .25);
 }
+
+.new-calendar-form .weekend-prompt-container {
+    font-size: 1.5rem;
+}

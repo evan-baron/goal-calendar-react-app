@@ -97,3 +97,12 @@
   color: red;
   cursor: pointer;
 }
+
+.weekend-prompt-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.include-exclude {
+  font-style: italic;
+}

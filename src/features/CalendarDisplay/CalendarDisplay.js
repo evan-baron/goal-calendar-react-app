@@ -356,7 +356,7 @@ const CalendarDisplay = ({
 							</div>
 						</div>
 						<div className='weekend-prompt-container'>
-							<legend>Include Weekends?</legend>
+							{!toggleWeekends ? <legend>Change to <span className='include-exclude'>include</span> weekends?</legend> : <legend>Change to <span className='include-exclude'>exclude</span> weekends?</legend>}
 							<label>
 								Yes
 								<input 
