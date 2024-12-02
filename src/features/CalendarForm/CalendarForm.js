@@ -47,7 +47,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 			setFormModalType('too-short');
 			setIsFormModalOpen(true);
 			return true;
-		} else if (durationInDays > 84) {
+		} else if (durationInDays > 182) {
 			setFormModalType('too-long');
 			setIsFormModalOpen(true);
 			return true;
@@ -206,7 +206,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 						</LocalizationProvider>
 					</div>
 				</div>
-				<div classname='weekend-prompt-container'>
+				<div className='weekend-prompt-container'>
 					<legend>Include Weekends?</legend>
 					<label>
 						Yes

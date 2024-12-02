@@ -48,7 +48,7 @@ export const newCalendarSlice = createSlice({
 			state.inProgressCalendars.push(newCalendar);
 		},
 		updateCalendar: (state, action) => {
-			const { calendarId, calendarName, startDate, endDate } =
+			const { calendarId, calendarName, startDate, endDate, weekends } =
 				action.payload;
 			const calendarIndex = state.inProgressCalendars.findIndex(
 				(calendar) => calendar.calendarId === calendarId
@@ -59,6 +59,7 @@ export const newCalendarSlice = createSlice({
 					calendarName;
 				state.inProgressCalendars[calendarIndex].startDate = startDate;
 				state.inProgressCalendars[calendarIndex].endDate = endDate;
+				state.inProgressCalendars[calendarIndex].weekends = weekends;
 			} else {
 				console.warn(`Calendar with ID ${calendarId} not found.`);
 			}

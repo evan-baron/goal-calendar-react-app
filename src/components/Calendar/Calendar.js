@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import './Calendar.css';
 import { Edit, West, East } from '@mui/icons-material';
 
-const Calendar = ({ editMode, selectedCalendar, newStart, newEnd }) => {
-	const { startDate, endDate, weekends } = selectedCalendar;
+const Calendar = ({ editMode, selectedCalendar, newStart, newEnd, toggleWeekends }) => {
+	const { startDate, endDate } = selectedCalendar;
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
 		[newEnd]
@@ -40,7 +40,7 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd }) => {
 
 	useEffect(() => {
 		setActiveCalendarIndex(0);
-	}, [calendarMonths, selectedCalendar]);
+	}, [calendarMonths, selectedCalendar, toggleWeekends]);
 
 	useEffect(() => {
 		if (calendarMonths.length > 1) {
@@ -125,7 +125,7 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd }) => {
 					<div 
 						className='calendar-table'
 						style={{
-							gridTemplateColumns: weekends ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)',
+							gridTemplateColumns: toggleWeekends ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)',
 					  	}}
 					>
 						{[
@@ -140,7 +140,7 @@ const Calendar = ({ editMode, selectedCalendar, newStart, newEnd }) => {
 
 							const isWeekend = currentDay.day() === 0 || currentDay.day() === 6;
 
-							if (!weekends && isWeekend) {
+							if (!toggleWeekends && isWeekend) {
 								return null;
 							}
 							// const calendarMonthIndex = dayjs(calendar.month, 'MMMM, YYYY').month();

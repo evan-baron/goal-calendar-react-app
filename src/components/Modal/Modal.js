@@ -40,7 +40,7 @@ const Modal = ({
 			message = 'You cannot start your calendar in the past.';
 			break;
 		case 'too-long':
-			message = 'Your calendar may not exceed 12 weeks long!';
+			message = 'Your calendar may not exceed 26 weeks long!';
 			break;
 		case 'too-many-calendars':
 			message =

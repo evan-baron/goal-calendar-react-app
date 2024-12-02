@@ -22,7 +22,7 @@ const CalendarDisplay = ({
 	setNavStatus,
 	selectedCalendar,
 }) => {
-	const { calendarId, calendarName, startDate, endDate } = selectedCalendar;
+	const { calendarId, calendarName, startDate, endDate, weekends } = selectedCalendar;
 
 	//States
 	const [originalStart, setOriginalStart] = useState(dayjs(startDate));
@@ -34,6 +34,7 @@ const CalendarDisplay = ({
 	const [editEnd, setEditEnd] = useState(false);
 	const [originalCalName, setOriginalCalName] = useState(calendarName);
 	const [newCalName, setNewCalName] = useState(calendarName);
+	const [toggleWeekends, setToggleWeekends] = useState(weekends);
 
 	const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ const CalendarDisplay = ({
 		setNewCalName(selectedCalendar?.calendarName);
 		setOriginalStart(dayjs(selectedCalendar?.startDate));
 		setOriginalEnd(dayjs(selectedCalendar?.endDate));
-	}, [selectedCalendar]);
+	}, [selectedCalendar, toggleWeekends]);
 
 	const toggleEdit = () => {
 		setEditName((prev) => !prev);
@@ -66,6 +67,11 @@ const CalendarDisplay = ({
 		}
 	};
 
+	const handleRadioChange = (e) => {
+		setToggleWeekends(e.target.value === "true")
+		setIsDirty(true);
+	}
+
 	const validateDates = () => {
 		const start = newStart;
 		const end = newEnd;
@@ -83,7 +89,7 @@ const CalendarDisplay = ({
 			setModalType('too-short');
 			setIsModalOpen(true);
 			return true;
-		} else if (durationInDays > 84) {
+		} else if (durationInDays > 182) {
 			setModalType('too-long');
 			setIsModalOpen(true);
 			return true;
@@ -102,6 +108,7 @@ const CalendarDisplay = ({
 				calendarName: newCalName,
 				startDate: start.toISOString(),
 				endDate: end.toISOString(),
+				weekends: toggleWeekends,
 			};
 
 			dispatch(updateCalendar(editedCalendar));
@@ -255,104 +262,130 @@ const CalendarDisplay = ({
 					) : null}
 				</div>
 				{editMode ? (
-					<div className='edit-dates'>
-						<div className='calendar-select'>
-							<div className='new-label'>Start Date:</div>
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DesktopDatePicker
-									value={dayjs(startDate)}
-									onChange={changeStartDate}
-									required
-									slotProps={{
-										textField: {
-											sx: {
-												'& .MuiInputBase-root': {
-													height: '1.75rem',
-													width: '8rem',
-													padding: '.25rem',
-													margin: '0',
-													background: 'white',
-												},
-												'& .MuiInputBase-input': {
-													color: 'rgb(25, 25, 75)',
-													padding: '0',
-												},
-											},
-										},
-									}}
-								/>
-							</LocalizationProvider>
-							{editStart ? (
-								<div className='date-confirm'>
-									<Check
-										className='date-check'
-										onClick={() => {
-											setIsModalOpen(true);
-											setModalType('change-start');
-										}}
-									/>
-									<DoNotDisturb
-										className='date-cancel'
-										onClick={() => {
-											setNewStart(originalStart);
-											setEditStart(false);
-										}}
-									/>
-								</div>
-							) : null}
-						</div>
-						<div className='calendar-select'>
-							<div className='new-label'>End Date:</div>
-							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DesktopDatePicker
-									value={dayjs(endDate)}
-									onChange={changeEndDate}
-									required
-									slotProps={{
-										textField: {
-											sx: {
-												'& .MuiInputBase-root': {
-													height: '1.75rem',
-													width: '8rem',
-													padding: '.25rem',
-													margin: '0',
-													background: 'white',
-												},
-												'& .MuiInputBase-input': {
-													color: 'rgb(25, 25, 75)',
-													padding: '0',
+					<>
+						<div className='edit-dates'>
+							<div className='calendar-select'>
+								<div className='new-label'>Start Date:</div>
+								<LocalizationProvider dateAdapter={AdapterDayjs}>
+									<DesktopDatePicker
+										value={dayjs(startDate)}
+										onChange={changeStartDate}
+										required
+										slotProps={{
+											textField: {
+												sx: {
+													'& .MuiInputBase-root': {
+														height: '1.75rem',
+														width: '8rem',
+														padding: '.25rem',
+														margin: '0',
+														background: 'white',
+													},
+													'& .MuiInputBase-input': {
+														color: 'rgb(25, 25, 75)',
+														padding: '0',
+													},
 												},
 											},
-										},
-									}}
-								/>
-							</LocalizationProvider>
-							{editEnd ? (
-								<div className='date-confirm'>
-									<Check
-										className='date-check'
-										onClick={() => {
-											setIsModalOpen(true);
-											setModalType('change-end');
 										}}
 									/>
-									<DoNotDisturb
-										className='date-cancel'
-										onClick={() => {
-											setEditEnd(false);
-											setNewEnd(originalEnd);
+								</LocalizationProvider>
+								{/* {editStart ? (
+									<div className='date-confirm'>
+										<Check
+											className='date-check'
+											onClick={() => {
+												setIsModalOpen(true);
+												setModalType('change-start');
+											}}
+										/>
+										<DoNotDisturb
+											className='date-cancel'
+											onClick={() => {
+												setNewStart(originalStart);
+												setEditStart(false);
+											}}
+										/>
+									</div>
+								) : null} */}
+							</div>
+							<div className='calendar-select'>
+								<div className='new-label'>End Date:</div>
+								<LocalizationProvider dateAdapter={AdapterDayjs}>
+									<DesktopDatePicker
+										value={dayjs(endDate)}
+										onChange={changeEndDate}
+										required
+										slotProps={{
+											textField: {
+												sx: {
+													'& .MuiInputBase-root': {
+														height: '1.75rem',
+														width: '8rem',
+														padding: '.25rem',
+														margin: '0',
+														background: 'white',
+													},
+													'& .MuiInputBase-input': {
+														color: 'rgb(25, 25, 75)',
+														padding: '0',
+													},
+												},
+											},
 										}}
 									/>
-								</div>
-							) : null}
+								</LocalizationProvider>
+								{/* {editEnd ? (
+									<div className='date-confirm'>
+										<Check
+											className='date-check'
+											onClick={() => {
+												setIsModalOpen(true);
+												setModalType('change-end');
+											}}
+										/>
+										<DoNotDisturb
+											className='date-cancel'
+											onClick={() => {
+												setEditEnd(false);
+												setNewEnd(originalEnd);
+											}}
+										/>
+									</div>
+								) : null} */}
+							</div>
 						</div>
-					</div>
+						<div className='weekend-prompt-container'>
+							<legend>Include Weekends?</legend>
+							<label>
+								Yes
+								<input 
+									type='radio' 
+									name='weekends'
+									value='true'
+									checked={toggleWeekends === true}
+									onChange={handleRadioChange}
+								/>
+							</label>
+							<label>
+								No
+								<input 
+									type='radio' 
+									name='weekends'
+									value='false'
+									checked={toggleWeekends === false}
+									onChange={handleRadioChange}
+								/>
+							</label>
+						</div>
+					</>
 				) : null}
 				<Calendar
 					editMode={editMode}
 					selectedCalendar={selectedCalendar}
 					newStart={newStart}
 					newEnd={newEnd}
+					toggleWeekends={toggleWeekends}
 				/>
 				<Controls
 					isDirty={isDirty}
