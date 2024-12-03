@@ -10,6 +10,7 @@ import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import Calendar from '../../components/Calendar/Calendar';
 
+//CalendarDisplay = the page-within-DashboardPage -> Dashboard that handles the Calendar (title, edit dates, rendered calendar)
 const CalendarDisplay = ({
 	isDirty,
 	setIsDirty,
@@ -50,11 +51,13 @@ const CalendarDisplay = ({
 		setOriginalWeekends(selectedCalendar?.weekends);
 	}, [selectedCalendar, toggleWeekends]);
 
+	//turns on preview mode and disables edit mode, on-off switch basically
 	const toggleEdit = () => {
 		setEditName((prev) => !prev);
 		setOriginalCalName(newCalName);
 	};
 
+	//changes new start date, stores original start date for comparison purposes
 	const changeStartDate = (newValue) => {
 		if (!newValue.isSame(newStart)) {
 			setNewStart(newValue);
@@ -63,6 +66,7 @@ const CalendarDisplay = ({
 		}
 	};
 
+	//changes new end date, stores original end date for comparison purposes
 	const changeEndDate = (newValue) => {
 		if (!newValue.isSame(newEnd)) {
 			setNewEnd(newValue);
@@ -71,56 +75,68 @@ const CalendarDisplay = ({
 		}
 	};
 
+	//logic for including weekends in calendar edit mode, if yes, includes weekends in in-range days, if no, excludes... also assists with hide weekends button functionality
 	const handleRadioChange = () => {
-		setToggleWeekends(prev => prev = !prev);
+		setToggleWeekends((prev) => (prev = !prev));
 		// if (toggleWeekends === true) {
 		// 	setShowWeekends(true);
 		// }
 		setIsDirty(toggleWeekends === originalWeekends);
 	};
 
+	//validates the dates selected, multiple rules created and sent to switch board for modal
 	const validateDates = () => {
 		const start = newStart;
 		const end = newEnd;
 		const durationInDays = end.diff(start, 'day');
 
 		if (start.isBefore(dayjs(), 'day')) {
+			//start date is before current day?
 			setModalType('in-the-past');
 			setIsModalOpen(true);
 			return true;
 		} else if (end.isBefore(start) || end.isSame(start)) {
+			//end date is before or same as start date?
 			setModalType('date-error-end-before');
 			setIsModalOpen(true);
 			return true;
 		} else if (durationInDays < 14) {
+			//duration is less than 2 weeks
 			setModalType('too-short');
 			setIsModalOpen(true);
 			return true;
 		} else if (durationInDays > 182) {
+			//duration is greater than 26 weeks
 			setModalType('too-long');
 			setIsModalOpen(true);
 			return true;
-		} else setModalType('save-changes');
+		} else setModalType('save-changes'); //saves changes
 		setIsModalOpen(true);
 		return false;
 	};
 
+	//as it sounds, saves changes
 	const saveChanges = () => {
 		const start = newStart;
 		const end = newEnd;
 
+		//creates tasks to dispatch into the master state object for days marked !outside-range
 		const tasks = () => {
+			//takes end date diff start date and makes blank array to mutate/change, tasksArr = start value (blank array), _ is the item being iterated, no need for a value in this scenario, dayIndex is how it will be organized in the finished tasksArr
 			return [...Array(end.diff(start, 'day') + 1)].reduce(
 				(tasksArr, _, dayIndex) => {
 					const currentDay = start.add(dayIndex, 'day');
 
+					//testing if the day is a weekend
 					const isWeekend =
 						currentDay.day() === 0 || currentDay.day() === 6;
 
+					//if the user selected exclude weekends and day is weekend, do nothing
 					if (!toggleWeekends && isWeekend) {
 						return tasksArr;
 					}
 
+					//sending blank tasks object to the state object for each day in the date range
 					tasksArr.push({
 						date: currentDay.format('YYYY-MM-DD'),
 						tasks: {
@@ -131,10 +147,11 @@ const CalendarDisplay = ({
 
 					return tasksArr;
 				},
-				[]
+				[] //the starting array for the reduce method
 			);
 		};
 
+		//if validateDates comes back false (as in the tests all passed), dispatch the edits/update the calendar object
 		if (!validateDates()) {
 			const editedCalendar = {
 				calendarId: calendarId,
@@ -154,6 +171,7 @@ const CalendarDisplay = ({
 		return;
 	};
 
+	//function for when user clicks away after making edits to the calendar, uses switch for modal
 	const acceptChanges = () => {
 		switch (modalType) {
 			case 'discard-changes':
@@ -175,13 +193,11 @@ const CalendarDisplay = ({
 				setEditName(false);
 				break;
 			case 'change-start':
-				//missing logic here maybe??
 				setEditStart(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
 			case 'change-end':
-				//and here?
 				setEditEnd(false);
 				setIsModalOpen(false);
 				setModalType(null);
@@ -198,6 +214,7 @@ const CalendarDisplay = ({
 		}
 	};
 
+	//logic for handling cancelation of changes
 	const rejectChanges = () => {
 		switch (modalType) {
 			case 'delete-calendar':
@@ -212,7 +229,6 @@ const CalendarDisplay = ({
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
-
 			case 'change-name':
 				setNewCalName(originalCalName);
 				setIsModalOpen(false);
@@ -326,6 +342,7 @@ const CalendarDisplay = ({
 										}}
 									/>
 								</LocalizationProvider>
+								{/* UNCOMMENT BELOW IF YOU WANT CHECK AND CANCEL ICONS */}
 								{/* {editStart ? (
 									<div className='date-confirm'>
 										<Check
@@ -373,6 +390,7 @@ const CalendarDisplay = ({
 										}}
 									/>
 								</LocalizationProvider>
+								{/* UNCOMMENT BELOW IF YOU WANT CHECK AND CANCEL ICONS */}
 								{/* {editEnd ? (
 									<div className='date-confirm'>
 										<Check
@@ -394,6 +412,7 @@ const CalendarDisplay = ({
 							</div>
 						</div>
 						<div className='weekend-prompt-container'>
+							{/* include/exclude weekends options with hide/show button */}
 							{!toggleWeekends ? (
 								<legend>
 									Change to{' '}
@@ -433,21 +452,31 @@ const CalendarDisplay = ({
 							</label>
 							{!toggleWeekends && (
 								<button
-									onClick={() => setShowWeekends(prev => prev = !prev)}
+									onClick={() =>
+										setShowWeekends(
+											(prev) => (prev = !prev)
+										)
+									}
 								>
-									{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
+									{!showWeekends
+										? 'Show Weekends'
+										: 'Hide Weekends'}
 								</button>
 							)}
 						</div>
 					</>
-				) : 
-				<button 
-					className='weekends-button'
-					onClick={() => setShowWeekends(prev => prev = !prev)}
-				>
-					{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
-				</button>
-				}
+				) : (
+					<button
+						className='weekends-button'
+						onClick={() =>
+							setShowWeekends((prev) => (prev = !prev))
+						}
+					>
+						{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
+					</button>
+				)}
+
+				{/* This is the rendered calendar component, all props passed are necessary */}
 				<Calendar
 					editMode={editMode}
 					selectedCalendar={selectedCalendar}
@@ -458,6 +487,8 @@ const CalendarDisplay = ({
 					isDirty={isDirty}
 					validateDates={validateDates}
 				/>
+
+				{/* the floating control panel for the user */}
 				<Controls
 					isDirty={isDirty}
 					setNewCalName={setNewCalName}
@@ -471,6 +502,8 @@ const CalendarDisplay = ({
 					validateDates={validateDates}
 				/>
 			</div>
+
+			{/* if !editMode, show the due tasks and current stats for the calendar (zero stats as not active) */}
 			{!editMode ? (
 				<div className='dashboard-calendar-support'>
 					<div className='support-container dashboard-tasks'>
@@ -481,6 +514,8 @@ const CalendarDisplay = ({
 					</div>
 				</div>
 			) : null}
+
+			{/* Modal specific to this page, isOpen, onClose, onConfirm all use functions from this page */}
 			<Modal
 				isOpen={isModalOpen}
 				onClose={rejectChanges}
