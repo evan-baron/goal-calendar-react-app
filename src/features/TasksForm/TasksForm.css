@@ -1,0 +1,15 @@
+.tasks-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-task-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.25rem;
+	font-variant: normal;
+	height: 1.75rem;
+}
