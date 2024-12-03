@@ -37,7 +37,7 @@ const CalendarDisplay = ({
 	const [newCalName, setNewCalName] = useState(calendarName);
 	const [toggleWeekends, setToggleWeekends] = useState(weekends);
 	const [originalWeekends, setOriginalWeekends] = useState(weekends);
-	const [showWeekends, setShowWeekends] = useState(false);
+	const [showWeekends, setShowWeekends] = useState(true);
 
 	const dispatch = useDispatch();
 
@@ -74,7 +74,7 @@ const CalendarDisplay = ({
 	const handleRadioChange = () => {
 		setToggleWeekends(prev => prev = !prev);
 		if (toggleWeekends === true) {
-			setShowWeekends(null);
+			setShowWeekends(true);
 		}
 		setIsDirty(toggleWeekends === originalWeekends);
 	};
@@ -440,7 +440,14 @@ const CalendarDisplay = ({
 							)}
 						</div>
 					</>
-				) : null}
+				) : 
+				<button 
+					className='weekends-button'
+					onClick={() => setShowWeekends(prev => prev = !prev)}
+				>
+					{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
+				</button>
+				}
 				<Calendar
 					editMode={editMode}
 					selectedCalendar={selectedCalendar}

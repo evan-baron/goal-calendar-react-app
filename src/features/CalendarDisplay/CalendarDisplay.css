@@ -37,6 +37,7 @@
 
 .calendar-name {
   font-size: 3rem;
+  line-height: 1;
 }
 
 .edit-name-input {
@@ -110,7 +111,7 @@
   font-style: italic;
 }
 
-.weekend-prompt-container button {
+.weekend-prompt-container button, .weekends-button {
   display: flex;
   gap: .25rem;
   justify-content: center;

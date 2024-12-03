@@ -190,7 +190,7 @@ const Calendar = ({
 										<div>{currentDay.format('D')}</div>
 									</div>
 									<div className='day-divider'></div>
-									{!isOutsideRange && (
+									{!isOutsideRange && !isWeekendOutsideRange && (
 										<>
 											<div className='day-body'>
 												<span>Details</span>
