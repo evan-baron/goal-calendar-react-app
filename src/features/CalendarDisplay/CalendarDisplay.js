@@ -73,9 +73,9 @@ const CalendarDisplay = ({
 
 	const handleRadioChange = () => {
 		setToggleWeekends(prev => prev = !prev);
-		if (toggleWeekends === true) {
-			setShowWeekends(true);
-		}
+		// if (toggleWeekends === true) {
+		// 	setShowWeekends(true);
+		// }
 		setIsDirty(toggleWeekends === originalWeekends);
 	};
 
