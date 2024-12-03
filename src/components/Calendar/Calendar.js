@@ -5,10 +5,13 @@ import { Edit, West, East } from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,
+	isDirty,
 	selectedCalendar,
 	newStart,
 	newEnd,
 	toggleWeekends,
+	showWeekends,
+	validateDates
 }) => {
 	const { startDate, endDate } = selectedCalendar;
 	const weekEndDay = useMemo(
@@ -131,7 +134,7 @@ const Calendar = ({
 					<div
 						className='calendar-table'
 						style={{
-							gridTemplateColumns: toggleWeekends
+							gridTemplateColumns: toggleWeekends || showWeekends
 								? 'repeat(7, 1fr)'
 								: 'repeat(5, 1fr)',
 						}}
@@ -150,13 +153,13 @@ const Calendar = ({
 								currentDay.day() === 0 ||
 								currentDay.day() === 6;
 
-							if (!toggleWeekends && isWeekend) {
+							const isWeekendOutsideRange = showWeekends && !toggleWeekends && isWeekend;
+
+							if (!toggleWeekends && isWeekend && !showWeekends) {
 								return null;
 							}
-							// const calendarMonthIndex = dayjs(calendar.month, 'MMMM, YYYY').month();
 
 							const isOutsideRange =
-								// currentDay.month() !== calendarMonthIndex ||
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
 
@@ -165,14 +168,19 @@ const Calendar = ({
 							return (
 								<div
 									className={`calendar-day ${
-										isOutsideRange
+										isOutsideRange || isWeekendOutsideRange
 											? 'outside-range'
 											: editMode
 											? 'inside-range edit-mode'
 											: 'inside-range'
 									}`}
 									key={dayIndex}
-									onClick={() => console.log(selectedCalendar.tasks[calendarIndex])} //the clicked-day's date and tasks
+									onClick={() => {
+										console.log(selectedCalendar.tasks[calendarIndex])
+										if (isDirty) {
+											validateDates()
+										}
+									}} //the clicked-day's date and tasks
 								>
 									<div className='day-title'>
 										<div>{currentDay.format('MMM')}</div>
@@ -185,7 +193,7 @@ const Calendar = ({
 											<div className='day-body'>
 												<span>Details</span>
 											</div>
-											{editMode ? (
+											{editMode && !isWeekendOutsideRange ? (
 												<Edit
 													sx={{ fontSize: 30 }}
 													className='edit-pencil'

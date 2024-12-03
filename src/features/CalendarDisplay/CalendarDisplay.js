@@ -22,7 +22,8 @@ const CalendarDisplay = ({
 	setNavStatus,
 	selectedCalendar,
 }) => {
-	const { calendarId, calendarName, startDate, endDate, weekends } = selectedCalendar;
+	const { calendarId, calendarName, startDate, endDate, weekends } =
+		selectedCalendar;
 
 	//States
 	const [originalStart, setOriginalStart] = useState(dayjs(startDate));
@@ -35,6 +36,8 @@ const CalendarDisplay = ({
 	const [originalCalName, setOriginalCalName] = useState(calendarName);
 	const [newCalName, setNewCalName] = useState(calendarName);
 	const [toggleWeekends, setToggleWeekends] = useState(weekends);
+	const [originalWeekends, setOriginalWeekends] = useState(weekends);
+	const [showWeekends, setShowWeekends] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -44,6 +47,7 @@ const CalendarDisplay = ({
 		setNewCalName(selectedCalendar?.calendarName);
 		setOriginalStart(dayjs(selectedCalendar?.startDate));
 		setOriginalEnd(dayjs(selectedCalendar?.endDate));
+		setOriginalWeekends(selectedCalendar?.weekends);
 	}, [selectedCalendar, toggleWeekends]);
 
 	const toggleEdit = () => {
@@ -67,10 +71,13 @@ const CalendarDisplay = ({
 		}
 	};
 
-	const handleRadioChange = (e) => {
-		setToggleWeekends(e.target.value === "true")
-		setIsDirty(true);
-	}
+	const handleRadioChange = () => {
+		setToggleWeekends(prev => prev = !prev);
+		if (toggleWeekends === true) {
+			setShowWeekends(null);
+		}
+		setIsDirty(toggleWeekends === originalWeekends);
+	};
 
 	const validateDates = () => {
 		const start = newStart;
@@ -103,26 +110,29 @@ const CalendarDisplay = ({
 		const end = newEnd;
 
 		const tasks = () => {
-			return [...Array(end.diff(start, 'day') + 1)].reduce((tasksArr, _, dayIndex) => {
-				const currentDay = start.add(dayIndex, 'day');
+			return [...Array(end.diff(start, 'day') + 1)].reduce(
+				(tasksArr, _, dayIndex) => {
+					const currentDay = start.add(dayIndex, 'day');
 
-				const isWeekend =
-					currentDay.day() === 0 || currentDay.day() === 6;
+					const isWeekend =
+						currentDay.day() === 0 || currentDay.day() === 6;
 
-				if (!toggleWeekends && isWeekend) {
+					if (!toggleWeekends && isWeekend) {
+						return tasksArr;
+					}
+
+					tasksArr.push({
+						date: currentDay.format('YYYY-MM-DD'),
+						tasks: {
+							daily: {},
+							bonus: {},
+						},
+					});
+
 					return tasksArr;
-				}
-
-				tasksArr.push({
-					date: currentDay.format('YYYY-MM-DD'),
-					tasks: {
-						daily: {},
-						bonus: {},
-					},
-				});
-
-				return tasksArr;
-			}, []);
+				},
+				[]
+			);
 		};
 
 		if (!validateDates()) {
@@ -132,7 +142,7 @@ const CalendarDisplay = ({
 				startDate: start.toISOString(),
 				endDate: end.toISOString(),
 				weekends: toggleWeekends,
-				tasks: tasks()
+				tasks: tasks(),
 			};
 
 			dispatch(updateCalendar(editedCalendar));
@@ -290,7 +300,9 @@ const CalendarDisplay = ({
 						<div className='edit-dates'>
 							<div className='calendar-select'>
 								<div className='new-label'>Start Date:</div>
-								<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
+								>
 									<DesktopDatePicker
 										value={dayjs(startDate)}
 										onChange={changeStartDate}
@@ -335,7 +347,9 @@ const CalendarDisplay = ({
 							</div>
 							<div className='calendar-select'>
 								<div className='new-label'>End Date:</div>
-								<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<LocalizationProvider
+									dateAdapter={AdapterDayjs}
+								>
 									<DesktopDatePicker
 										value={dayjs(endDate)}
 										onChange={changeEndDate}
@@ -380,11 +394,27 @@ const CalendarDisplay = ({
 							</div>
 						</div>
 						<div className='weekend-prompt-container'>
-							{!toggleWeekends ? <legend>Change to <span className='include-exclude'>include</span> weekends?</legend> : <legend>Change to <span className='include-exclude'>exclude</span> weekends?</legend>}
+							{!toggleWeekends ? (
+								<legend>
+									Change to{' '}
+									<span className='include-exclude'>
+										include
+									</span>{' '}
+									weekends?
+								</legend>
+							) : (
+								<legend>
+									Change to{' '}
+									<span className='include-exclude'>
+										exclude
+									</span>{' '}
+									weekends?
+								</legend>
+							)}
 							<label>
 								Yes
-								<input 
-									type='radio' 
+								<input
+									type='radio'
 									name='weekends'
 									value='true'
 									checked={toggleWeekends === true}
@@ -393,14 +423,21 @@ const CalendarDisplay = ({
 							</label>
 							<label>
 								No
-								<input 
-									type='radio' 
+								<input
+									type='radio'
 									name='weekends'
 									value='false'
 									checked={toggleWeekends === false}
 									onChange={handleRadioChange}
 								/>
 							</label>
+							{!toggleWeekends && (
+								<button
+									onClick={() => setShowWeekends(prev => prev = !prev)}
+								>
+									{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
+								</button>
+							)}
 						</div>
 					</>
 				) : null}
@@ -410,6 +447,9 @@ const CalendarDisplay = ({
 					newStart={newStart}
 					newEnd={newEnd}
 					toggleWeekends={toggleWeekends}
+					showWeekends={showWeekends}
+					isDirty={isDirty}
+					validateDates={validateDates}
 				/>
 				<Controls
 					isDirty={isDirty}

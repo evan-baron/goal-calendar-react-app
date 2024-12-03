@@ -100,9 +100,23 @@
 
 .weekend-prompt-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
+  height: 1.5rem;
 }
 
 .include-exclude {
   font-style: italic;
+}
+
+.weekend-prompt-container button {
+  display: flex;
+  gap: .25rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-variant: normal;
+  height: 1.5rem;
+  width: 10rem;
 }
