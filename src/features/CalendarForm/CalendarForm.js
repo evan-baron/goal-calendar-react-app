@@ -18,9 +18,10 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 	const [placeholderText, setPlaceholderText] = useState('Ex: Goal Calendar');
 	const [calendarName, setCalendarName] = useState('');
 	const [startDate, setStartDate] = useState(dayjs());
-	const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); //SET TO NULL WHEN READY TO LAUNCH
+	const [endDate, setEndDate] = useState(dayjs().add(4, 'week')); // SET TO NULL WHEN READY TO LAUNCH
 	const [toggleWeekends, setToggleWeekends] = useState(false);
 
+	// for discard button, undoes changes user made
 	const cancelCreate = () => {
 		setCalendarName('');
 		setStartDate(dayjs());
@@ -28,10 +29,12 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		hideShow('new');
 	};
 
+	// toggles radio inputs
 	const handleRadioChange = (e) => {
 		setToggleWeekends(e.target.value === 'true');
 	};
 
+	// used to validate date conditions and rules
 	const validateDates = (start, end) => {
 		const durationInDays = end.diff(start, 'day');
 
@@ -54,6 +57,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		} else return false;
 	};
 
+	// modal settings 'ok' button
 	const formModalConfirm = () => {
 		switch (formModalType) {
 			case 'date-error-end-before':
@@ -70,6 +74,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		}
 	};
 
+	// modal settings 'cancel' button
 	const formModalReject = () => {
 		switch (formModalType) {
 			case 'date-error-end-before':
@@ -86,38 +91,48 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		}
 	};
 
+	// submit form
 	function handleSubmit(e) {
 		e.preventDefault();
 		const start = dayjs(startDate);
 		const end = dayjs(endDate);
 
+		// creates tasks object for master state object per day, applied to the user's date range using reduce method
 		const tasks = () => {
-			return [...Array(end.diff(start, 'day') + 1)].reduce((tasksArr, _, dayIndex) => {
-				const currentDay = start.add(dayIndex, 'day');
+			// ...Array creates array from returned number, reduce uses start value as empty array (tasksArr), a blank item (_), and dayIndex as the label for each object
+			return [...Array(end.diff(start, 'day') + 1)].reduce(
+				(tasksArr, _, dayIndex) => {
+					const currentDay = start.add(dayIndex, 'day');
 
-				const isWeekend =
-					currentDay.day() === 0 || currentDay.day() === 6;
+					const isWeekend =
+						currentDay.day() === 0 || currentDay.day() === 6;
 
-				if (!toggleWeekends && isWeekend) {
+					// if user selected to exclude weekends and current day is weekend, move on
+					if (!toggleWeekends && isWeekend) {
+						return tasksArr;
+					}
+
+					// the action of pushing the task object to the state object
+					tasksArr.push({
+						date: currentDay.format('YYYY-MM-DD'),
+						tasks: {
+							daily: {},
+							bonus: {},
+						},
+					});
+
 					return tasksArr;
-				}
-
-				tasksArr.push({
-					date: currentDay.format('YYYY-MM-DD'),
-					tasks: {
-						daily: {},
-						bonus: {},
-					},
-				});
-
-				return tasksArr;
-			}, []);
+				},
+				[]
+			);
 		};
 
+		// if validatesDates returns true, something didn't pass validaiton, bug out
 		if (validateDates(start, end)) {
 			return;
 		}
 
+		// this is the createdCalendar object that will be dispatched to the state store
 		const createdCalendar = {
 			calendarId: uuidv4(),
 			calendarName:
@@ -127,20 +142,21 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 			startDate: start.toISOString(),
 			endDate: end.toISOString(),
 			weekends: toggleWeekends,
-			tasks: tasks()
+			tasks: tasks(),
 		};
 
 		dispatch(createCalendar(createdCalendar));
 
+		// resets everything back to starting values for next calendar creation
 		setCalendarName('');
 		setStartDate(dayjs());
-		setEndDate(dayjs().add(4, 'week'));
+		setEndDate(dayjs().add(4, 'week')); // SET TO NULL WHEN READY TO LAUNCH
 		hideShow('new');
 		setEditMode(true);
 		hideShow('inProgress');
 
 		// SET THE BELOW BACK TO 1 IF ONLY ALLOWED TO CREATE ONE CALENDAR
-
+		// limits user to creating a maximum of 5 calendars in progress at once
 		if (inProgressCalendars.length >= 5) {
 			alert(
 				'You are already working on a calendar. You should finish it!'
@@ -167,7 +183,6 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 						placeholder={placeholderText}
 						onFocus={() => setPlaceholderText('')}
 						onBlur={() => setPlaceholderText('Ex: Goal Calendar')}
-						// placeholder={dayjs().format('MMMM')+' Calendar'}
 						onChange={(e) => setCalendarName(e.target.value)}
 					/>
 				</div>

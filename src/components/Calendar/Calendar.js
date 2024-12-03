@@ -13,19 +13,20 @@ const Calendar = ({
 	showWeekends,
 	validateDates
 }) => {
-	const { startDate, endDate } = selectedCalendar;
+	const { startDate, endDate } = selectedCalendar; //keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
 		[newEnd]
-	); //returns the last day of the week of 'end date'w
+	); //returns the last day of the week of 'end date', memod so that it doesn't keep refreshing and rerendering
 	const startMonth = dayjs(newStart).month();
 	const endMonth = dayjs(newEnd).month();
 	const startYear = dayjs(newStart).year();
 	const endYear = dayjs(newEnd).year();
 
-	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
+	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0); //activeCalendarIndex is the calendar month being shown - when users navigate to the next / previous months, this changes
 	const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
-	const calendarMonths = useMemo(() => {
+
+	const calendarMonths = useMemo(() => { //again using useMemo because only need to capture this once, while dayjs will keep rerendering
 		const months = [];
 
 		//below function finds the active months during calendar start and end date and pushes to calendarMonths array
@@ -49,7 +50,7 @@ const Calendar = ({
 
 	useEffect(() => {
 		setActiveCalendarIndex(0);
-	}, [calendarMonths, selectedCalendar, toggleWeekends]);
+	}, [calendarMonths, selectedCalendar, toggleWeekends]); //rerenders page anytime one of these three dependencies change
 
 	useEffect(() => {
 		if (calendarMonths.length > 1) {
@@ -62,6 +63,7 @@ const Calendar = ({
 
 			let updatedCalendarMonths = [...calendarMonths];
 
+			//below conditional checks specific edge case to make sure we're not rendering overlapping days if not necessary - for example, calendar starts dec 31 2024, you don't need to render all of december, just render january 2024 because technically the first week of january 2025 INCLUDES dec 31 2024
 			if (
 				firstMonthEndDay.isSame(secondMonthStartDay) &&
 				dayjs(newStart).startOf('week').isSame(secondMonthStartDay) &&
@@ -70,9 +72,10 @@ const Calendar = ({
 				updatedCalendarMonths = updatedCalendarMonths.slice(1);
 			}
 
+			//similar edge case to above, but checking if the last month's start day is before the second to last month's end day
 			const lastMonthNeeded = lastMonthStartDay.isBefore(
 				secondToLastMonthEndDay
-			); //checking if the last month's start day is before the second to last month's end day
+			); 
 
 			if (lastMonthNeeded) {
 				updatedCalendarMonths = updatedCalendarMonths.slice(
@@ -85,15 +88,19 @@ const Calendar = ({
 		} else {
 			setCalendarMonthsToRender(calendarMonths);
 		}
-	}, [calendarMonths, weekEndDay]);
+	}, [calendarMonths, weekEndDay]); //wrapped in useEffect because user can change these settings and page will need to rerender each time they do so
 
+	//time to render the months:
 	return calendarMonthsToRender.map((calendar, index) => {
+
+		//below conditional prevents user from seeing nothing
 		if (index !== activeCalendarIndex) return null;
 
 		return (
 			<div className='displayed-calendar' key={calendar + index}>
 				<div className='calendar-table-container'>
 					<div className='calendar-month-title'>
+						{/* below checks if there's any months 'to the left', if so, renders clickable arrow */}
 						{index > 0 ? (
 							<West
 								className='left-arrow'
@@ -111,6 +118,7 @@ const Calendar = ({
 							/>
 						) : null}
 						<div className='calendar-month'>{calendar.month}</div>
+						{/* below checks if there's any months 'to the right', if so, renders clickable arrow */}
 						{index < calendarMonthsToRender.length - 1 ? (
 							<East
 								className='right-arrow'
@@ -131,6 +139,7 @@ const Calendar = ({
 							/>
 						) : null}
 					</div>
+					{/* below div style is conditional to if user selected include weekeds or not */}
 					<div
 						className='calendar-table'
 						style={{
@@ -139,6 +148,7 @@ const Calendar = ({
 								: 'repeat(5, 1fr)',
 						}}
 					>
+						{/* below renders the calendar ('item' from .map method above) */}
 						{[
 							...Array(
 								calendar.end.diff(calendar.start, 'day') + 1
@@ -153,18 +163,22 @@ const Calendar = ({
 								currentDay.day() === 0 ||
 								currentDay.day() === 6;
 
+							//determines if weekends are considered inside or outside user's selected date range
 							const isWeekendOutsideRange = showWeekends && !toggleWeekends && isWeekend;
 
+							//'light switch' to turn on or off weekend display, provided user has selected to not include weekends in their date range
 							if (!toggleWeekends && isWeekend && !showWeekends) {
 								return null;
 							}
 
+							//determines if day is outside user's selected date range
 							const isOutsideRange =
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
 
 							const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); //used for onClick function on each day to locate day in state object and return tasks
 
+							//finally rendering the day items below with their key set to dayIndex
 							return (
 								<div
 									className={`calendar-day ${
@@ -184,12 +198,15 @@ const Calendar = ({
 										}
 									}} //the clicked-day's date and tasks
 								>
+									{/* the day item's 'header', month day number */}
 									<div className='day-title'>
 										<div>{currentDay.format('MMM')}</div>
 										<div>{currentDay.format('ddd')}</div>
 										<div>{currentDay.format('D')}</div>
 									</div>
 									<div className='day-divider'></div>
+
+									{/* below determines how to display the day using conditional styling */}
 									{!isOutsideRange && !isWeekendOutsideRange && (
 										<>
 											<div className='day-body'>
