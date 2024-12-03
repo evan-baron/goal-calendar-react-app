@@ -176,9 +176,11 @@ const Calendar = ({
 									}`}
 									key={dayIndex}
 									onClick={() => {
-										console.log(selectedCalendar.tasks[calendarIndex])
-										if (isDirty) {
-											validateDates()
+										if(!(isOutsideRange || isWeekendOutsideRange)) {
+											console.log(selectedCalendar.tasks[calendarIndex])
+											if (isDirty) {
+												validateDates()
+											}
 										}
 									}} //the clicked-day's date and tasks
 								>
