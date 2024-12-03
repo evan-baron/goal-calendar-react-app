@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
+import TasksModal from '../../components/TasksModal/TasksModal';
 import Calendar from '../../components/Calendar/Calendar';
 
 //CalendarDisplay = the page-within-DashboardPage -> Dashboard that handles the Calendar (title, edit dates, rendered calendar)
@@ -39,6 +40,8 @@ const CalendarDisplay = ({
 	const [toggleWeekends, setToggleWeekends] = useState(weekends);
 	const [originalWeekends, setOriginalWeekends] = useState(weekends);
 	const [showWeekends, setShowWeekends] = useState(true);
+	const [selectedDay, setSelectedDay] = useState(null);
+	const [tasksModalOpen, setTasksModalOpen] = useState(null);
 
 	const dispatch = useDispatch();
 
@@ -49,7 +52,7 @@ const CalendarDisplay = ({
 		setOriginalStart(dayjs(selectedCalendar?.startDate));
 		setOriginalEnd(dayjs(selectedCalendar?.endDate));
 		setOriginalWeekends(selectedCalendar?.weekends);
-	}, [selectedCalendar, toggleWeekends]);
+	}, [selectedCalendar, toggleWeekends, selectedDay]);
 
 	//turns on preview mode and disables edit mode, on-off switch basically
 	const toggleEdit = () => {
@@ -486,6 +489,8 @@ const CalendarDisplay = ({
 					showWeekends={showWeekends}
 					isDirty={isDirty}
 					validateDates={validateDates}
+					setSelectedDay={setSelectedDay}
+					setTasksModalOpen={setTasksModalOpen}
 				/>
 
 				{/* the floating control panel for the user */}
@@ -524,6 +529,14 @@ const CalendarDisplay = ({
 				setModalType={setModalType}
 				newCalName={newCalName}
 			/>
+			{tasksModalOpen 
+				? <TasksModal 
+					selectedDay={selectedDay}
+					setTasksModalOpen={setTasksModalOpen}
+					editMode={editMode}
+				/> 
+				: null
+			}
 		</div>
 	);
 };

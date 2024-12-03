@@ -11,7 +11,9 @@ const Calendar = ({
 	newEnd,
 	toggleWeekends,
 	showWeekends,
-	validateDates
+	validateDates,
+	setSelectedDay,
+	setTasksModalOpen
 }) => {
 	const { startDate, endDate } = selectedCalendar; //keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
 	const weekEndDay = useMemo(
@@ -191,7 +193,10 @@ const Calendar = ({
 									key={dayIndex}
 									onClick={() => {
 										if(!(isOutsideRange || isWeekendOutsideRange)) {
-											console.log(selectedCalendar.tasks[calendarIndex])
+											//sets selected day to the clicked day, then opens tasks modal
+											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+											console.log(selectedCalendar.tasks[calendarIndex]);
+											setTasksModalOpen(prev => prev = !prev);
 											if (isDirty) {
 												validateDates()
 											}
