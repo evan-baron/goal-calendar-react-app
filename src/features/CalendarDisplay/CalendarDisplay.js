@@ -123,6 +123,8 @@ const CalendarDisplay = ({
 		const start = newStart;
 		const end = newEnd;
 
+		const existingTasks = selectedCalendar.tasks || [];
+
 		//creates tasks to dispatch into the master state object for days marked !outside-range
 		const tasks = () => {
 			//takes end date diff start date and makes blank array to mutate/change, tasksArr = start value (blank array), _ is the item being iterated, no need for a value in this scenario, dayIndex is how it will be organized in the finished tasksArr
@@ -139,14 +141,20 @@ const CalendarDisplay = ({
 						return tasksArr;
 					}
 
+					const existingTaskForDay = existingTasks.find(
+						(task) => task.date === currentDay.format('YYYY-MM-DD')
+					);
+
 					//sending blank tasks object to the state object for each day in the date range
-					tasksArr.push({
-						date: currentDay.format('YYYY-MM-DD'),
-						tasks: {
-							daily: [],
-							bonus: [],
-						},
-					});
+					tasksArr.push(
+						existingTaskForDay || {
+							date: currentDay.format('YYYY-MM-DD'),
+							tasks: {
+								daily: [],
+								bonus: [],
+							},
+						}
+					);
 
 					return tasksArr;
 				},
@@ -162,7 +170,7 @@ const CalendarDisplay = ({
 				startDate: start.toISOString(),
 				endDate: end.toISOString(),
 				weekends: toggleWeekends,
-				tasks: tasks(),
+				tasks: tasks(), //BIG PROBLEM - EVERYTIME VALIDATEDATES EXECUTES, IT CLEARS TASKS
 			};
 
 			dispatch(updateCalendar(editedCalendar));

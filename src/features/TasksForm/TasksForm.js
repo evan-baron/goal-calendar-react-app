@@ -55,10 +55,6 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 		console.log('selected day tasks: ', selectedDay.tasks);
 		console.log('dailyTasks: ', dailyTasks);
 
-		//test adding task to selectedDay.tasks AND selectedCalendar.tasks[calendarIndex].tasks to see if it's the same
-
-		// setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-
 		const updatedTasks = [...selectedCalendar.tasks];
 		updatedTasks[calendarIndex] = {
 			...updatedTasks[calendarIndex],
@@ -76,10 +72,6 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 		);
 
 		console.log('Updated tasks dispatched: ', updatedTasks);
-
-		// const updatedTasks = [...tasks, tasks[calendarIndex].tasks.daily = dailyTasks]
-
-		// console.log('updatedTasks: ', updatedTasks)
 	};
 
 	return (

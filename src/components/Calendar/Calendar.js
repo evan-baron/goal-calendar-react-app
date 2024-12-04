@@ -206,12 +206,13 @@ const Calendar = ({
 									onClick={() => {
 										if(!(isOutsideRange || isWeekendOutsideRange)) {
 											//sets selected day to the clicked day, then opens tasks modal
-											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-											console.log(selectedCalendar.tasks[calendarIndex].tasks.daily.length);
-											console.log('currentdaytasks: ', currentDayTasks);
-											setTasksModalOpen(prev => prev = !prev);
 											if (isDirty) {
 												validateDates()
+											} else {
+												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+												console.log(selectedCalendar.tasks[calendarIndex].tasks.daily.length);
+												console.log('currentdaytasks: ', currentDayTasks);
+												setTasksModalOpen(prev => prev = !prev);
 											}
 										}
 									}} //the clicked-day's date and tasks
