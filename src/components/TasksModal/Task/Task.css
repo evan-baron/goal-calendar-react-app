@@ -9,8 +9,8 @@
 .task-input-container {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
+	/* justify-content: space-between; */
+	gap: .5rem;
 	width: 100%;
 }
 
@@ -21,6 +21,10 @@
 	border: 0px;
 	height: 2rem;
 	font-size: 1.25rem;
+}
+
+.task-input {
+	width: 100%;
 }
 
 .point-value {
@@ -47,9 +51,13 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 1.25rem;
-	font-variant: normal;
+	/* font-size: 1.25rem;
+	font-variant: normal; */
 	height: 2rem;
+}
+
+.remove-task-btn:hover {
+	cursor: pointer;
 }
 
 .recurring {

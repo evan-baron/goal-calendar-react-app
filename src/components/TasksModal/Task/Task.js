@@ -1,5 +1,6 @@
 import React from 'react';
 import './Task.css';
+import { DeleteForeverOutlined } from '@mui/icons-material';
 
 const Task = ({ task, removeTask, taskIndex }) => {
 	return (
@@ -15,12 +16,22 @@ const Task = ({ task, removeTask, taskIndex }) => {
 					Point Value:
 				</label>
 				<input className='points' type='number' min='1' max='3' value={1} />
-				<button
+				{/* <button
 					className='remove-task-btn'
 					onClick={() => removeTask(taskIndex)}
 				>
 					Remove
-				</button>
+				</button> */}
+				{/* Using icon instead of words for easier on the eyes purposes */}
+				<DeleteForeverOutlined 
+					className='remove-task-btn'
+					onClick={() => removeTask(taskIndex)}
+					sx={{
+						color: 'rgb(200, 200, 200)',
+						height: '2rem',
+						width: '2rem'
+					}}
+				/>
 			</div>
 			<div className='recurring'>Recurring?</div>
 		</div>
