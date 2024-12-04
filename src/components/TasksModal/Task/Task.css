@@ -1,27 +1,45 @@
 .task-container {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.task-input-container {
+	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
 	width: 100%;
 }
 
-.task-input {
+.task-container input {
+	color: rgb(25, 25, 75);
+	padding-left: .25rem;
+	background-color: rgba(140, 220, 255, .25);
+	border: 0px;
 	height: 2rem;
-    width: 100%;
-    font-size: 1.25rem;
-    color: rgb(25, 25, 75);
-    background-color: rgba(140, 220, 255, .25);
-    border: 0px;
-    padding-left: .25rem;
-	width: 70%;
+	font-size: 1.25rem;
 }
 
-.task-input::-webkit-input-placeholder {
+.point-value {
+	display: flex;
+	text-align: end;
+	font-size: .75rem;
+	width: 2rem;
+	height: 2rem;
+}
+
+.points {
+	width: 2.5rem;
+}
+
+.task-container input::-webkit-input-placeholder {
     color: rgba(25, 25, 75, .25);
 }
 
-.task-input:focus {
+.task-container input:focus {
     outline: 2px solid rgba(140, 220, 255, .75);
 }
 
@@ -32,5 +50,10 @@
 	font-size: 1.25rem;
 	font-variant: normal;
 	height: 2rem;
-	border-width: 1px;
+}
+
+.recurring {
+	align-self: flex-start;
+	font-size: 1rem;
+	color: rgb(25, 25, 75);
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import './TasksModal.css';
 import dayjs from 'dayjs';
 import TasksForm from '../../features/TasksForm/TasksForm';
+import Divider from '../Divider/Divider';
 
 const TasksModal = ({ editMode, selectedDay, setTasksModalOpen }) => {
 	return (
@@ -13,6 +14,7 @@ const TasksModal = ({ editMode, selectedDay, setTasksModalOpen }) => {
 					<div className='tasks-title'>Tasks for</div>
 					<div className='tasks-date'>{dayjs(selectedDay.date).format('dddd, MMMM DD')}</div>
 				</div>
+				<Divider />
 				<TasksForm 
 					selectedDay={selectedDay}
 				/>
