@@ -143,8 +143,8 @@ const CalendarDisplay = ({
 					tasksArr.push({
 						date: currentDay.format('YYYY-MM-DD'),
 						tasks: {
-							daily: {},
-							bonus: {},
+							daily: [],
+							bonus: [],
 						},
 					});
 
@@ -531,6 +531,7 @@ const CalendarDisplay = ({
 			/>
 			{tasksModalOpen 
 				? <TasksModal 
+					selectedCalendar={selectedCalendar}
 					selectedDay={selectedDay}
 					setTasksModalOpen={setTasksModalOpen}
 					editMode={editMode}

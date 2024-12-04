@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import TasksForm from '../../features/TasksForm/TasksForm';
 import Divider from '../Divider/Divider';
 
-const TasksModal = ({ editMode, selectedDay, setTasksModalOpen }) => {
+const TasksModal = ({ editMode, selectedCalendar, selectedDay, setTasksModalOpen }) => {
 	return (
 		<div className='tasks-modal-overlay'>
 			<div className='tasks-modal-content'>
@@ -16,6 +16,7 @@ const TasksModal = ({ editMode, selectedDay, setTasksModalOpen }) => {
 				</div>
 				<Divider />
 				<TasksForm 
+					selectedCalendar={selectedCalendar}
 					selectedDay={selectedDay}
 				/>
 			</div>

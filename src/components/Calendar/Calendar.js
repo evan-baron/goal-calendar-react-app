@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
-import { Edit, West, East } from '@mui/icons-material';
+import { Edit, West, East, ZoomInOutlined, Check, ListAltOutlined, List } from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,
@@ -15,20 +15,25 @@ const Calendar = ({
 	setSelectedDay,
 	setTasksModalOpen
 }) => {
-	const { startDate, endDate } = selectedCalendar; //keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
+	//keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
+	const { startDate, endDate } = selectedCalendar; 
+
+	//returns the last day of the week of 'end date', memod so that it doesn't keep refreshing and rerendering
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
 		[newEnd]
-	); //returns the last day of the week of 'end date', memod so that it doesn't keep refreshing and rerendering
+	); 
 	const startMonth = dayjs(newStart).month();
 	const endMonth = dayjs(newEnd).month();
 	const startYear = dayjs(newStart).year();
 	const endYear = dayjs(newEnd).year();
 
-	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0); //activeCalendarIndex is the calendar month being shown - when users navigate to the next / previous months, this changes
+	//activeCalendarIndex is the calendar month being shown - when users navigate to the next / previous months, this changes
+	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0); 
 	const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
 
-	const calendarMonths = useMemo(() => { //again using useMemo because only need to capture this once, while dayjs will keep rerendering
+	//again using useMemo because only need to capture this once, while dayjs will keep rerendering
+	const calendarMonths = useMemo(() => { 
 		const months = [];
 
 		//below function finds the active months during calendar start and end date and pushes to calendarMonths array
@@ -161,6 +166,12 @@ const Calendar = ({
 								'day'
 							);
 
+							//used for onClick function on each day to locate day in state object and return tasks
+							const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); 
+
+							//determines if rendered day has tasks already or not
+							const currentDayTasks = selectedCalendar.tasks[calendarIndex]?.tasks.daily.length > 0;
+
 							const isWeekend =
 								currentDay.day() === 0 ||
 								currentDay.day() === 6;
@@ -178,16 +189,17 @@ const Calendar = ({
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
 
-							const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); //used for onClick function on each day to locate day in state object and return tasks
 
 							//finally rendering the day items below with their key set to dayIndex
 							return (
 								<div
 									className={`calendar-day ${
-										isOutsideRange || isWeekendOutsideRange
-											? 'outside-range'
-											: editMode
+										isOutsideRange || isWeekendOutsideRange //if outside range
+											? 'outside-range' 
+											: editMode //if in edit mode and inside range
 											? 'inside-range edit-mode'
+											: !editMode && !currentDayTasks //if NOT in edit mode and no current tasks
+											? 'outside-range'
 											: 'inside-range'
 									}`}
 									key={dayIndex}
@@ -195,7 +207,8 @@ const Calendar = ({
 										if(!(isOutsideRange || isWeekendOutsideRange)) {
 											//sets selected day to the clicked day, then opens tasks modal
 											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-											console.log(selectedCalendar.tasks[calendarIndex]);
+											console.log(selectedCalendar.tasks[calendarIndex].tasks.daily.length);
+											console.log('currentdaytasks: ', currentDayTasks);
 											setTasksModalOpen(prev => prev = !prev);
 											if (isDirty) {
 												validateDates()
@@ -214,9 +227,46 @@ const Calendar = ({
 									{/* below determines how to display the day using conditional styling */}
 									{!isOutsideRange && !isWeekendOutsideRange && (
 										<>
-											<div className='day-body'>
-												<span>Details</span>
-											</div>
+											{editMode && currentDayTasks 
+											? (
+											<>
+												<div className='day-body'>
+													<div>View Tasks</div>
+													<Check 
+														sx={{
+															fontSize: 50,
+															color: 'rgb(0, 200, 0)'
+														}}
+														className='check'
+													/>
+												</div>
+												<ZoomInOutlined 
+													sx={{ 
+														fontSize: 30,
+														transform: 'scale(-1, 1)'
+													 }}
+													className='zoom-in'
+												/>
+											</>
+											) : editMode && !currentDayTasks
+											? (
+												<div style={{ color: 'red' }}>No Tasks</div>
+											)
+											: !editMode && !currentDayTasks 
+											? null
+											: (
+												<>
+													<div className='day-body'>
+														<div>View Tasks</div>
+													</div>
+													<ZoomInOutlined 
+														sx={{ 
+															fontSize: 40,
+															transform: 'scale(-1, 1)'
+														}}
+													/>
+												</>
+											)}
 											{editMode && !isWeekendOutsideRange ? (
 												<Edit
 													sx={{ fontSize: 30 }}
