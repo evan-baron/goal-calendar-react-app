@@ -8,7 +8,9 @@ import Task from '../../components/TasksModal/Task/Task';
 
 const TasksForm = ({ selectedCalendar, selectedDay }) => {
 	const dispatch = useDispatch();
-	const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD'));
+	const calendarIndex = selectedCalendar.tasks.findIndex(
+		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
+	);
 
 	const [dailyTasks, setDailyTasks] = useState(
 		selectedCalendar.tasks[calendarIndex].tasks.daily.length === 0
@@ -21,35 +23,42 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 			  ]
 			: selectedCalendar.tasks[calendarIndex].tasks.daily
 	);
-	
+
 	const addTask = (taskIndex) => {
-		setDailyTasks([...dailyTasks, {
-			task: `Task ${dailyTasks.length + 1}`,
-			points: 1,
-			completed: false
-		}])
-	}
-	
+		setDailyTasks([
+			...dailyTasks,
+			{
+				task: `Task ${dailyTasks.length + 1}`,
+				points: 1,
+				completed: false,
+			},
+		]);
+	};
+
 	const removeTask = (taskIndex) => {
-		setDailyTasks((prevTasks) => prevTasks.filter((_, index) => index !== taskIndex));
-	}
-	
+		setDailyTasks((prevTasks) =>
+			prevTasks.filter((_, index) => index !== taskIndex)
+		);
+	};
+
 	useEffect(() => {
 		// console.log(tasks)
-	}, [dailyTasks])
-	
-	const handleSubmit = () => {
+	}, [dailyTasks]);
 
+	const handleSubmit = () => {
 		console.log('selected calendar: ', selectedCalendar);
 		console.log('calendar index: ', calendarIndex);
-		console.log('selected calendar selected day tasks object: ', selectedCalendar.tasks[calendarIndex].tasks.daily);
-		console.log('selected day tasks: ', selectedDay.tasks)
-		console.log('dailyTasks: ', dailyTasks)
-		
+		console.log(
+			'selected calendar selected day tasks object: ',
+			selectedCalendar.tasks[calendarIndex].tasks.daily
+		);
+		console.log('selected day tasks: ', selectedDay.tasks);
+		console.log('dailyTasks: ', dailyTasks);
+
 		//test adding task to selectedDay.tasks AND selectedCalendar.tasks[calendarIndex].tasks to see if it's the same
-		
+
 		// setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-		
+
 		const updatedTasks = [...selectedCalendar.tasks];
 		updatedTasks[calendarIndex] = {
 			...updatedTasks[calendarIndex],
@@ -61,7 +70,7 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 
 		dispatch(
 			updateCalendar({
-				calendarId: selectedCalendar.calendarId,
+				...selectedCalendar,
 				tasks: updatedTasks,
 			})
 		);
@@ -71,29 +80,28 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 		// const updatedTasks = [...tasks, tasks[calendarIndex].tasks.daily = dailyTasks]
 
 		// console.log('updatedTasks: ', updatedTasks)
-
-	}
+	};
 
 	return (
-		<div className='tasks-form-container'> {/* THIS NEEDS TO BE A FORM NOT A DIV */}
-			{[
-				...Array(dailyTasks.length)].map((_, taskIndex) => {
-					return (
-						<Task 
-							key={taskIndex}
-							task={dailyTasks[taskIndex].task}
-							taskIndex={taskIndex}
-							removeTask={removeTask}
-						/>
-					)
-				})
-			}
-			<button 
-				className='add-task-btn'
-				onClick={addTask}
-			>Add Task</button>
+		<div className='tasks-form-container'>
+			{' '}
+			{/* THIS NEEDS TO BE A FORM NOT A DIV */}
+			{[...Array(dailyTasks.length)].map((_, taskIndex) => {
+				return (
+					<Task
+						key={taskIndex}
+						task={dailyTasks[taskIndex].task}
+						taskIndex={taskIndex}
+						removeTask={removeTask}
+					/>
+				);
+			})}
+			<button className='add-task-btn' onClick={addTask}>
+				Add Task
+			</button>
 			<div className='save-cancel-btns'>
-				<button onClick={handleSubmit}>Save</button> {/* THIS WILL BE THE ON SUBMIT BUTTON FOR THE FORM */}
+				<button onClick={handleSubmit}>Save</button>{' '}
+				{/* THIS WILL BE THE ON SUBMIT BUTTON FOR THE FORM */}
 				<button>Cancel</button>
 			</div>
 		</div>
