@@ -3,6 +3,8 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: .5rem;
+	width: 100%;
 }
 
 .add-task-btn {
@@ -12,4 +14,22 @@
 	font-size: 1.25rem;
 	font-variant: normal;
 	height: 1.75rem;
+}
+
+.save-cancel-btns {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+	width: 70%;
+}
+
+.save-cancel-btns button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-variant: normal;
+	font-size: 1.75rem;
+	height: 2.5rem;
+	width: 8rem;
 }

@@ -57,8 +57,7 @@
 }
 
 .calendar-name input:focus {
-    border: 2px solid rgb(25, 118, 210);
-    outline: 0;
+    outline: 2px solid rgba(140, 220, 255, .75);
 }
 
 .calendar-dates {

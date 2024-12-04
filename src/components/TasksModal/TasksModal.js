@@ -11,7 +11,7 @@ const TasksModal = ({ editMode, selectedDay, setTasksModalOpen }) => {
 					className='tasks-title-container'
 					onClick={() => setTasksModalOpen(false)}>
 					<div className='tasks-title'>Tasks for</div>
-					<div className='tasks-date'>{dayjs(selectedDay.date).format('MMMM DD')}</div>
+					<div className='tasks-date'>{dayjs(selectedDay.date).format('dddd, MMMM DD')}</div>
 				</div>
 				<TasksForm 
 					selectedDay={selectedDay}

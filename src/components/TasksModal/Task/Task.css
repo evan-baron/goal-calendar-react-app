@@ -1,15 +1,36 @@
 .task-container {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	gap: 1rem;
+	width: 100%;
+}
+
+.task-input {
+	height: 2rem;
+    width: 100%;
+    font-size: 1.25rem;
+    color: rgb(25, 25, 75);
+    background-color: rgba(140, 220, 255, .25);
+    border: 0px;
+    padding-left: .25rem;
+	width: 70%;
+}
+
+.task-input::-webkit-input-placeholder {
+    color: rgba(25, 25, 75, .25);
+}
+
+.task-input:focus {
+    outline: 2px solid rgba(140, 220, 255, .75);
 }
 
 .remove-task-btn {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 1rem;
+	font-size: 1.25rem;
 	font-variant: normal;
-	height: 1.25rem;
+	height: 2rem;
+	border-width: 1px;
 }

@@ -1,10 +1,15 @@
 import React from 'react'
 import './Task.css'
 
-const Task = ({ removeTask, taskIndex }) => {
+const Task = ({ task, removeTask, taskIndex }) => {
   return (
 	<div className='task-container'>
-		<input type="text" placeholder={'Task ' + (taskIndex + 1)} />
+		<input 
+			className='task-input' 
+			type="text" 
+			placeholder={task}
+			maxLength={60}
+		/>
 		<button 
 			className='remove-task-btn'
 			onClick={() => removeTask(taskIndex)}
