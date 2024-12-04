@@ -231,7 +231,6 @@ const Calendar = ({
 											? (
 											<>
 												<div className='day-body'>
-													<div>View Tasks</div>
 													<Check 
 														sx={{
 															fontSize: 50,
