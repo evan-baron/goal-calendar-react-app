@@ -11,9 +11,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 1.25rem;
+	font-size: 1rem;
 	font-variant: normal;
-	height: 2rem;
+	height: 1.5rem;
 }
 
 .save-cancel-btns {
@@ -29,7 +29,7 @@
 	justify-content: center;
 	align-items: center;
 	font-variant: normal;
-	font-size: 1.75rem;
-	height: 2.5rem;
+	font-size: 1.5rem;
+	height: 2rem;
 	width: 8rem;
 }

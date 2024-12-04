@@ -509,8 +509,6 @@ const CalendarDisplay = ({
 					setEditName={setEditName}
 					setEditMode={setEditMode}
 					setNavStatus={setNavStatus}
-					setIsModalOpen={setIsModalOpen}
-					setModalType={setModalType}
 					selectedCalendar={selectedCalendar}
 					validateDates={validateDates}
 				/>
@@ -537,15 +535,17 @@ const CalendarDisplay = ({
 				setModalType={setModalType}
 				newCalName={newCalName}
 			/>
-			{tasksModalOpen 
-				? <TasksModal 
-					selectedCalendar={selectedCalendar}
-					selectedDay={selectedDay}
-					setTasksModalOpen={setTasksModalOpen}
-					editMode={editMode}
-				/> 
-				: null
-			}
+			<TasksModal 
+				isDirty={isDirty}
+				setIsDirty={setIsDirty}
+				isOpen={tasksModalOpen}
+				selectedCalendar={selectedCalendar}
+				selectedDay={selectedDay}
+				setTasksModalOpen={setTasksModalOpen}
+				setModalType={setModalType}
+				setIsModalOpen={setIsModalOpen}
+				editMode={editMode}
+			/> 
 		</div>
 	);
 };

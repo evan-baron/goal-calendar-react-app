@@ -215,7 +215,7 @@ const Calendar = ({
 												setTasksModalOpen(prev => prev = !prev);
 											}
 										}
-									}} //the clicked-day's date and tasks
+									}} //shows the clicked-day's date and tasks
 								>
 									{/* the day item's 'header', month day number */}
 									<div className='day-title'>

@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux';
 import { updateCalendar } from '../CalendarForm/calendarSlice';
 import dayjs from 'dayjs';
 import Task from '../../components/TasksModal/Task/Task';
+import Modal from '../../components/Modal/Modal';
 
-const TasksForm = ({ selectedCalendar, selectedDay }) => {
+const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTasksModalOpen }) => {
 	const dispatch = useDispatch();
 	const calendarIndex = selectedCalendar.tasks.findIndex(
 		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
@@ -23,8 +24,11 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 			  ]
 			: selectedCalendar.tasks[calendarIndex].tasks.daily
 	);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [modalType, setModalType] = useState(null);
 
-	const addTask = (taskIndex) => {
+	const addTask = () => {
+		setIsDirty(true);
 		setDailyTasks([
 			...dailyTasks,
 			{
@@ -45,58 +49,77 @@ const TasksForm = ({ selectedCalendar, selectedDay }) => {
 		// console.log(tasks)
 	}, [dailyTasks]);
 
-	const handleSubmit = () => {
-		console.log('selected calendar: ', selectedCalendar);
-		console.log('calendar index: ', calendarIndex);
-		console.log(
-			'selected calendar selected day tasks object: ',
-			selectedCalendar.tasks[calendarIndex].tasks.daily
-		);
-		console.log('selected day tasks: ', selectedDay.tasks);
-		console.log('dailyTasks: ', dailyTasks);
+	const acceptChanges = () => {
+		switch(modalType) {
+			case 'save-changes':
+				const updatedTasks = [...selectedCalendar.tasks];
+				updatedTasks[calendarIndex] = {
+					...updatedTasks[calendarIndex],
+					tasks: {
+						...updatedTasks[calendarIndex].tasks,
+						daily: dailyTasks,
+					},
+				};
+		
+				dispatch(
+					updateCalendar({
+						...selectedCalendar,
+						tasks: updatedTasks,
+					})
+				);
 
-		const updatedTasks = [...selectedCalendar.tasks];
-		updatedTasks[calendarIndex] = {
-			...updatedTasks[calendarIndex],
-			tasks: {
-				...updatedTasks[calendarIndex].tasks,
-				daily: dailyTasks,
-			},
-		};
+				setIsModalOpen(false);
+				setModalType(null);
+				setIsDirty(false);
+				setTasksModalOpen(false);
+				break;
+		}
+	}
 
-		dispatch(
-			updateCalendar({
-				...selectedCalendar,
-				tasks: updatedTasks,
-			})
-		);
+	const rejectChanges = () => {
 
-		console.log('Updated tasks dispatched: ', updatedTasks);
+	}
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (isDirty) {
+			setModalType('save-changes');
+			setIsModalOpen(true);
+		} else {
+			//ADD LOGIC IN HERE FOR IF NO CHANGES MADE TO TASKS
+		}
 	};
 
 	return (
-		<div className='tasks-form-container'>
-			{' '}
-			{/* THIS NEEDS TO BE A FORM NOT A DIV */}
-			{[...Array(dailyTasks.length)].map((_, taskIndex) => {
-				return (
-					<Task
-						key={taskIndex}
-						task={dailyTasks[taskIndex].task}
-						taskIndex={taskIndex}
-						removeTask={removeTask}
-					/>
-				);
-			})}
-			<button className='add-task-btn' onClick={addTask}>
-				Add Task
-			</button>
-			<div className='save-cancel-btns'>
-				<button onClick={handleSubmit}>Save</button>{' '}
-				{/* THIS WILL BE THE ON SUBMIT BUTTON FOR THE FORM */}
-				<button>Cancel</button>
-			</div>
-		</div>
+		<>
+			<form onSubmit={handleSubmit} className='tasks-form-container'>
+				{[...Array(dailyTasks.length)].map((_, taskIndex) => {
+					return (
+						<Task
+							key={taskIndex}
+							task={dailyTasks[taskIndex].task}
+							taskIndex={taskIndex}
+							removeTask={removeTask}
+						/>
+					);
+				})}
+				<button className='add-task-btn' type='button' onClick={addTask}>
+					Add Task
+				</button>
+				<div className='save-cancel-btns'>
+					<button type='submit'>Save</button>{' '}
+					{/* THIS WILL BE THE ON SUBMIT BUTTON FOR THE FORM */}
+					<button type='button'>Cancel</button>
+				</div>
+			</form>
+			<Modal 
+				isOpen={isModalOpen}
+				onConfirm={acceptChanges}
+				onReject={rejectChanges}
+				modalType={modalType}
+			/>
+		</>
 	);
 };
 
