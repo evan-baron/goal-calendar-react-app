@@ -510,6 +510,8 @@ const CalendarDisplay = ({
 					setEditMode={setEditMode}
 					setNavStatus={setNavStatus}
 					selectedCalendar={selectedCalendar}
+					setIsModalOpen={setIsModalOpen}
+					setModalType={setModalType}
 					validateDates={validateDates}
 				/>
 			</div>
