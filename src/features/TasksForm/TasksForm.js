@@ -77,7 +77,8 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 	}
 
 	const rejectChanges = () => {
-
+		
+		{/* ADD LOGIC FOR CANCELING */}
 	}
 
 	const handleSubmit = (e) => {
@@ -87,7 +88,10 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 			setModalType('save-changes');
 			setIsModalOpen(true);
 		} else {
-			//ADD LOGIC IN HERE FOR IF NO CHANGES MADE TO TASKS
+			setTasksModalOpen(false);
+
+		{/* ADD LOGIC FOR IF REMOVING TASKS, NO TASKS AT ALL, OR NOTHING INSIDE THE TASK INPUT */}
+
 		}
 	};
 
