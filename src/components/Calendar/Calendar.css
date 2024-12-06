@@ -120,14 +120,18 @@
 .edit-pencil-centered {
   align-self: center;
   transform: translateY(-.25rem);
-  font-size: 40px;
 }
 
 .close {
+  z-index: 1;
   position: absolute;
-  top: 1rem;
-  right: 0;
-  margin: 0.5rem;
+  display: flex;
+  top: 1.5rem;
+  right: 0.5rem;
+}
+
+.close:hover {
+  color: rgb(255, 0, 0);
 }
 
 .zoom-in {

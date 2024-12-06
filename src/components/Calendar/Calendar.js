@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
+import Tooltip from '../Tooltip/Tooltip';
 import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb } from '@mui/icons-material';
 
 const Calendar = ({
@@ -256,6 +257,7 @@ const Calendar = ({
 												<div className='day-body'>
 													<Edit
 														className='edit-pencil-centered'
+														sx={{ fontSize: 40 }}
 													/>
 												</div>
 											)
@@ -282,6 +284,11 @@ const Calendar = ({
 														color: 'rgb(200, 200, 200)'
 													}}
 													className='close'
+													onClick={(e) => {
+														e.stopPropagation();
+														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+														console.log(selectedCalendar.tasks[calendarIndex].date)
+													}}
 												/>
 											) : null}
 											{editMode && !isWeekendOutsideRange && currentDayTasks
