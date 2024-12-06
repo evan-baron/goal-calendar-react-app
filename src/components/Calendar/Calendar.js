@@ -266,6 +266,12 @@ const Calendar = ({
 											:editMode && currentDayTasks 
 											? (
 											<>
+												{/* <div className='day-body'>
+													<Edit
+														className='edit-pencil-centered'
+														sx={{ fontSize: 40 }}
+													/>
+												</div> */}
 												<div className='day-body'>
 													<Check 
 														sx={{
@@ -275,13 +281,19 @@ const Calendar = ({
 														className='check'
 													/>
 												</div>
-												<ZoomInOutlined 
+												{/* <Edit 
+													sx={{ 
+														fontSize: 25,
+													 }}
+													 className='zoom-in'
+												/> */}
+												{/* <ZoomInOutlined 
 													sx={{ 
 														fontSize: 30,
 														transform: 'scale(-1, 1)'
 													 }}
 													className='zoom-in'
-												/>
+												/> */}
 											</>
 											) : editMode && !currentDayTasks
 											? (
@@ -327,7 +339,8 @@ const Calendar = ({
 											{editMode && !isWeekendOutsideRange && currentDayTasks && !isDisabled
 											? (
 												<Edit
-													sx={{ fontSize: 30 }}
+													sx={{ fontSize: 25 }}
+													//FONTSIZE WAS ORIGINALLY 30 AND RIGHT:0 IN CSS
 													className='edit-pencil'
 												/>
 											) 

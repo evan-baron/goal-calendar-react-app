@@ -107,13 +107,13 @@
 
 .check {
   position: absolute;
-  top: 0.25rem;
+  top: 0.5rem;
 }
 
 .edit-pencil {
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 0.125rem;
 	margin: 0.5rem;
 }
 
@@ -136,7 +136,7 @@
 
 .zoom-in {
   position: absolute;
-  bottom: 0;
+  top: 1.125rem;
   left: 0;
   margin: 0.5rem;
 }
