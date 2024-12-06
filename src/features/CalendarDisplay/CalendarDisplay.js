@@ -41,6 +41,7 @@ const CalendarDisplay = ({
 	const [originalWeekends, setOriginalWeekends] = useState(weekends);
 	const [showWeekends, setShowWeekends] = useState(true);
 	const [selectedDay, setSelectedDay] = useState(null);
+	const [currentTasks, setCurrentTasks] = useState(null);
 	const [tasksModalOpen, setTasksModalOpen] = useState(null);
 
 	const dispatch = useDispatch();
@@ -499,6 +500,7 @@ const CalendarDisplay = ({
 					validateDates={validateDates}
 					setSelectedDay={setSelectedDay}
 					setTasksModalOpen={setTasksModalOpen}
+					setCurrentTasks={setCurrentTasks}
 				/>
 
 				{/* the floating control panel for the user */}
@@ -547,6 +549,7 @@ const CalendarDisplay = ({
 				setModalType={setModalType}
 				setIsModalOpen={setIsModalOpen}
 				editMode={editMode}
+				currentTasks={currentTasks}
 			/> 
 		</div>
 	);

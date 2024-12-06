@@ -4,20 +4,42 @@ import './TasksForm.css';
 import { useDispatch } from 'react-redux';
 import { updateCalendar } from '../CalendarForm/calendarSlice';
 import dayjs from 'dayjs';
+import isEqual from 'lodash/isEqual';
 import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
 
-const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTasksModalOpen }) => {
+const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTasksModalOpen, currentTasks }) => {
 	const dispatch = useDispatch();
 	const calendarIndex = selectedCalendar.tasks.findIndex(
 		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
 	);
 
+	const easterEgg = () => {
+		const easterEggArr = [
+			'Drink 100oz of Water',
+			'Run 1 mile',
+			'Eat a piece of candy',
+			'Do 20 push-ups',
+			'Organize email',
+			'Do laundry',
+			'Fill out expense report',
+			'Upper-body workout day',
+			'Write 10 pages in book',
+			'Read for 30 minutes',
+			'Subscribe to Cat Facts!',
+			'Call parents',
+			'Do 5 modules',
+			'Watch 3 training videos'
+		];
+
+		return easterEggArr[Math.floor(Math.random() * easterEggArr.length)];
+	}
+
 	const [dailyTasks, setDailyTasks] = useState(
 		selectedCalendar.tasks[calendarIndex].tasks.daily.length === 0
 			? [
 					{
-						task: 'Task 1234',
+						task: easterEgg(),
 						points: 1,
 						completed: false,
 					},
@@ -50,49 +72,54 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 	}, [dailyTasks]);
 
 	const acceptChanges = () => {
-		switch(modalType) {
-			case 'save-changes':
-				const updatedTasks = [...selectedCalendar.tasks];
-				updatedTasks[calendarIndex] = {
-					...updatedTasks[calendarIndex],
-					tasks: {
-						...updatedTasks[calendarIndex].tasks,
-						daily: dailyTasks,
-					},
-				};
-		
-				dispatch(
-					updateCalendar({
-						...selectedCalendar,
-						tasks: updatedTasks,
-					})
-				);
+		const updatedTasks = [...selectedCalendar.tasks];
+		updatedTasks[calendarIndex] = {
+			...updatedTasks[calendarIndex],
+			tasks: {
+				...updatedTasks[calendarIndex].tasks,
+				daily: dailyTasks,
+			},
+		};
 
-				setIsModalOpen(false);
-				setModalType(null);
-				setIsDirty(false);
-				setTasksModalOpen(false);
-				break;
-		}
+		dispatch(
+			updateCalendar({
+				...selectedCalendar,
+				tasks: updatedTasks,
+			})
+		);
+
+		setIsModalOpen(false);
+		setModalType(null);
+		setIsDirty(false);
+		setTasksModalOpen(false);
 	}
 
 	const rejectChanges = () => {
-		
-		{/* ADD LOGIC FOR CANCELING */}
+		setModalType(null);
+		setIsModalOpen(false);
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (isDirty) {
+		if (!isEqual(dailyTasks, currentTasks.daily)) {
+			console.log('daily tasks: ', dailyTasks, 'current tasks: ', currentTasks.daily);
 			setModalType('save-changes');
 			setIsModalOpen(true);
 		} else {
-			setTasksModalOpen(false);
-
-		{/* ADD LOGIC FOR IF REMOVING TASKS, NO TASKS AT ALL, OR NOTHING INSIDE THE TASK INPUT */}
-
+			setTasksModalOpen(false)
 		}
+		
+
+		// if (isDirty) {
+		// 	setModalType('save-changes');
+		// 	setIsModalOpen(true);
+		// } else {
+		// 	setTasksModalOpen(false);
+
+		// {/* ADD LOGIC FOR IF REMOVING TASKS, NO TASKS AT ALL, OR NOTHING INSIDE THE TASK INPUT */}
+
+		// }
 	};
 
 	return (
@@ -108,19 +135,30 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 						/>
 					);
 				})}
-				<button className='add-task-btn' type='button' onClick={addTask}>
+				<button
+					className='add-task-btn'
+					type='button'
+					onClick={addTask}
+				>
 					Add Task
 				</button>
 				<div className='save-cancel-btns'>
 					<button type='submit'>Save</button>{' '}
-					{/* THIS WILL BE THE ON SUBMIT BUTTON FOR THE FORM */}
-					<button type='button'>Cancel</button>
+					<button
+						type='button'
+						onClick={() => {
+							setIsDirty(false);
+							setTasksModalOpen(false);
+						}}
+					>
+						Cancel
+					</button>
 				</div>
 			</form>
-			<Modal 
+			<Modal
 				isOpen={isModalOpen}
 				onConfirm={acceptChanges}
-				onReject={rejectChanges}
+				onClose={rejectChanges}
 				modalType={modalType}
 			/>
 		</>

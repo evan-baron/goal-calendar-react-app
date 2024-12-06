@@ -13,7 +13,8 @@ const Calendar = ({
 	showWeekends,
 	validateDates,
 	setSelectedDay,
-	setTasksModalOpen
+	setTasksModalOpen,
+	setCurrentTasks
 }) => {
 	//keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
 	const { startDate, endDate } = selectedCalendar; 
@@ -210,7 +211,8 @@ const Calendar = ({
 												validateDates()
 											} else {
 												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-												console.log(selectedCalendar.tasks[calendarIndex].tasks.daily.length);
+												setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+												console.log(selectedCalendar.tasks[calendarIndex].tasks);
 												console.log('currentdaytasks: ', currentDayTasks);
 												setTasksModalOpen(prev => prev = !prev);
 											}
