@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
 import Tooltip from '../Tooltip/Tooltip';
-import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb } from '@mui/icons-material';
+import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb, SportsRugbySharp } from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,
@@ -18,7 +18,8 @@ const Calendar = ({
 	setIsModalOpen,
 	setModalType,
 	currentTasks,
-	setCurrentTasks
+	setCurrentTasks,
+	disabledDays
 }) => {
 	//keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
 	const { startDate, endDate } = selectedCalendar; 
@@ -184,6 +185,8 @@ const Calendar = ({
 							//determines if weekends are considered inside or outside user's selected date range
 							const isWeekendOutsideRange = showWeekends && !toggleWeekends && isWeekend;
 
+							const isDisabled = !!disabledDays.find((day) => dayjs(currentDay).format('YYYY-MM-DD') === day);
+
 							//'light switch' to turn on or off weekend display, provided user has selected to not include weekends in their date range
 							if (!toggleWeekends && isWeekend && !showWeekends) {
 								return null;
@@ -193,13 +196,14 @@ const Calendar = ({
 							const isOutsideRange =
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
-
-
+								
 							//finally rendering the day items below with their key set to dayIndex
 							return (
 								<div
 									className={`calendar-day ${
-										isOutsideRange || isWeekendOutsideRange //if outside range
+										isDisabled 
+										? 'inside-range is-disabled'
+											: isOutsideRange || isWeekendOutsideRange //if outside range
 											? 'outside-range' 
 											: editMode //if in edit mode and inside range
 											? 'inside-range edit-mode'
@@ -209,15 +213,22 @@ const Calendar = ({
 									}`}
 									key={dayIndex}
 									onClick={() => {
-										if(!(isOutsideRange || isWeekendOutsideRange)) {
-											//sets selected day to the clicked day, then opens tasks modal
-											if (isDirty) {
-												validateDates()
-											} else {
-												console.log(currentTasks);
-												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-												setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
-												setTasksModalOpen(prev => prev = !prev);
+										if(isDisabled) {
+											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+											setIsModalOpen(true)
+											setModalType('enable-day')
+										} else {
+											if(!(isOutsideRange || isWeekendOutsideRange)) {
+												//sets selected day to the clicked day, then opens tasks modal
+												if (isDirty) {
+													validateDates()
+												} else {
+													console.log(currentTasks);
+													setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+													setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+													setTasksModalOpen(prev => prev = !prev);
+													console.log('disabled days: ',disabledDays);
+												}
 											}
 										}
 									}} //shows the clicked-day's date and tasks
@@ -233,7 +244,19 @@ const Calendar = ({
 									{/* below determines how to display the day using conditional styling */}
 									{!isOutsideRange && !isWeekendOutsideRange && (
 										<>
-											{editMode && currentDayTasks 
+											{editMode && isDisabled
+											? (
+												<div className='day-body'>
+													<DoNotDisturb
+														className='edit-pencil-centered'
+														sx={{ 
+															fontSize: 40,
+															color: 'rgba(255, 0, 0, .5)'
+														 }}
+													/>
+												</div>
+											)
+											:editMode && currentDayTasks 
 											? (
 											<>
 												<div className='day-body'>
@@ -278,7 +301,7 @@ const Calendar = ({
 													/>
 												</>
 											)}
-											{editMode && !isWeekendOutsideRange && !currentDayTasks
+											{editMode && !isWeekendOutsideRange && !currentDayTasks && !isDisabled
 											? (
 												<Close
 													sx={{
@@ -289,7 +312,10 @@ const Calendar = ({
 													onClick={(e) => {
 														e.stopPropagation();
 														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-														console.log(selectedCalendar.tasks[calendarIndex].date)
+														console.log(selectedCalendar.tasks[calendarIndex].date);
+														console.log('disabled days: ', disabledDays);
+														console.log('current day: ', dayjs(currentDay).format('YYYY-MM-DD'))
+														console.log('is disabled? ', isDisabled);
 														setIsModalOpen(true);
 														setModalType('disable-day');
 													}}

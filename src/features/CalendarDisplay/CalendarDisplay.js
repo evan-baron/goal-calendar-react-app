@@ -222,6 +222,16 @@ const CalendarDisplay = ({
 			case 'change-calendars':
 				saveChanges();
 				break;
+			case 'disable-day':
+				setDisabledDays([...disabledDays,selectedDay.date])
+				setIsModalOpen(false);
+				setModalType(null);
+				break;
+			case 'enable-day':
+				setDisabledDays(disabledDays.filter((day) => day !== selectedDay.date))
+				setIsModalOpen(false);
+				setModalType(null);
+				break;
 			default:
 				console.log('Unhandled modalType:', modalType);
 				break;
@@ -241,6 +251,7 @@ const CalendarDisplay = ({
 			case 'save-changes':
 			case 'too-many-calendars':
 			case 'disable-day':
+			case 'enable-day':
 				setIsModalOpen(false);
 				setModalType(null);
 				break;

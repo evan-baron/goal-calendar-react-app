@@ -60,6 +60,9 @@ const Modal = ({
 		case 'disable-day':
 			message = `Disable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
 			break;
+		case 'enable-day':
+			message = `Re-enable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
+			break;
 		default:
 			message = 'Confirm changes?';
 	}
