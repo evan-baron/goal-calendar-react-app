@@ -293,7 +293,7 @@ const Calendar = ({
 													/>
 												</div>
 											)
-											: !editMode && !currentDayTasks && !isDisabled || !editMode && currentDayTasks && isDisabled
+											: !editMode && !currentDayTasks || !editMode && currentDayTasks && isDisabled
 											? null
 											: (
 												<>
