@@ -220,33 +220,87 @@ const CalendarDisplay = ({
 				saveChanges();
 				break;
 			case 'disable-day':
-				if (disableDayChecked) {
-					const targetDay = dayjs(selectedDay.date).day();
-					const matchingDays = [];
+				const hasTasks = !!selectedDay.tasks.daily.length > 0;
+				if (hasTasks && !disableDayChecked) {
+					setModalType('disable-day-with-tasks');
+				} else {
+					if (disableDayChecked) {
+						const targetDay = dayjs(selectedDay.date).day();
+						const matchingDays = [];
 
-					let current = newStart;
+						let current = newStart;
 
-					while (
-						current.isBefore(newEnd, 'day') ||
-						current.isSame(newEnd, 'day')
-					) {
-						if (current.day() === targetDay) {
-							matchingDays.push(current.format('YYYY-MM-DD'));
+						while (
+							current.isBefore(newEnd, 'day') ||
+							current.isSame(newEnd, 'day')
+						) {
+							if (current.day() === targetDay) {
+								matchingDays.push(current.format('YYYY-MM-DD'));
+							}
+
+							current = current.add(1, 'day');
 						}
 
-						current = current.add(1, 'day');
-						setDisabledDays((prev) =>
-							Array.from(new Set([...prev, ...matchingDays]))
-						);
-						setDisableDayChecked(false);
+						const matchingDaysInRange =
+							selectedCalendar.tasks.filter((task) => {
+								return matchingDays.some(
+									(day) => task.date === day
+								);
+							});
+						const matchingDaysInRangeMinusDay =
+							matchingDaysInRange.filter(
+								(day) => day.date !== selectedDay.date
+							);
+						const matchingDaysHasTasks =
+							!!matchingDaysInRangeMinusDay.some(
+								(day) => day.tasks.daily.length > 0
+							);
+
+						if (matchingDaysHasTasks) {
+							setModalType('matching-days-have-tasks');
+							setIsModalOpen(true);
+						} else {
+							setDisabledDays((prev) =>
+								Array.from(new Set([...prev, ...matchingDays]))
+							);
+							setDisableDayChecked(false);
+							setIsModalOpen(false);
+							setModalType(null);
+						}
+					} else {
+						setDisabledDays([...disabledDays, selectedDay.date]);
 						setIsModalOpen(false);
 						setModalType(null);
 					}
-				} else {
-					setDisabledDays([...disabledDays, selectedDay.date]);
-					setIsModalOpen(false);
-					setModalType(null);
 				}
+				break;
+			case 'disable-day-with-tasks':
+				setDisabledDays([...disabledDays, selectedDay.date]);
+				setIsModalOpen(false);
+				setModalType(null);
+				break;
+			case 'matching-days-have-tasks':
+				const targetDay = dayjs(selectedDay.date).day();
+				const matchingDays = [];
+
+				let current = newStart;
+
+				while (
+					current.isBefore(newEnd, 'day') ||
+					current.isSame(newEnd, 'day')
+				) {
+					if (current.day() === targetDay) {
+						matchingDays.push(current.format('YYYY-MM-DD'));
+					}
+
+					current = current.add(1, 'day');
+				}
+				setDisabledDays((prev) =>
+					Array.from(new Set([...prev, ...matchingDays]))
+				);
+				setDisableDayChecked(false);
+				setIsModalOpen(false);
+				setModalType(null);
 				break;
 			case 'enable-day':
 				if (disableDayChecked) {
@@ -292,7 +346,9 @@ const CalendarDisplay = ({
 			case 'save-changes':
 			case 'too-many-calendars':
 			case 'disable-day':
+			case 'disable-day-with-tasks':
 			case 'enable-day':
+			case 'matching-days-have-tasks':
 				setIsModalOpen(false);
 				setModalType(null);
 				break;

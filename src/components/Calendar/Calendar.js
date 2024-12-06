@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
-import Tooltip from '../Tooltip/Tooltip';
 import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb, SportsRugbySharp } from '@mui/icons-material';
 
 const Calendar = ({
@@ -201,8 +200,8 @@ const Calendar = ({
 							return (
 								<div
 									className={`calendar-day ${
-										isDisabled 
-										? 'inside-range is-disabled'
+										isDisabled && !editMode
+										? 'outside-range is-disabled'
 											: isOutsideRange || isWeekendOutsideRange //if outside range
 											? 'outside-range' 
 											: editMode //if in edit mode and inside range
@@ -213,23 +212,31 @@ const Calendar = ({
 									}`}
 									key={dayIndex}
 									onClick={() => {
-										if(isDisabled) {
-											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-											setIsModalOpen(true)
-											setModalType('enable-day')
-										} else {
-											if(!(isOutsideRange || isWeekendOutsideRange)) {
-												//sets selected day to the clicked day, then opens tasks modal
-												if (isDirty) {
-													validateDates()
-												} else {
-													console.log(currentTasks);
-													setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-													setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
-													setTasksModalOpen(prev => prev = !prev);
-													console.log('disabled days: ',disabledDays);
+										if (editMode) {
+											if(isDisabled) {
+												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+												setIsModalOpen(true)
+												setModalType('enable-day')
+											} else {
+												if(!(isOutsideRange || isWeekendOutsideRange)) {
+													//sets selected day to the clicked day, then opens tasks modal
+													if (isDirty) {
+														validateDates()
+													} else {
+														console.log(currentTasks);
+														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+														setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+														setTasksModalOpen(prev => prev = !prev);
+													}
 												}
 											}
+										} else {
+											//* * * * * * * * * * * * * * * * * * * * * * * *//
+											//                                               //
+											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
+											//                                               //
+											//* * * * * * * * * * * * * * * * * * * * * * * *//
+											return;
 										}
 									}} //shows the clicked-day's date and tasks
 								>
@@ -286,7 +293,7 @@ const Calendar = ({
 													/>
 												</div>
 											)
-											: !editMode && !currentDayTasks 
+											: !editMode && !currentDayTasks && !isDisabled || !editMode && currentDayTasks && isDisabled
 											? null
 											: (
 												<>
@@ -301,7 +308,7 @@ const Calendar = ({
 													/>
 												</>
 											)}
-											{editMode && !isWeekendOutsideRange && !currentDayTasks && !isDisabled
+											{editMode && !isWeekendOutsideRange && !isDisabled
 											? (
 												<Close
 													sx={{
@@ -317,7 +324,7 @@ const Calendar = ({
 													}}
 												/>
 											) : null}
-											{editMode && !isWeekendOutsideRange && currentDayTasks
+											{editMode && !isWeekendOutsideRange && currentDayTasks && !isDisabled
 											? (
 												<Edit
 													sx={{ fontSize: 30 }}

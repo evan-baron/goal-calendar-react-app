@@ -62,6 +62,20 @@ const Modal = ({
 		case 'disable-day':
 			message = `Disable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
 			break;
+		case 'disable-day-with-tasks':
+			message = (
+				<>
+					There are tasks currently assigned to this day.<br />Proceed anyway?
+				</>
+				)
+			break;
+		case 'matching-days-have-tasks':
+			message = (
+				<>
+					There are tasks currently assigned on other {dayjs(selectedDay.date).format('dddd')}s.<br />Proceed anyway?
+				</>
+				)
+			break;		
 		case 'enable-day':
 			message = `Re-enable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
 			break;
