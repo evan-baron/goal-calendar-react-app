@@ -312,10 +312,6 @@ const Calendar = ({
 													onClick={(e) => {
 														e.stopPropagation();
 														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-														console.log(selectedCalendar.tasks[calendarIndex].date);
-														console.log('disabled days: ', disabledDays);
-														console.log('current day: ', dayjs(currentDay).format('YYYY-MM-DD'))
-														console.log('is disabled? ', isDisabled);
 														setIsModalOpen(true);
 														setModalType('disable-day');
 													}}
