@@ -1,5 +1,9 @@
 import React from 'react';
 import './Modal.css';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+
+dayjs.extend(advancedFormat);
 
 const Modal = ({
 	isOpen,
@@ -8,6 +12,10 @@ const Modal = ({
 	modalType,
 	newCalName,
 	setModalType,
+	selectedDay,
+	disableDayChecked,
+	setDisableDayChecked,
+	setDisabledDays
 }) => {
 	if (!isOpen) return null;
 
@@ -49,6 +57,9 @@ const Modal = ({
 		case 'change-name':
 			message = `Change calendar name to ${newCalName}?`;
 			break;
+		case 'disable-day':
+			message = `Disable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
+			break;
 		default:
 			message = 'Confirm changes?';
 	}
@@ -87,6 +98,19 @@ const Modal = ({
 						<button onClick={onClose}>Ok</button>
 					</div>
 				);
+
+			case 'disable-day':
+				return (
+					<>
+						<label className='disable-label'>{`Disable all ${dayjs(selectedDay.date).format('dddd')}s?`}
+							<input type='checkbox' checked={disableDayChecked} onChange={() => setDisableDayChecked(prev => prev = !prev)} />
+						</label>
+						<div className='modal-buttons'>
+							<button onClick={onConfirm}>Yes</button>
+							<button onClick={onClose}>Nevermind</button>
+						</div>
+					</>
+				)
 
 			default:
 				return (

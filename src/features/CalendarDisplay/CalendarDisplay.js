@@ -43,6 +43,8 @@ const CalendarDisplay = ({
 	const [selectedDay, setSelectedDay] = useState(null);
 	const [currentTasks, setCurrentTasks] = useState(null);
 	const [tasksModalOpen, setTasksModalOpen] = useState(null);
+	const [disableDayChecked, setDisableDayChecked] = useState(false);
+	const [disabledDays, setDisabledDays] = useState([]);
 
 	const dispatch = useDispatch();
 
@@ -238,6 +240,7 @@ const CalendarDisplay = ({
 			case 'in-the-past':
 			case 'save-changes':
 			case 'too-many-calendars':
+			case 'disable-day':
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -500,8 +503,11 @@ const CalendarDisplay = ({
 					validateDates={validateDates}
 					setSelectedDay={setSelectedDay}
 					setTasksModalOpen={setTasksModalOpen}
+					setIsModalOpen={setIsModalOpen}
+					setModalType={setModalType}
 					setCurrentTasks={setCurrentTasks}
 					currentTasks={currentTasks}
+					disabledDays={disabledDays}
 				/>
 
 				{/* the floating control panel for the user */}
@@ -539,6 +545,10 @@ const CalendarDisplay = ({
 				modalType={modalType}
 				setModalType={setModalType}
 				newCalName={newCalName}
+				selectedDay={selectedDay}
+				disableDayChecked={disableDayChecked}
+				setDisableDayChecked={setDisableDayChecked}
+				setDisabledDays={setDisabledDays}
 			/>
 			<TasksModal 
 				isDirty={isDirty}

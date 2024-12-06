@@ -15,6 +15,8 @@ const Calendar = ({
 	validateDates,
 	setSelectedDay,
 	setTasksModalOpen,
+	setIsModalOpen,
+	setModalType,
 	currentTasks,
 	setCurrentTasks
 }) => {
@@ -288,6 +290,8 @@ const Calendar = ({
 														e.stopPropagation();
 														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
 														console.log(selectedCalendar.tasks[calendarIndex].date)
+														setIsModalOpen(true);
+														setModalType('disable-day');
 													}}
 												/>
 											) : null}

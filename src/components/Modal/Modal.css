@@ -66,3 +66,12 @@
     font-size: 1.25rem !important;
     width: 10rem !important;
 }
+
+.disable-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .25rem;
+    font-size: 1rem;
+    line-height: 1;
+}
