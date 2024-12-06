@@ -84,9 +84,6 @@ const CalendarDisplay = ({
 	//logic for including weekends in calendar edit mode, if yes, includes weekends in in-range days, if no, excludes... also assists with hide weekends button functionality
 	const handleRadioChange = () => {
 		setToggleWeekends((prev) => (prev = !prev));
-		// if (toggleWeekends === true) {
-		// 	setShowWeekends(true);
-		// }
 		setIsDirty(toggleWeekends === originalWeekends);
 	};
 
@@ -223,14 +220,58 @@ const CalendarDisplay = ({
 				saveChanges();
 				break;
 			case 'disable-day':
-				setDisabledDays([...disabledDays,selectedDay.date])
-				setIsModalOpen(false);
-				setModalType(null);
+				if (disableDayChecked) {
+					const targetDay = dayjs(selectedDay.date).day();
+					const matchingDays = [];
+
+					let current = newStart;
+
+					while (
+						current.isBefore(newEnd, 'day') ||
+						current.isSame(newEnd, 'day')
+					) {
+						if (current.day() === targetDay) {
+							matchingDays.push(current.format('YYYY-MM-DD'));
+						}
+
+						current = current.add(1, 'day');
+						setDisabledDays((prev) =>
+							Array.from(new Set([...prev, ...matchingDays]))
+						);
+						setDisableDayChecked(false);
+						setIsModalOpen(false);
+						setModalType(null);
+					}
+				} else {
+					setDisabledDays([...disabledDays, selectedDay.date]);
+					setIsModalOpen(false);
+					setModalType(null);
+				}
 				break;
 			case 'enable-day':
-				setDisabledDays(disabledDays.filter((day) => day !== selectedDay.date))
-				setIsModalOpen(false);
-				setModalType(null);
+				if (disableDayChecked) {
+					const targetDay = dayjs(selectedDay.date).day();
+
+					setDisabledDays(
+						disabledDays.filter(
+							(day) =>
+								dayjs(day).day() !==
+								dayjs(selectedDay.date).day()
+						)
+					);
+
+					setIsModalOpen(false);
+					setModalType(null);
+					setDisableDayChecked(false);
+					break;
+				} else {
+					setDisabledDays(
+						disabledDays.filter((day) => day !== selectedDay.date)
+					);
+					setIsModalOpen(false);
+					setModalType(null);
+					setDisableDayChecked(false);
+				}
 				break;
 			default:
 				console.log('Unhandled modalType:', modalType);
@@ -559,9 +600,11 @@ const CalendarDisplay = ({
 				selectedDay={selectedDay}
 				disableDayChecked={disableDayChecked}
 				setDisableDayChecked={setDisableDayChecked}
-				setDisabledDays={setDisabledDays}
+				disabledDays={disabledDays}
+				newStart={newStart}
+				newEnd={newEnd}
 			/>
-			<TasksModal 
+			<TasksModal
 				isDirty={isDirty}
 				setIsDirty={setIsDirty}
 				isOpen={tasksModalOpen}
@@ -572,7 +615,7 @@ const CalendarDisplay = ({
 				setIsModalOpen={setIsModalOpen}
 				editMode={editMode}
 				currentTasks={currentTasks}
-			/> 
+			/>
 		</div>
 	);
 };

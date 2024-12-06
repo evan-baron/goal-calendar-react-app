@@ -15,7 +15,9 @@ const Modal = ({
 	selectedDay,
 	disableDayChecked,
 	setDisableDayChecked,
-	setDisabledDays
+	disabledDays,
+	newStart,
+	newEnd
 }) => {
 	if (!isOpen) return null;
 
@@ -103,17 +105,40 @@ const Modal = ({
 				);
 
 			case 'disable-day':
+				const allDaysInRange = [];
+				let currentDay = newStart;
+				while (currentDay.isBefore(newEnd.add(1, 'day'), 'day')) {
+					allDaysInRange.push(currentDay.format('YYYY-MM-DD'));
+					currentDay = currentDay.add(1, 'day');
+				}
+				const allMatchingDays = allDaysInRange.filter((day) => dayjs(day).day() === dayjs(selectedDay.date).day());
+				const allDisabledMatchingDays = disabledDays.filter((day) => dayjs(day).day() === dayjs(selectedDay.date).day());
+
+
 				return (
 					<>
-						<label className='disable-label'>{`Disable all ${dayjs(selectedDay.date).format('dddd')}s?`}
+						{allDisabledMatchingDays.length !== allMatchingDays.length - 1 ? (<label className='disable-label'>{`Disable all ${dayjs(selectedDay.date).format('dddd')}s?`}
 							<input type='checkbox' checked={disableDayChecked} onChange={() => setDisableDayChecked(prev => prev = !prev)} />
-						</label>
+						</label>) : null}
 						<div className='modal-buttons'>
 							<button onClick={onConfirm}>Yes</button>
 							<button onClick={onClose}>Nevermind</button>
 						</div>
 					</>
 				)
+
+			case 'enable-day':
+				return (
+					<>
+						{disabledDays.filter(day => dayjs(day).day() === dayjs(selectedDay.date).day()).length > 1 ? (<label className='disable-label'>{`Re-enable all ${dayjs(selectedDay.date).format('dddd')}s?`}
+							<input type='checkbox' checked={disableDayChecked} onChange={() => setDisableDayChecked(prev => prev = !prev)} />
+						</label>) : null}
+						<div className='modal-buttons'>
+							<button onClick={onConfirm}>Yes</button>
+							<button onClick={onClose}>Nevermind</button>
+						</div>
+					</>
+				);
 
 			default:
 				return (
