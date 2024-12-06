@@ -501,6 +501,7 @@ const CalendarDisplay = ({
 					setSelectedDay={setSelectedDay}
 					setTasksModalOpen={setTasksModalOpen}
 					setCurrentTasks={setCurrentTasks}
+					currentTasks={currentTasks}
 				/>
 
 				{/* the floating control panel for the user */}

@@ -15,7 +15,7 @@ const Task = ({ task, removeTask, taskIndex }) => {
 				<label className='point-value' name='points'>
 					Point Value:
 				</label>
-				<input className='points' type='number' min='1' max='3'/>
+				<input className='points' type='number' min='1' max='3' defaultValue='1'/>
 				{/* <button
 					className='remove-task-btn'
 					onClick={() => removeTask(taskIndex)}

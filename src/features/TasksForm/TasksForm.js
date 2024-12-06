@@ -8,7 +8,14 @@ import isEqual from 'lodash/isEqual';
 import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
 
-const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTasksModalOpen, currentTasks }) => {
+const TasksForm = ({
+	isDirty,
+	setIsDirty,
+	selectedCalendar,
+	selectedDay,
+	setTasksModalOpen,
+	currentTasks,
+}) => {
 	const dispatch = useDispatch();
 	const calendarIndex = selectedCalendar.tasks.findIndex(
 		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
@@ -29,11 +36,11 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 			'Subscribe to Cat Facts!',
 			'Call parents',
 			'Do 5 modules',
-			'Watch 3 training videos'
+			'Watch 3 training videos',
 		];
 
 		return easterEggArr[Math.floor(Math.random() * easterEggArr.length)];
-	}
+	};
 
 	const [dailyTasks, setDailyTasks] = useState(
 		selectedCalendar.tasks[calendarIndex].tasks.daily.length === 0
@@ -50,11 +57,10 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 	const [modalType, setModalType] = useState(null);
 
 	const addTask = () => {
-		setIsDirty(true);
 		setDailyTasks([
 			...dailyTasks,
 			{
-				task: `Task ${dailyTasks.length + 1}`,
+				task: null,
 				points: 1,
 				completed: false,
 			},
@@ -92,34 +98,28 @@ const TasksForm = ({ isDirty, setIsDirty, selectedCalendar, selectedDay, setTask
 		setModalType(null);
 		setIsDirty(false);
 		setTasksModalOpen(false);
-	}
+	};
 
 	const rejectChanges = () => {
 		setModalType(null);
 		setIsModalOpen(false);
-	}
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		if (!isEqual(dailyTasks, currentTasks.daily)) {
-			console.log('daily tasks: ', dailyTasks, 'current tasks: ', currentTasks.daily);
+			console.log(
+				'daily tasks: ',
+				dailyTasks,
+				'current tasks: ',
+				currentTasks.daily
+			);
 			setModalType('save-changes');
 			setIsModalOpen(true);
 		} else {
-			setTasksModalOpen(false)
+			setTasksModalOpen(false);
 		}
-		
-
-		// if (isDirty) {
-		// 	setModalType('save-changes');
-		// 	setIsModalOpen(true);
-		// } else {
-		// 	setTasksModalOpen(false);
-
-		// {/* ADD LOGIC FOR IF REMOVING TASKS, NO TASKS AT ALL, OR NOTHING INSIDE THE TASK INPUT */}
-
-		// }
 	};
 
 	return (

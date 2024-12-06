@@ -101,6 +101,8 @@
   position: relative;
   display: flex;
   justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .check {
@@ -113,6 +115,19 @@
 	bottom: 0;
 	right: 0;
 	margin: 0.5rem;
+}
+
+.edit-pencil-centered {
+  align-self: center;
+  transform: translateY(-.25rem);
+  font-size: 40px;
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  margin: 0.5rem;
 }
 
 .zoom-in {

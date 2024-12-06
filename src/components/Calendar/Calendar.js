@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
-import { Edit, West, East, ZoomInOutlined, Check, ListAltOutlined, List } from '@mui/icons-material';
+import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb } from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,
@@ -14,6 +14,7 @@ const Calendar = ({
 	validateDates,
 	setSelectedDay,
 	setTasksModalOpen,
+	currentTasks,
 	setCurrentTasks
 }) => {
 	//keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
@@ -210,10 +211,9 @@ const Calendar = ({
 											if (isDirty) {
 												validateDates()
 											} else {
+												console.log(currentTasks);
 												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
 												setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
-												console.log(selectedCalendar.tasks[calendarIndex].tasks);
-												console.log('currentdaytasks: ', currentDayTasks);
 												setTasksModalOpen(prev => prev = !prev);
 											}
 										}
@@ -252,7 +252,12 @@ const Calendar = ({
 											</>
 											) : editMode && !currentDayTasks
 											? (
-												<div style={{ color: 'red' }}>No Tasks</div>
+												// <div style={{ color: 'red' }}>No Tasks</div>
+												<div className='day-body'>
+													<Edit
+														className='edit-pencil-centered'
+													/>
+												</div>
 											)
 											: !editMode && !currentDayTasks 
 											? null
@@ -269,12 +274,24 @@ const Calendar = ({
 													/>
 												</>
 											)}
-											{editMode && !isWeekendOutsideRange ? (
+											{editMode && !isWeekendOutsideRange && !currentDayTasks
+											? (
+												<Close
+													sx={{
+														fontSize: 30,
+														color: 'rgb(200, 200, 200)'
+													}}
+													className='close'
+												/>
+											) : null}
+											{editMode && !isWeekendOutsideRange && currentDayTasks
+											? (
 												<Edit
 													sx={{ fontSize: 30 }}
 													className='edit-pencil'
 												/>
-											) : null}
+											) 
+											: null}
 										</>
 									)}
 								</div>
