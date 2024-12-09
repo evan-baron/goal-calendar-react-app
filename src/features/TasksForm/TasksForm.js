@@ -5,10 +5,12 @@ import { useDispatch } from 'react-redux';
 import { updateCalendar } from '../CalendarForm/calendarSlice';
 import dayjs from 'dayjs';
 import isEqual from 'lodash/isEqual';
+import { v4 as uuidv4 } from 'uuid';
 import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
 
 const TasksForm = ({
+	editMode,
 	isDirty,
 	setIsDirty,
 	selectedCalendar,
@@ -46,12 +48,16 @@ const TasksForm = ({
 		selectedCalendar.tasks[calendarIndex].tasks.daily.length === 0
 			? [
 					{
-						task: easterEgg(),
+						id: uuidv4(),
+						task: null,
 						points: 1,
 						completed: false,
 					},
 			  ]
-			: selectedCalendar.tasks[calendarIndex].tasks.daily
+			: selectedCalendar.tasks[calendarIndex].tasks.daily.map(task => ({
+				...task,
+				id: task.id || uuidv4(),
+			}))
 	);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
@@ -60,6 +66,7 @@ const TasksForm = ({
 		setDailyTasks([
 			...dailyTasks,
 			{
+				id: uuidv4(),
 				task: null,
 				points: 1,
 				completed: false,
@@ -67,9 +74,9 @@ const TasksForm = ({
 		]);
 	};
 
-	const removeTask = (taskIndex) => {
+	const removeTask = (taskId) => {
 		setDailyTasks((prevTasks) =>
-			prevTasks.filter((_, index) => index !== taskIndex)
+			prevTasks.filter((task) => task.id !== taskId)
 		);
 	};
 
@@ -125,23 +132,28 @@ const TasksForm = ({
 	return (
 		<>
 			<form onSubmit={handleSubmit} className='tasks-form-container'>
-				{[...Array(dailyTasks.length)].map((_, taskIndex) => {
+				{dailyTasks.map((task, taskIndex) => {
 					return (
 						<Task
-							key={taskIndex}
-							task={dailyTasks[taskIndex].task}
-							taskIndex={taskIndex}
+							dailyTasks={dailyTasks}
+							easterEgg={easterEgg}
+							editMode={editMode}
+							key={task.id}
 							removeTask={removeTask}
+							setDailyTasks={setDailyTasks}
+							setIsDirty={setIsDirty}
+							task={task.task}
+							taskIndex={taskIndex}
 						/>
 					);
 				})}
-				<button
+				{editMode && <button
 					className='add-task-btn'
 					type='button'
 					onClick={addTask}
 				>
 					Add Task
-				</button>
+				</button>}
 				<div className='save-cancel-btns'>
 					<button type='submit'>Save</button>{' '}
 					<button

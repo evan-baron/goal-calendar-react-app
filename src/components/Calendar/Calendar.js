@@ -236,6 +236,9 @@ const Calendar = ({
 											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
+											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+											setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+											setTasksModalOpen(prev => prev = !prev);
 											return;
 										}
 									}} //shows the clicked-day's date and tasks
@@ -266,12 +269,6 @@ const Calendar = ({
 											:editMode && currentDayTasks 
 											? (
 											<>
-												{/* <div className='day-body'>
-													<Edit
-														className='edit-pencil-centered'
-														sx={{ fontSize: 40 }}
-													/>
-												</div> */}
 												<div className='day-body'>
 													<Check 
 														sx={{
@@ -281,23 +278,9 @@ const Calendar = ({
 														className='check'
 													/>
 												</div>
-												{/* <Edit 
-													sx={{ 
-														fontSize: 25,
-													 }}
-													 className='zoom-in'
-												/> */}
-												{/* <ZoomInOutlined 
-													sx={{ 
-														fontSize: 30,
-														transform: 'scale(-1, 1)'
-													 }}
-													className='zoom-in'
-												/> */}
 											</>
 											) : editMode && !currentDayTasks
 											? (
-												// <div style={{ color: 'red' }}>No Tasks</div>
 												<div className='day-body'>
 													<Edit
 														className='edit-pencil-centered'
@@ -310,14 +293,18 @@ const Calendar = ({
 											: (
 												<>
 													<div className='day-body'>
-														<div>View Tasks</div>
+														<ZoomInOutlined 
+															className='zoom-in'
+															sx={{ 
+																fontSize: 50,
+																transform: 'scale(-1, 1)',
+																transition: 'transform 0.1s ease-in-out',
+																'&:hover': {
+																	transform: 'scale(-1.2, 1.2)'
+																}
+															}}
+														/>
 													</div>
-													<ZoomInOutlined 
-														sx={{ 
-															fontSize: 40,
-															transform: 'scale(-1, 1)'
-														}}
-													/>
 												</>
 											)}
 											{editMode && !isWeekendOutsideRange && !isDisabled

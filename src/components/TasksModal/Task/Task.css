@@ -27,8 +27,19 @@
 	width: 100%;
 }
 
+.task-div {
+	text-align: left;
+	width: 100%;
+}
+
+.task-checkbox {
+	transform: translateY(.0625rem);
+	width: 2rem;
+}
+
 .point-value {
 	display: flex;
+	align-items: center;
 	text-align: end;
 	font-size: .75rem;
 	width: 2rem;

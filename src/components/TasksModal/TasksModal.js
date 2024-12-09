@@ -29,6 +29,7 @@ const TasksModal = ({
 				</div>
 				<Divider />
 				<TasksForm
+					editMode={editMode}
 					isDirty={isDirty}
 					setIsDirty={setIsDirty}
 					selectedCalendar={selectedCalendar}
