@@ -10,6 +10,7 @@ const Task = ({
 	editMode,
 	task,
 	removeTask,
+	setRecurrenceModalOpen,
 	taskIndex,
 }) => {
 	const firstTaskPlaceholder = useMemo(() => {
@@ -89,13 +90,13 @@ const Task = ({
 			{editMode && (
 				<EventRepeat
 					className='event-repeat'
+					onClick={() => setRecurrenceModalOpen(prev => prev = !prev)}
 					sx={{
 						color: 'rgb(200, 200, 200)',
 						'&:hover': { color: 'rgb(175, 175, 175)' },
 					}}
 				/>
 			)}
-			{/* <div className='recurring'>Apply to all {day}s?</div> */}
 		</div>
 	);
 };

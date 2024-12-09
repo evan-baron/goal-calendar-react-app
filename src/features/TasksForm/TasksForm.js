@@ -16,6 +16,7 @@ const TasksForm = ({
 	setIsDirty,
 	selectedCalendar,
 	selectedDay,
+	setRecurrenceModalOpen,
 	setTasksModalOpen,
 	currentTasks,
 }) => {
@@ -85,6 +86,11 @@ const TasksForm = ({
 		// console.log(tasks)
 	}, [dailyTasks]);
 
+	const validateTasks = () => {
+		//ADD LOGIC HERE TO VALIDATE IF TASKS HAVE ANY CONTENT OR NOT
+		console.log('test');
+	}
+
 	const acceptChanges = () => {
 		const updatedTasks = [...selectedCalendar.tasks];
 		updatedTasks[calendarIndex] = {
@@ -94,6 +100,8 @@ const TasksForm = ({
 				daily: dailyTasks,
 			},
 		};
+
+		validateTasks();
 
 		dispatch(
 			updateCalendar({
@@ -144,6 +152,7 @@ const TasksForm = ({
 							removeTask={removeTask}
 							setDailyTasks={setDailyTasks}
 							setIsDirty={setIsDirty}
+							setRecurrenceModalOpen={setRecurrenceModalOpen}
 							task={task.task}
 							taskIndex={taskIndex}
 						/>

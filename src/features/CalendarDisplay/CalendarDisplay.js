@@ -9,6 +9,7 @@ import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import TasksModal from '../../components/TasksModal/TasksModal';
+import RecurrenceModal from '../../components/RecurrenceModal/RecurrenceModal';
 import Calendar from '../../components/Calendar/Calendar';
 
 //CalendarDisplay = the page-within-DashboardPage -> Dashboard that handles the Calendar (title, edit dates, rendered calendar)
@@ -45,6 +46,7 @@ const CalendarDisplay = ({
 	const [tasksModalOpen, setTasksModalOpen] = useState(null);
 	const [disableDayChecked, setDisableDayChecked] = useState(false);
 	const [disabledDays, setDisabledDays] = useState([]);
+	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
 
 	const dispatch = useDispatch();
 
@@ -667,10 +669,16 @@ const CalendarDisplay = ({
 				selectedCalendar={selectedCalendar}
 				selectedDay={selectedDay}
 				setTasksModalOpen={setTasksModalOpen}
+				setRecurrenceModalOpen={setRecurrenceModalOpen}
 				setModalType={setModalType}
 				setIsModalOpen={setIsModalOpen}
 				editMode={editMode}
 				currentTasks={currentTasks}
+			/>
+			<RecurrenceModal 
+				isOpen={recurrenceModalOpen}
+				selectedDay={selectedDay}
+				setRecurrenceModalOpen={setRecurrenceModalOpen}			
 			/>
 		</div>
 	);
