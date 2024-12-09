@@ -71,13 +71,30 @@ const Task = ({
 							color: 'rgb(200, 200, 200)',
 							height: '2rem',
 							width: '2rem',
+							'&:hover': {
+								color: 'rgb(175, 175, 175)'
+							}
 						}}
 					/>
 				) : (
-					<input type='checkbox' className='task-checkbox' name='completed' checked={dailyTasks[taskIndex].completed} onChange={handleChange} />
+					<input
+						type='checkbox'
+						className='task-checkbox'
+						name='completed'
+						checked={dailyTasks[taskIndex].completed}
+						onChange={handleChange}
+					/>
 				)}
 			</div>
-			{editMode && <EventRepeat className='event-repeat'/>}
+			{editMode && (
+				<EventRepeat
+					className='event-repeat'
+					sx={{
+						color: 'rgb(200, 200, 200)',
+						'&:hover': { color: 'rgb(175, 175, 175)' },
+					}}
+				/>
+			)}
 			{/* <div className='recurring'>Apply to all {day}s?</div> */}
 		</div>
 	);
