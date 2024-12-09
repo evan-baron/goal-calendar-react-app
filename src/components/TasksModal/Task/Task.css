@@ -24,6 +24,7 @@
 }
 
 .task-input {
+	padding-left: 2rem !important;
 	width: 100%;
 }
 
@@ -50,11 +51,15 @@
 	width: 2.5rem;
 }
 
+.points::-webkit-inner-spin-button, .points::-webkit-outer-spin-button {
+	opacity: 1;
+}
+
 .task-container input::-webkit-input-placeholder {
     color: rgba(25, 25, 75, .25);
 }
 
-.task-container input:focus {
+.task-container .task-input:focus {
     outline: 2px solid rgba(140, 220, 255, .75);
 }
 
@@ -62,8 +67,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* font-size: 1.25rem;
-	font-variant: normal; */
 	height: 2rem;
 }
 
@@ -71,8 +74,18 @@
 	cursor: pointer;
 }
 
+
 .recurring {
 	align-self: flex-start;
 	font-size: 1rem;
 	color: rgb(25, 25, 75);
+}
+
+.event-repeat {
+	position: absolute;
+	left: 2.25rem;
+}
+
+.event-repeat:hover {
+	cursor: pointer;
 }

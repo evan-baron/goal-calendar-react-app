@@ -300,11 +300,12 @@ const Calendar = ({
 																transform: 'scale(-1, 1)',
 																transition: 'transform 0.1s ease-in-out',
 																'&:hover': {
-																	transform: 'scale(-1.2, 1.2)'
+																	transform: 'scale(-1.1, 1.1)'
 																}
 															}}
 														/>
 													</div>
+													<div className='total-points-div'>Total Points: </div>
 												</>
 											)}
 											{editMode && !isWeekendOutsideRange && !isDisabled
