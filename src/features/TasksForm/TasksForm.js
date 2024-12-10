@@ -54,6 +54,12 @@ const TasksForm = ({
 						task: null,
 						points: 1,
 						completed: false,
+						recurring: {
+							type: null,
+							startDate: null,
+							endDate: null,
+							daysOfWeek: []
+						},
 					},
 			  ]
 			: selectedCalendar.tasks[calendarIndex].tasks.daily.map(task => ({
@@ -72,6 +78,12 @@ const TasksForm = ({
 				task: null,
 				points: 1,
 				completed: false,
+				recurring: {
+					type: null,
+					startDate: null,
+					endDate: null,
+					daysOfWeek: []
+				}
 			},
 		]);
 	};
@@ -124,6 +136,8 @@ const TasksForm = ({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		console.log(dailyTasks);
 
 		if (validateTasks()) {
 			setModalType('tasks-empty');

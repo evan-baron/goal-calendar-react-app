@@ -13,6 +13,7 @@ const Task = ({
 	setRecurrenceModalOpen,
 	taskIndex,
 }) => {
+	
 	const firstTaskPlaceholder = useMemo(() => {
 		return taskIndex === 0 ? easterEgg() : null;
 	}, [taskIndex]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
-import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb, SportsRugbySharp } from '@mui/icons-material';
+import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb } from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,

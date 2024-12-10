@@ -678,6 +678,7 @@ const CalendarDisplay = ({
 			<RecurrenceModal 
 				isOpen={recurrenceModalOpen}
 				selectedDay={selectedDay}
+				selectedCalendar={selectedCalendar}
 				setRecurrenceModalOpen={setRecurrenceModalOpen}			
 			/>
 		</div>
