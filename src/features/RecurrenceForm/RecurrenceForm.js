@@ -2,27 +2,55 @@ import React, { useState } from 'react';
 import './RecurrenceForm.css';
 import dayjs from 'dayjs';
 
-const RecurrenceForm = ({ selectedCalendar, selectedDay, setRecurrenceModalOpen }) => {
+const RecurrenceForm = ({
+	selectedCalendar,
+	selectedDay,
+	setRecurrenceModalOpen,
+}) => {
 	const [selectedOption, setSelectedOption] = useState('');
-	const [selectedStart, setSelectedStart] = useState(dayjs(selectedDay.date).format('MMMM DD'));
-	const [selectedEnd, setSelectedEnd] = useState(dayjs(selectedCalendar.endDate).format('MMMM DD'));
+	const [selectedStart, setSelectedStart] = useState(dayjs(selectedDay.date));
+	const [selectedEnd, setSelectedEnd] = useState(
+		dayjs(selectedCalendar.endDate)
+	);
 
 	const day = dayjs(selectedDay.date).format('dddd');
 	const start = dayjs(selectedCalendar.startDate).format('YYYY-MM-DD');
 	const end = dayjs(selectedCalendar.endDate).format('YYYY-MM-DD');
-	const length = dayjs(selectedCalendar.endDate).diff(dayjs(selectedCalendar.startDate), 'day');
-	let durationArr = ['', ...selectedCalendar.tasks.map(task => task.date)];
+	const length = dayjs(selectedCalendar.endDate).diff(
+		dayjs(selectedCalendar.startDate),
+		'day'
+	);
+	let durationArr = selectedCalendar.tasks.map((task) => task.date);
 
 	const handleChange = (e) => {
-		setSelectedOption(e.target.value);
-	}
+		const { name, value } = e.target;
+
+		switch (name) {
+			case 'option':
+				setSelectedOption(value);
+				break;
+			case 'start':
+				setSelectedStart(dayjs(value));
+				break;
+			case 'end':
+				setSelectedEnd(dayjs(value));
+				break;
+			default:
+				console.log('Unknown input name: ', name);
+		}
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(selectedDay);
-		console.log(selectedCalendar);
-		console.log(start, end, length, durationArr);
-	}
+		console.log(dayjs(selectedCalendar.endDate).format('MMMM DD'));
+		// console.log('selectedDay: ',selectedDay);
+		// console.log('start:',start);
+		// console.log('selected start: ', selectedStart);
+		// console.log('selected end: ', selectedEnd);
+		// console.log('end:',end);
+		// console.log('length:',length);
+		// console.log('durationArr:',durationArr);
+	};
 
 	return (
 		<form className='recurrence-form' onSubmit={handleSubmit}>
@@ -33,9 +61,10 @@ const RecurrenceForm = ({ selectedCalendar, selectedDay, setRecurrenceModalOpen 
 				Repeat Task
 			</div>
 			<div className='recurrence-options'>
-				<label className='option'> 
+				<label className='option'>
 					<select
 						id='dropdown'
+						name='option'
 						value={selectedOption}
 						onChange={handleChange}
 					>
@@ -51,21 +80,42 @@ const RecurrenceForm = ({ selectedCalendar, selectedDay, setRecurrenceModalOpen 
 				<div className='start-end-container'>
 					<label>
 						<div>Start: </div>
-						<select defaultValue={selectedStart}>
-							{durationArr.map((day) => {
+						<select
+							name='start'
+							value={selectedStart.format('YYYY-MM-DD')}
+							onChange={handleChange}
+						>
+							{durationArr.map((day, index) => {
 								return (
-									<option>{day === '' ? '' : dayjs(day).format('MMMM DD')}</option>
-								)
+									<option
+										key={index}
+										value={dayjs(day).format('YYYY-MM-DD')}
+									>
+										{dayjs(day).format('MMMM DD')}
+									</option>
+								);
 							})}
 						</select>
 					</label>
 					<label>
 						<div>End: </div>
-						<select defaultValue={selectedEnd}>
-							{durationArr.map((day) => {
+						<select
+							name='end'
+							value={selectedEnd.format('YYYY-MM-DD')}
+							onChange={handleChange}
+						>
+							{durationArr.map((day, index) => {
 								return (
-									<option>{day === '' ? '' : dayjs(day).format('MMMM DD')}</option>
-								)
+									<option
+										key={index}
+										value={dayjs(day).format('YYYY-MM-DD')}
+										disabled={dayjs(day).isBefore(
+											selectedStart
+										)}
+									>
+										{dayjs(day).format('MMMM DD')}
+									</option>
+								);
 							})}
 						</select>
 					</label>

@@ -54,5 +54,6 @@
 
 .start-end-container select {
 	font-size: 1.125rem;
-	transform: translateY(2px);
+	transform: translateY(4px);
+	height: 1.5rem;
 }

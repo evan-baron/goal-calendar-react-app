@@ -137,8 +137,6 @@ const TasksForm = ({
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log(dailyTasks);
-
 		if (validateTasks()) {
 			setModalType('tasks-empty');
 			setIsModalOpen(true);
