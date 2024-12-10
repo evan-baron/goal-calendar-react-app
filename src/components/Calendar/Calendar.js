@@ -236,10 +236,11 @@ const Calendar = ({
 											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
-											setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-											setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
-											setTasksModalOpen(prev => prev = !prev);
-											return;
+											if (!isDisabled) {
+												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+												setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+												setTasksModalOpen(prev => prev = !prev);
+											}
 										}
 									}} //shows the clicked-day's date and tasks
 								>
