@@ -223,7 +223,6 @@ const Calendar = ({
 													if (isDirty) {
 														validateDates()
 													} else {
-														console.log(currentTasks);
 														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
 														setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
 														setTasksModalOpen(prev => prev = !prev);

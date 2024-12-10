@@ -48,7 +48,7 @@ const Task = ({
 				) : (
 					<div className='task-div'>{task}</div>
 				)}
-				<label className={editMode ? 'point-value' : ''} name='points'>
+				<label className={editMode ? 'point-value' : 'points-div'} name='points'>
 					{editMode ? 'Point Value:' : 'Points:'}
 				</label>
 				{editMode ? (
@@ -62,7 +62,7 @@ const Task = ({
 						onChange={handleChange}
 					/>
 				) : (
-					<div>{dailyTasks[taskIndex].points}</div>
+					<div className='points-div'>{dailyTasks[taskIndex].points}</div>
 				)}
 				{editMode ? (
 					<DeleteForeverOutlined

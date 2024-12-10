@@ -83,14 +83,10 @@ const TasksForm = ({
 	};
 
 	useEffect(() => {
-		// console.log(tasks)
 	}, [dailyTasks]);
 
 	const validateTasks = () => {
-		//ADD LOGIC HERE TO VALIDATE IF TASKS HAVE ANY CONTENT OR NOT
-		console.log(dailyTasks)
 		const noTasks = dailyTasks.some((task) => task.task === null || task.task.trim() === '')
-		console.log('no tasks: ', noTasks);
 		if (noTasks) {
 			return true
 		} else {

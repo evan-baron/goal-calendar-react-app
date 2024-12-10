@@ -31,7 +31,12 @@
 
 .task-div {
 	text-align: left;
+	line-height: 1;
 	width: 100%;
+}
+
+.points-div {
+	line-height: 1;
 }
 
 .task-checkbox {
