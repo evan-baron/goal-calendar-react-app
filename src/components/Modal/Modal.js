@@ -82,6 +82,9 @@ const Modal = ({
 		case 'tasks-empty':
 			message = 'One or more of your tasks is empty.'
 			break;
+		case 'task-end-before-start':
+			message = 'Your end date is before your start date.'
+			break;
 		default:
 			message = 'Confirm changes?';
 	}
@@ -116,6 +119,7 @@ const Modal = ({
 			case 'in-the-past':
 			case 'too-many-calendars':
 			case 'tasks-empty':
+			case 'task-end-before-start':
 				return (
 					<div className='modal-buttons'>
 						<button onClick={onClose}>Ok</button>

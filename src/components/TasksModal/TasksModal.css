@@ -16,6 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transform: translateY(-2.5rem);
     gap: 1rem;
     width: 35rem;
     font-size: 1.5rem;

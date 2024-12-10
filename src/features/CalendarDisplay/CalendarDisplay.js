@@ -351,6 +351,7 @@ const CalendarDisplay = ({
 			case 'disable-day-with-tasks':
 			case 'enable-day':
 			case 'matching-days-have-tasks':
+			case 'task-end-before-start':
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -679,7 +680,9 @@ const CalendarDisplay = ({
 				isOpen={recurrenceModalOpen}
 				selectedDay={selectedDay}
 				selectedCalendar={selectedCalendar}
-				setRecurrenceModalOpen={setRecurrenceModalOpen}			
+				setRecurrenceModalOpen={setRecurrenceModalOpen}
+				setIsModalOpen={setIsModalOpen}
+				setModalType={setModalType}		
 			/>
 		</div>
 	);

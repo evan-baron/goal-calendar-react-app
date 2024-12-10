@@ -3,7 +3,7 @@ import './RecurrenceModal.css';
 import dayjs from 'dayjs';
 import RecurrenceForm from '../../features/RecurrenceForm/RecurrenceForm';
 
-const RecurrenceModal = ({ isOpen, selectedCalendar, selectedDay, setRecurrenceModalOpen }) => {
+const RecurrenceModal = ({ isOpen, selectedCalendar, selectedDay, setIsModalOpen, setModalType, setRecurrenceModalOpen }) => {
 	if (!isOpen) return null;
 
 	return (
@@ -13,6 +13,8 @@ const RecurrenceModal = ({ isOpen, selectedCalendar, selectedDay, setRecurrenceM
 					setRecurrenceModalOpen={setRecurrenceModalOpen}
 					selectedCalendar={selectedCalendar}
 					selectedDay={selectedDay}
+					setIsModalOpen={setIsModalOpen}
+					setModalType={setModalType}
 				/>
 			</div>
 		</div>

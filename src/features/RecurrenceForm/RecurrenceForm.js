@@ -6,6 +6,8 @@ const RecurrenceForm = ({
 	selectedCalendar,
 	selectedDay,
 	setRecurrenceModalOpen,
+	setIsModalOpen,
+	setModalType,
 }) => {
 	const [selectedOption, setSelectedOption] = useState('');
 	const [selectedStart, setSelectedStart] = useState(dayjs(selectedDay.date));
@@ -42,14 +44,14 @@ const RecurrenceForm = ({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(dayjs(selectedCalendar.endDate).format('MMMM DD'));
-		// console.log('selectedDay: ',selectedDay);
-		// console.log('start:',start);
-		// console.log('selected start: ', selectedStart);
-		// console.log('selected end: ', selectedEnd);
-		// console.log('end:',end);
-		// console.log('length:',length);
-		// console.log('durationArr:',durationArr);
+
+		if (dayjs(selectedEnd).isBefore(dayjs(selectedStart))) {
+			setIsModalOpen('true');
+			setModalType('task-end-before-start')
+			return
+		} else {
+			console.log(dayjs(selectedCalendar.endDate).format('MMMM DD'));
+		}
 	};
 
 	return (
@@ -110,7 +112,7 @@ const RecurrenceForm = ({
 										key={index}
 										value={dayjs(day).format('YYYY-MM-DD')}
 										disabled={dayjs(day).isBefore(
-											selectedStart
+											selectedStart + 1
 										)}
 									>
 										{dayjs(day).format('MMMM DD')}
