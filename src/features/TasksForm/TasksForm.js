@@ -88,7 +88,14 @@ const TasksForm = ({
 
 	const validateTasks = () => {
 		//ADD LOGIC HERE TO VALIDATE IF TASKS HAVE ANY CONTENT OR NOT
-		console.log('test');
+		console.log(dailyTasks)
+		const noTasks = dailyTasks.some((task) => task.task === null || task.task.trim() === '')
+		console.log('no tasks: ', noTasks);
+		if (noTasks) {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	const acceptChanges = () => {
@@ -100,8 +107,6 @@ const TasksForm = ({
 				daily: dailyTasks,
 			},
 		};
-
-		validateTasks();
 
 		dispatch(
 			updateCalendar({
@@ -123,6 +128,12 @@ const TasksForm = ({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		if (validateTasks()) {
+			setModalType('tasks-empty');
+			setIsModalOpen(true);
+			return
+		}
 
 		if (!isEqual(dailyTasks, currentTasks.daily)) {
 			console.log(

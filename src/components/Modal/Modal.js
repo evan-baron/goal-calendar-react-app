@@ -79,6 +79,9 @@ const Modal = ({
 		case 'enable-day':
 			message = `Re-enable ${dayjs(selectedDay.date).format('dddd')} the ${dayjs(selectedDay.date).format('Do')}?`
 			break;
+		case 'tasks-empty':
+			message = 'One or more of your tasks is empty.'
+			break;
 		default:
 			message = 'Confirm changes?';
 	}
@@ -112,6 +115,7 @@ const Modal = ({
 			case 'too-long':
 			case 'in-the-past':
 			case 'too-many-calendars':
+			case 'tasks-empty':
 				return (
 					<div className='modal-buttons'>
 						<button onClick={onClose}>Ok</button>
