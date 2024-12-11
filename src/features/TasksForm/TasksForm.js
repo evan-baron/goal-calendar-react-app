@@ -54,6 +54,7 @@ const TasksForm = ({
 						points: 1,
 						completed: false,
 						recurring: {
+							recurring: false,
 							type: null,
 							startDate: null,
 							endDate: null,
@@ -79,6 +80,7 @@ const TasksForm = ({
 				points: 1,
 				completed: false,
 				recurring: {
+					recurring: false,
 					type: null,
 					startDate: null,
 					endDate: null,
