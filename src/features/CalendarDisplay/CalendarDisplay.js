@@ -33,8 +33,6 @@ const CalendarDisplay = ({
 	const [originalEnd, setOriginalEnd] = useState(dayjs(endDate));
 	const [newEnd, setNewEnd] = useState(dayjs(endDate));
 	const [editName, setEditName] = useState(false);
-	const [editStart, setEditStart] = useState(false);
-	const [editEnd, setEditEnd] = useState(false);
 	const [originalCalName, setOriginalCalName] = useState(calendarName);
 	const [newCalName, setNewCalName] = useState(calendarName);
 	const [toggleWeekends, setToggleWeekends] = useState(weekends);
@@ -67,7 +65,6 @@ const CalendarDisplay = ({
 	const changeStartDate = (newValue) => {
 		if (!newValue.isSame(newStart)) {
 			setNewStart(newValue);
-			setEditStart(true);
 			setIsDirty(true);
 		}
 	};
@@ -76,7 +73,6 @@ const CalendarDisplay = ({
 	const changeEndDate = (newValue) => {
 		if (!newValue.isSame(newEnd)) {
 			setNewEnd(newValue);
-			setEditEnd(true);
 			setIsDirty(true);
 		}
 	};
@@ -206,12 +202,10 @@ const CalendarDisplay = ({
 				setEditName(false);
 				break;
 			case 'change-start':
-				setEditStart(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
 			case 'change-end':
-				setEditEnd(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -442,13 +436,11 @@ const CalendarDisplay = ({
 				break;
 			case 'change-start':
 				setNewStart(originalStart);
-				setEditStart(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
 			case 'change-end':
 				setNewEnd(originalEnd);
-				setEditEnd(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -548,25 +540,6 @@ const CalendarDisplay = ({
 										}}
 									/>
 								</LocalizationProvider>
-								{/* UNCOMMENT BELOW IF YOU WANT CHECK AND CANCEL ICONS */}
-								{/* {editStart ? (
-									<div className='date-confirm'>
-										<Check
-											className='date-check'
-											onClick={() => {
-												setIsModalOpen(true);
-												setModalType('change-start');
-											}}
-										/>
-										<DoNotDisturb
-											className='date-cancel'
-											onClick={() => {
-												setNewStart(originalStart);
-												setEditStart(false);
-											}}
-										/>
-									</div>
-								) : null} */}
 							</div>
 							<div className='calendar-select'>
 								<div className='new-label'>End Date:</div>
@@ -596,25 +569,6 @@ const CalendarDisplay = ({
 										}}
 									/>
 								</LocalizationProvider>
-								{/* UNCOMMENT BELOW IF YOU WANT CHECK AND CANCEL ICONS */}
-								{/* {editEnd ? (
-									<div className='date-confirm'>
-										<Check
-											className='date-check'
-											onClick={() => {
-												setIsModalOpen(true);
-												setModalType('change-end');
-											}}
-										/>
-										<DoNotDisturb
-											className='date-cancel'
-											onClick={() => {
-												setEditEnd(false);
-												setNewEnd(originalEnd);
-											}}
-										/>
-									</div>
-								) : null} */}
 							</div>
 						</div>
 						<div className='weekend-prompt-container'>

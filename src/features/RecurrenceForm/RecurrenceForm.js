@@ -24,6 +24,7 @@ const RecurrenceForm = ({
 		dayjs(selectedCalendar.startDate),
 		'day'
 	);
+
 	let durationArr = selectedCalendar.days.map((task) => task.date);
 
 	const handleChange = (e) => {
@@ -114,7 +115,7 @@ const RecurrenceForm = ({
 										key={index}
 										value={dayjs(day).format('YYYY-MM-DD')}
 										disabled={dayjs(day).isBefore(
-											selectedStart + 1
+											selectedStart.add(1, 'day')
 										)}
 										className={dayjs(day).isBefore(selectedStart + 1) ? 'disabled-option' : null}
 									>
