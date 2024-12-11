@@ -69,6 +69,7 @@ const RecurrenceForm = ({
 					}
 
 					console.log('dailyArr: ', dailyArr);
+					console.log('daily tasks: ', dailyTasks);
 
 					break;
 				case 'alternate':

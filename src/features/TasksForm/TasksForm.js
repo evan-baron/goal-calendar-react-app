@@ -58,7 +58,6 @@ const TasksForm = ({
 							type: null,
 							startDate: null,
 							endDate: null,
-							daysOfWeek: []
 						},
 					},
 			  ]
@@ -84,7 +83,6 @@ const TasksForm = ({
 					type: null,
 					startDate: null,
 					endDate: null,
-					daysOfWeek: []
 				}
 			},
 		]);
