@@ -9,7 +9,6 @@ import Controls from '../../components/Dashboard/Controls/Controls';
 import { Edit, Check, DoNotDisturb } from '@mui/icons-material';
 import Modal from '../../components/Modal/Modal';
 import TasksModal from '../../components/TasksModal/TasksModal';
-import RecurrenceModal from '../../components/RecurrenceModal/RecurrenceModal';
 import Calendar from '../../components/Calendar/Calendar';
 
 //CalendarDisplay = the page-within-DashboardPage -> Dashboard that handles the Calendar (title, edit dates, rendered calendar)
@@ -266,10 +265,11 @@ const CalendarDisplay = ({
 							setDisabledDays((prev) =>
 								Array.from(new Set([...prev, ...matchingDays]))
 							);
-							const updatedDays = selectedCalendar.days.map((day) =>
-								matchingDays.includes(day.date)
-									? { ...day, disabled: true }
-									: day
+							const updatedDays = selectedCalendar.days.map(
+								(day) =>
+									matchingDays.includes(day.date)
+										? { ...day, disabled: true }
+										: day
 							);
 							const updatedCalendar = {
 								...selectedCalendar,
@@ -301,16 +301,18 @@ const CalendarDisplay = ({
 			case 'disable-day-with-tasks':
 				setDisabledDays([...disabledDays, selectedDay.date]);
 				//using curly brackets to surround below for blocked scope because already declared an updatedDays and updatedCalendar previously
-				{const updatedDays = selectedCalendar.days.map((day) =>
-					day.date === selectedDay.date
-						? { ...day, disabled: true }
-						: day
-				);
-				const updatedCalendar = {
-					...selectedCalendar,
-					days: updatedDays,
-				};
-				dispatch(updateCalendar(updatedCalendar));}
+				{
+					const updatedDays = selectedCalendar.days.map((day) =>
+						day.date === selectedDay.date
+							? { ...day, disabled: true }
+							: day
+					);
+					const updatedCalendar = {
+						...selectedCalendar,
+						days: updatedDays,
+					};
+					dispatch(updateCalendar(updatedCalendar));
+				}
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -349,7 +351,6 @@ const CalendarDisplay = ({
 				break;
 			case 'enable-day':
 				if (disableDayChecked) {
-
 					const targetDay = dayjs(selectedDay.date).day();
 					const matchingDays = [];
 
