@@ -156,7 +156,7 @@ const CalendarDisplay = ({
 
 					return daysArr;
 				},
-				[] //the starting array for the reduce method
+				[...existingTasks, []] //the starting array for the reduce method
 			);
 		};
 
