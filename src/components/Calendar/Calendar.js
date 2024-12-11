@@ -172,7 +172,7 @@ const Calendar = ({
 							const calendarIndex = selectedCalendar.days.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); 
 
 							//determines if rendered day has tasks already or not
-							const currentDayTasks = selectedCalendar.days[calendarIndex]?.tasks.daily.length > 0;
+							const currentDayTasks = selectedCalendar.days[calendarIndex]?.tasks?.daily?.length > 0;
 
 							const isWeekend =
 								currentDay.day() === 0 ||
