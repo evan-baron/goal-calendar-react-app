@@ -18,6 +18,10 @@
 	width: 100%;
 }
 
+.disabled-option {
+	color: rgba(200, 200, 200, .5);
+}
+
 .option {
 	display: flex;
 	align-items: center;

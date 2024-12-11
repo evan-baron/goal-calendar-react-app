@@ -20,7 +20,7 @@ const TasksForm = ({
 	currentTasks,
 }) => {
 	const dispatch = useDispatch();
-	const calendarIndex = selectedCalendar.tasks.findIndex(
+	const calendarIndex = selectedCalendar.days.findIndex(
 		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
 	);
 
@@ -46,7 +46,7 @@ const TasksForm = ({
 	};
 
 	const [dailyTasks, setDailyTasks] = useState(
-		selectedCalendar.tasks[calendarIndex].tasks.daily.length === 0
+		selectedCalendar.days[calendarIndex].tasks.daily.length === 0
 			? [
 					{
 						id: uuidv4(),
@@ -61,7 +61,7 @@ const TasksForm = ({
 						},
 					},
 			  ]
-			: selectedCalendar.tasks[calendarIndex].tasks.daily.map(task => ({
+			: selectedCalendar.days[calendarIndex].tasks.daily.map(task => ({
 				...task,
 				id: task.id || uuidv4(),
 			}))
@@ -107,7 +107,7 @@ const TasksForm = ({
 	}
 
 	const acceptChanges = () => {
-		const updatedTasks = [...selectedCalendar.tasks];
+		const updatedTasks = [...selectedCalendar.days];
 		updatedTasks[calendarIndex] = {
 			...updatedTasks[calendarIndex],
 			tasks: {
@@ -119,7 +119,7 @@ const TasksForm = ({
 		dispatch(
 			updateCalendar({
 				...selectedCalendar,
-				tasks: updatedTasks,
+				days: updatedTasks,
 			})
 		);
 
@@ -203,6 +203,8 @@ const TasksForm = ({
 				modalType={modalType}
 			/>
 			<RecurrenceModal 
+				dailyTasks={dailyTasks}
+				setDailyTasks={setDailyTasks}
 				isOpen={recurrenceModalOpen}
 				selectedDay={selectedDay}
 				selectedCalendar={selectedCalendar}

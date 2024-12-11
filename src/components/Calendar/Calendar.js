@@ -20,9 +20,6 @@ const Calendar = ({
 	setCurrentTasks,
 	disabledDays
 }) => {
-	//keeping this in here for now, but probably will delete as no longer using these variables, but good to have a fall-back solution
-	const { startDate, endDate } = selectedCalendar; 
-
 	//returns the last day of the week of 'end date', memod so that it doesn't keep refreshing and rerendering
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
@@ -172,10 +169,10 @@ const Calendar = ({
 							);
 
 							//used for onClick function on each day to locate day in state object and return tasks
-							const calendarIndex = selectedCalendar.tasks.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); 
+							const calendarIndex = selectedCalendar.days.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); 
 
 							//determines if rendered day has tasks already or not
-							const currentDayTasks = selectedCalendar.tasks[calendarIndex]?.tasks.daily.length > 0;
+							const currentDayTasks = selectedCalendar.days[calendarIndex]?.tasks.daily.length > 0;
 
 							const isWeekend =
 								currentDay.day() === 0 ||
@@ -214,7 +211,7 @@ const Calendar = ({
 									onClick={() => {
 										if (editMode) {
 											if(isDisabled) {
-												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+												setSelectedDay(selectedCalendar.days[calendarIndex]);
 												setIsModalOpen(true)
 												setModalType('enable-day')
 											} else {
@@ -223,8 +220,8 @@ const Calendar = ({
 													if (isDirty) {
 														validateDates()
 													} else {
-														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-														setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+														setSelectedDay(selectedCalendar.days[calendarIndex]);
+														setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
 														setTasksModalOpen(prev => prev = !prev);
 													}
 												}
@@ -236,8 +233,8 @@ const Calendar = ({
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
 											if (!isDisabled) {
-												setSelectedDay(selectedCalendar.tasks[calendarIndex]);
-												setCurrentTasks(selectedCalendar.tasks[calendarIndex].tasks);
+												setSelectedDay(selectedCalendar.days[calendarIndex]);
+												setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
 												setTasksModalOpen(prev => prev = !prev);
 											}
 										}
@@ -318,7 +315,7 @@ const Calendar = ({
 													className='close'
 													onClick={(e) => {
 														e.stopPropagation();
-														setSelectedDay(selectedCalendar.tasks[calendarIndex]);
+														setSelectedDay(selectedCalendar.days[calendarIndex]);
 														setIsModalOpen(true);
 														setModalType('disable-day');
 													}}

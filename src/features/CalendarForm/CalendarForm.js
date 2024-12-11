@@ -98,10 +98,10 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 		const end = dayjs(endDate);
 
 		// creates tasks object for master state object per day, applied to the user's date range using reduce method
-		const tasks = () => {
-			// ...Array creates array from returned number, reduce uses start value as empty array (tasksArr), a blank item (_), and dayIndex as the label for each object
+		const days = () => {
+			// ...Array creates array from returned number, reduce uses start value as empty array (daysArr), a blank item (_), and dayIndex as the label for each object
 			return [...Array(end.diff(start, 'day') + 1)].reduce(
-				(tasksArr, _, dayIndex) => {
+				(daysArr, _, dayIndex) => {
 					const currentDay = start.add(dayIndex, 'day');
 
 					const isWeekend =
@@ -109,19 +109,20 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 
 					// if user selected to exclude weekends and current day is weekend, move on
 					if (!toggleWeekends && isWeekend) {
-						return tasksArr;
+						return daysArr;
 					}
 
 					// the action of pushing the task object to the state object
-					tasksArr.push({
+					daysArr.push({
 						date: currentDay.format('YYYY-MM-DD'),
+						disabled: false,
 						tasks: {
 							daily: [],
 							bonus: [],
 						},
 					});
 
-					return tasksArr;
+					return daysArr;
 				},
 				[]
 			);
@@ -142,7 +143,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 			startDate: start.toISOString(),
 			endDate: end.toISOString(),
 			weekends: toggleWeekends,
-			tasks: tasks(),
+			days: days(),
 		};
 
 		dispatch(createCalendar(createdCalendar));
