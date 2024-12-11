@@ -3,7 +3,6 @@ import './Task.css';
 import { DeleteForeverOutlined, EventRepeat } from '@mui/icons-material';
 
 const Task = ({
-	day,
 	dailyTasks,
 	setDailyTasks,
 	easterEgg,

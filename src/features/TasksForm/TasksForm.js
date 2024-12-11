@@ -10,7 +10,6 @@ import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
 
 const TasksForm = ({
-	day,
 	editMode,
 	isDirty,
 	setIsDirty,
@@ -163,7 +162,6 @@ const TasksForm = ({
 				{dailyTasks.map((task, taskIndex) => {
 					return (
 						<Task
-							day={day}
 							dailyTasks={dailyTasks}
 							easterEgg={easterEgg}
 							editMode={editMode}

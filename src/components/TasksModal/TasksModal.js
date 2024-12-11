@@ -17,8 +17,6 @@ const TasksModal = ({
 }) => {
 	if (!isOpen) return null;
 
-	const day = dayjs(selectedDay.date).format('dddd');
-
 	return (
 		<div className='tasks-modal-overlay'>
 			<div className='tasks-modal-content'>
@@ -32,7 +30,6 @@ const TasksModal = ({
 				</div>
 				<Divider />
 				<TasksForm
-					day={day}
 					editMode={editMode}
 					isDirty={isDirty}
 					setIsDirty={setIsDirty}
