@@ -15,6 +15,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	gap: .5rem;
 	width: 100%;
 }
 
@@ -24,19 +25,20 @@
 
 .option {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	height: 2rem;
 	width: 100%;
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 	line-height: 1;
-	padding: 0 !important;
-	margin: 0 !important;
+	padding: 0;
+	margin: 0;
 }
 
 .option select {
-	height: 1.5rem;
-	font-size: 1.125rem;
-	transform: translateY(1px);
+	height: 1.75rem;
+	font-size: 1.25rem;
+	transform: translateY(3px);
 }
 
 .option input {
@@ -47,7 +49,9 @@
 
 .start-end-container {
 	display: flex;
-	gap: 1rem;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
 }
 
 .start-end-container label {

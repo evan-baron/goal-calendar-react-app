@@ -144,12 +144,6 @@ const TasksForm = ({
 		}
 
 		if (!isEqual(dailyTasks, currentTasks.daily)) {
-			console.log(
-				'daily tasks: ',
-				dailyTasks,
-				'current tasks: ',
-				currentTasks.daily
-			);
 			setModalType('save-changes');
 			setIsModalOpen(true);
 		} else {

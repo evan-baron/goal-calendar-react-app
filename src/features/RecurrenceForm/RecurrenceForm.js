@@ -11,7 +11,7 @@ const RecurrenceForm = ({
 	setIsModalOpen,
 	setModalType,
 }) => {
-	const [selectedOption, setSelectedOption] = useState('');
+	const [selectedOption, setSelectedOption] = useState('daily');
 	const [selectedStart, setSelectedStart] = useState(dayjs(selectedDay.date));
 	const [selectedEnd, setSelectedEnd] = useState(
 		dayjs(selectedCalendar.endDate)
@@ -53,34 +53,29 @@ const RecurrenceForm = ({
 			setModalType('task-end-before-start')
 			return
 		} else {
-			console.log(dayjs(selectedCalendar.endDate).format('MMMM DD'));
+			console.log('selected option value: ', selectedOption);
 		}
 	};
 
 	return (
 		<form className='recurrence-form' onSubmit={handleSubmit}>
-			<div
-				className='recurrence-title'
-				onClick={() => setRecurrenceModalOpen((prev) => (prev = !prev))}
-			>
-				Repeat Task
-			</div>
+			<div className='recurrence-title'>Repeat Task</div>
 			<div className='recurrence-options'>
 				<label className='option'>
+					<div>Frequency:</div>
 					<select
 						id='dropdown'
 						name='option'
 						value={selectedOption}
 						onChange={handleChange}
 					>
-						<option value=''>Every day</option>
-						<option value='option1'>Every other day</option>
-						<option value='option2'>Every {day}</option>
-						<option value='option3'>Every other {day}</option>
+						<option value='daily'>Every day</option>
+						<option value='alternate'>Every other day</option>
+						<option value='weekly'>Every {day}</option>
+						<option value='biweekly'>Every other {day}</option>
 						{/* FOR BELOW, NEED TO ADD LOGIC TO CHECK WHAT POSITION IN THE MONTH THE DAY IS, FOR EXAMPLE IF IT'S THE LAST WEDNESDAY BUT THERE'S 5 WEDNESDAYS IN A MONTH, BUT THE NEXT MONTH THERE'S ONLY 4 WEDNESDAYS, NEXT MONTH USES 4, ETC. */}
-						<option value='option4'>Custom</option>
+						<option value='custom'>Custom</option>
 					</select>
-					<input type='checkbox'></input>
 				</label>
 				<div className='start-end-container'>
 					<label>
@@ -117,7 +112,13 @@ const RecurrenceForm = ({
 										disabled={dayjs(day).isBefore(
 											selectedStart.add(1, 'day')
 										)}
-										className={dayjs(day).isBefore(selectedStart + 1) ? 'disabled-option' : null}
+										className={
+											dayjs(day).isBefore(
+												selectedStart + 1
+											)
+												? 'disabled-option'
+												: null
+										}
 									>
 										{dayjs(day).format('MMMM DD')}
 									</option>
