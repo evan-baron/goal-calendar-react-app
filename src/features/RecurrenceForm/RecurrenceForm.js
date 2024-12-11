@@ -83,7 +83,7 @@ const RecurrenceForm = ({
 						const currentDay = dayjs(selectedCalendar.days[i].date).day();
 						
 						if (currentDay % 2 === startingIndexDayIndex % 2) {
-							alternateArr.push(selectedCalendar.days[i].date)
+							alternateArr.push(selectedCalendar.days[i])
 						}
 					}
 
