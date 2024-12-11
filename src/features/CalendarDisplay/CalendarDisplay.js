@@ -147,9 +147,11 @@ const CalendarDisplay = ({
 					);
 
 					//sending blank tasks object to the state object for each day in the date range
+					//THIS MIGHT BE THE PROBLEM FOR DISABLED BEING FALSE WHEN IT SHOULD BE TRUE LATER
 					daysArr.push(
 						existingTaskForDay || {
 							date: currentDay.format('YYYY-MM-DD'),
+							disabled: false,
 							days: {
 								daily: [],
 								bonus: [],
@@ -243,9 +245,9 @@ const CalendarDisplay = ({
 						}
 
 						const matchingDaysInRange =
-							selectedCalendar.days.filter((task) => {
+							selectedCalendar.days.filter((day) => {
 								return matchingDays.some(
-									(day) => task.date === day
+									(days) => day.date === days
 								);
 							});
 						const matchingDaysInRangeMinusDay =
@@ -264,12 +266,32 @@ const CalendarDisplay = ({
 							setDisabledDays((prev) =>
 								Array.from(new Set([...prev, ...matchingDays]))
 							);
+							const updatedDays = selectedCalendar.days.map((day) =>
+								matchingDays.includes(day.date)
+									? { ...day, disabled: true }
+									: day
+							);
+							const updatedCalendar = {
+								...selectedCalendar,
+								days: updatedDays,
+							};
+							dispatch(updateCalendar(updatedCalendar));
 							setDisableDayChecked(false);
 							setIsModalOpen(false);
 							setModalType(null);
 						}
 					} else {
 						//DISPATCH DISABLED TRUE TO STATE
+						const updatedDays = selectedCalendar.days.map((day) =>
+							day.date === selectedDay.date
+								? { ...day, disabled: true }
+								: day
+						);
+						const updatedCalendar = {
+							...selectedCalendar,
+							days: updatedDays,
+						};
+						dispatch(updateCalendar(updatedCalendar));
 						setDisabledDays([...disabledDays, selectedDay.date]);
 						setIsModalOpen(false);
 						setModalType(null);
@@ -278,6 +300,17 @@ const CalendarDisplay = ({
 				break;
 			case 'disable-day-with-tasks':
 				setDisabledDays([...disabledDays, selectedDay.date]);
+				//using curly brackets to surround below for blocked scope because already declared an updatedDays and updatedCalendar previously
+				{const updatedDays = selectedCalendar.days.map((day) =>
+					day.date === selectedDay.date
+						? { ...day, disabled: true }
+						: day
+				);
+				const updatedCalendar = {
+					...selectedCalendar,
+					days: updatedDays,
+				};
+				dispatch(updateCalendar(updatedCalendar));}
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
@@ -300,13 +333,49 @@ const CalendarDisplay = ({
 				setDisabledDays((prev) =>
 					Array.from(new Set([...prev, ...matchingDays]))
 				);
+				const updatedDays = selectedCalendar.days.map((day) =>
+					matchingDays.includes(day.date)
+						? { ...day, disabled: true }
+						: day
+				);
+				const updatedCalendar = {
+					...selectedCalendar,
+					days: updatedDays,
+				};
+				dispatch(updateCalendar(updatedCalendar));
 				setDisableDayChecked(false);
 				setIsModalOpen(false);
 				setModalType(null);
 				break;
 			case 'enable-day':
 				if (disableDayChecked) {
+
 					const targetDay = dayjs(selectedDay.date).day();
+					const matchingDays = [];
+
+					let current = newStart;
+
+					while (
+						current.isBefore(newEnd, 'day') ||
+						current.isSame(newEnd, 'day')
+					) {
+						if (current.day() === targetDay) {
+							matchingDays.push(current.format('YYYY-MM-DD'));
+						}
+
+						current = current.add(1, 'day');
+					}
+
+					const updatedDays = selectedCalendar.days.map((day) =>
+						matchingDays.includes(day.date)
+							? { ...day, disabled: false }
+							: day
+					);
+					const updatedCalendar = {
+						...selectedCalendar,
+						days: updatedDays,
+					};
+					dispatch(updateCalendar(updatedCalendar));
 
 					setDisabledDays(
 						disabledDays.filter(
@@ -324,6 +393,16 @@ const CalendarDisplay = ({
 					setDisabledDays(
 						disabledDays.filter((day) => day !== selectedDay.date)
 					);
+					const updatedDays = selectedCalendar.days.map((day) =>
+						day.date === selectedDay.date
+							? { ...day, disabled: false }
+							: day
+					);
+					const updatedCalendar = {
+						...selectedCalendar,
+						days: updatedDays,
+					};
+					dispatch(updateCalendar(updatedCalendar));
 					setIsModalOpen(false);
 					setModalType(null);
 					setDisableDayChecked(false);
