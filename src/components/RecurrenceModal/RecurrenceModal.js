@@ -1,6 +1,5 @@
 import React from 'react';
 import './RecurrenceModal.css';
-import dayjs from 'dayjs';
 import RecurrenceForm from '../../features/RecurrenceForm/RecurrenceForm';
 
 const RecurrenceModal = ({ isOpen, selectedCalendar, selectedDay, setIsModalOpen, setModalType, setRecurrenceModalOpen }) => {

@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import { v4 as uuidv4 } from 'uuid';
 import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
+import RecurrenceModal from '../../components/RecurrenceModal/RecurrenceModal';
 
 const TasksForm = ({
 	editMode,
@@ -15,7 +16,6 @@ const TasksForm = ({
 	setIsDirty,
 	selectedCalendar,
 	selectedDay,
-	setRecurrenceModalOpen,
 	setTasksModalOpen,
 	currentTasks,
 }) => {
@@ -68,6 +68,7 @@ const TasksForm = ({
 	);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
+	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
 
 	const addTask = () => {
 		setDailyTasks([
@@ -200,6 +201,14 @@ const TasksForm = ({
 				onConfirm={acceptChanges}
 				onClose={rejectChanges}
 				modalType={modalType}
+			/>
+			<RecurrenceModal 
+				isOpen={recurrenceModalOpen}
+				selectedDay={selectedDay}
+				selectedCalendar={selectedCalendar}
+				setRecurrenceModalOpen={setRecurrenceModalOpen}
+				setIsModalOpen={setIsModalOpen}
+				setModalType={setModalType}		
 			/>
 		</>
 	);

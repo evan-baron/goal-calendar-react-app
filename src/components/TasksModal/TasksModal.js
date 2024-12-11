@@ -11,7 +11,6 @@ const TasksModal = ({
 	isOpen,
 	selectedCalendar,
 	selectedDay,
-	setRecurrenceModalOpen,
 	setTasksModalOpen,
 	currentTasks,
 }) => {
@@ -35,7 +34,6 @@ const TasksModal = ({
 					setIsDirty={setIsDirty}
 					selectedCalendar={selectedCalendar}
 					selectedDay={selectedDay}
-					setRecurrenceModalOpen={setRecurrenceModalOpen}
 					setTasksModalOpen={setTasksModalOpen}
 					currentTasks={currentTasks}
 				/>

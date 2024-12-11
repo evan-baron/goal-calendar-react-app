@@ -46,7 +46,6 @@ const CalendarDisplay = ({
 	const [tasksModalOpen, setTasksModalOpen] = useState(null);
 	const [disableDayChecked, setDisableDayChecked] = useState(false);
 	const [disabledDays, setDisabledDays] = useState([]);
-	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
 
 	const dispatch = useDispatch();
 
@@ -670,19 +669,10 @@ const CalendarDisplay = ({
 				selectedCalendar={selectedCalendar}
 				selectedDay={selectedDay}
 				setTasksModalOpen={setTasksModalOpen}
-				setRecurrenceModalOpen={setRecurrenceModalOpen}
 				setModalType={setModalType}
 				setIsModalOpen={setIsModalOpen}
 				editMode={editMode}
 				currentTasks={currentTasks}
-			/>
-			<RecurrenceModal 
-				isOpen={recurrenceModalOpen}
-				selectedDay={selectedDay}
-				selectedCalendar={selectedCalendar}
-				setRecurrenceModalOpen={setRecurrenceModalOpen}
-				setIsModalOpen={setIsModalOpen}
-				setModalType={setModalType}		
 			/>
 		</div>
 	);
