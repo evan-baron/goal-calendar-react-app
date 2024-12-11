@@ -18,12 +18,6 @@ const RecurrenceForm = ({
 	);
 
 	const day = dayjs(selectedDay.date).format('dddd');
-	const start = dayjs(selectedCalendar.startDate).format('YYYY-MM-DD');
-	const end = dayjs(selectedCalendar.endDate).format('YYYY-MM-DD');
-	const length = dayjs(selectedCalendar.endDate).diff(
-		dayjs(selectedCalendar.startDate),
-		'day'
-	);
 
 	let durationArr = selectedCalendar.days.map((task) => task.date);
 
@@ -54,6 +48,59 @@ const RecurrenceForm = ({
 			return
 		} else {
 			console.log('selected option value: ', selectedOption);
+			console.log('selected start: ', selectedStart.format('YYYY-MM-DD'));
+			console.log('selected end: ', selectedEnd.format('YYYY-MM-DD'));
+
+			const startingIndex = selectedCalendar.days.findIndex((date) => dayjs(date.date).format('YYYY-MM-DD') === dayjs(selectedStart).format('YYYY-MM-DD'));
+			const endingIndex = selectedCalendar.days.findIndex((date) => dayjs(date.date).format('YYYY-MM-DD') === dayjs(selectedEnd).format('YYYY-MM-DD'));
+			const startingIndexDayIndex = dayjs(startingIndex).day();
+
+			switch (selectedOption) {
+				case 'daily':
+					console.log('daily');
+					console.log(selectedCalendar);
+					console.log('starting index: ', startingIndex);
+					console.log('ending index: ', endingIndex);
+
+					let dailyArr = [];
+
+					for (let i = startingIndex; i <= endingIndex; i++) {
+						dailyArr.push(selectedCalendar.days[i])
+					}
+
+					console.log('dailyArr: ', dailyArr);
+
+					break;
+				case 'alternate':
+					console.log('alternate');
+					console.log(selectedCalendar);
+					console.log('starting index: ', startingIndex);
+					console.log('ending index: ', endingIndex);
+					console.log('starting index day index: ',startingIndexDayIndex)
+					let alternateArr = [];
+
+					for (let i = startingIndex; i <= endingIndex; i++) {
+						const currentDay = dayjs(selectedCalendar.days[i].date).day();
+						
+						if (currentDay % 2 === startingIndexDayIndex % 2) {
+							alternateArr.push(selectedCalendar.days[i].date)
+						}
+					}
+
+					console.log('alternateArr: ', alternateArr);
+					break;
+				case 'weekly':
+					console.log('weekly');
+					break;
+				case 'biweekly':
+					console.log('biweekly');
+					break;
+				case 'custom':
+					console.log('custom');
+					break;
+				default:
+					break;
+			}
 		}
 	};
 
