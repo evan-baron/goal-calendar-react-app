@@ -16,7 +16,6 @@ const Calendar = ({
 	setTasksModalOpen,
 	setIsModalOpen,
 	setModalType,
-	currentTasks,
 	setCurrentTasks,
 	disabledDays
 }) => {
