@@ -70,10 +70,6 @@ const TasksForm = ({
 	const [modalType, setModalType] = useState(null);
 	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
 	const [selectedTask, setSelectedTask] = useState(null);
-	const [isRecurring, setIsRecurring] = useState(false);
-	const [recurringStart, setRecurringStart] = useState(null);
-	const [recurringEnd, setRecurringEnd] = useState(null);
-	const [recurringType, setRecurringType] = useState(null);
 
 	const addTask = () => {
 		setDailyTasks([
@@ -211,10 +207,6 @@ const TasksForm = ({
 				setDailyTasks={setDailyTasks}
 				selectedTask={selectedTask}
 				isOpen={recurrenceModalOpen}
-				setIsRecurring={setIsRecurring}
-				setRecurringStart={setRecurringStart}
-				setRecurringEnd={setRecurringEnd}
-				setRecurringType={setRecurringType}
 				selectedDay={selectedDay}
 				selectedCalendar={selectedCalendar}
 				setRecurrenceModalOpen={setRecurrenceModalOpen}

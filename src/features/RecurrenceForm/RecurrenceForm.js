@@ -6,10 +6,6 @@ const RecurrenceForm = ({
 	dailyTasks,
 	selectedTask,
 	setDailyTasks,
-	setIsRecurring,
-	setRecurringStart,
-	setRecurringEnd,
-	setRecurringType,
 	selectedCalendar,
 	selectedDay,
 	setRecurrenceModalOpen,
@@ -55,91 +51,34 @@ const RecurrenceForm = ({
 			setModalType('task-end-before-start')
 			return
 		} else {
-			// console.log('selected option value: ', selectedType);
-			// console.log('selected start: ', selectedStart.format('YYYY-MM-DD'));
-			// console.log('selected end: ', selectedEnd.format('YYYY-MM-DD'));
-
-			const startingIndex = selectedCalendar.days.findIndex((date) => dayjs(date.date).format('YYYY-MM-DD') === dayjs(selectedStart).format('YYYY-MM-DD'));
-			const endingIndex = selectedCalendar.days.findIndex((date) => dayjs(date.date).format('YYYY-MM-DD') === dayjs(selectedEnd).format('YYYY-MM-DD'));
-			const startingIndexDayIndex = dayjs(startingIndex).day();
-
-			switch (selectedType) {
-				case 'daily':
-					if (dailyTasks[selectedTaskIndex].recurring.recurring && disableRecurrence) {
-						const updatedTasks = [...dailyTasks];
-						updatedTasks[selectedTaskIndex] = {
-							...updatedTasks[selectedTaskIndex],
-							recurring: {
-								recurring: false,
-								startDate: null,
-								endDate: null,
-								type: null
-							}
-						}
-						setDailyTasks(updatedTasks);
-						setRecurrenceModalOpen(false);
-					} else {
-						console.log('selected task: ', selectedTask);
-						console.log('daily');
-						console.log('daily tasks: ', dailyTasks);
-						const updatedTasks = [...dailyTasks];
-						updatedTasks[selectedTaskIndex] = {
-							...updatedTasks[selectedTaskIndex],
-							recurring: {
-								recurring: true,
-								startDate: selectedStart,
-								endDate: selectedEnd,
-								type: selectedType
-							}
-						}
-						console.log('updatedTasks: ', updatedTasks);
-						setDailyTasks(updatedTasks);
-						console.log('updated dailyTasks: ', dailyTasks);
-						setRecurrenceModalOpen(false);
+			if (dailyTasks[selectedTaskIndex].recurring.recurring && disableRecurrence) {
+				const updatedTasks = [...dailyTasks];
+				updatedTasks[selectedTaskIndex] = {
+					...updatedTasks[selectedTaskIndex],
+					recurring: {
+						recurring: false,
+						startDate: null,
+						endDate: null,
+						type: null
 					}
-
-					// console.log(selectedCalendar);
-					// console.log('starting index: ', startingIndex);
-					// console.log('ending index: ', endingIndex);
-
-					// let dailyArr = [];
-
-					// for (let i = startingIndex; i <= endingIndex; i++) {
-					// 	dailyArr.push(selectedCalendar.days[i])
-					// }
-
-					// console.log('dailyArr: ', dailyArr);
-
-					break;
-				case 'alternate':
-					console.log('alternate');
-					console.log(selectedCalendar);
-					console.log('starting index: ', startingIndex);
-					console.log('ending index: ', endingIndex);
-					console.log('starting index day index: ',startingIndexDayIndex)
-					let alternateArr = [];
-
-					for (let i = startingIndex; i <= endingIndex; i++) {
-						const currentDay = dayjs(selectedCalendar.days[i].date).day();
-						
-						if (currentDay % 2 === startingIndexDayIndex % 2) {
-							alternateArr.push(selectedCalendar.days[i])
-						}
+				}
+				setDailyTasks(updatedTasks);
+				setRecurrenceModalOpen(false);
+			} else {
+				const updatedTasks = [...dailyTasks];
+				updatedTasks[selectedTaskIndex] = {
+					...updatedTasks[selectedTaskIndex],
+					recurring: {
+						recurring: true,
+						startDate: selectedStart.format('YYYY-MM-DD'),
+						endDate: selectedEnd.format('YYYY-MM-DD'),
+						type: selectedType
 					}
-
-					console.log('alternateArr: ', alternateArr);
-					break;
-				case 'weekly':
-					console.log('weekly');
-					break;
-				case 'biweekly':
-					console.log('biweekly');
-					break;
-				case 'custom':
-					console.log('custom');
-					break;
-				default:
-					break;
+				}
+				console.log('updatedTasks: ', updatedTasks);
+				setDailyTasks(updatedTasks);
+				console.log('updated dailyTasks: ', dailyTasks);
+				setRecurrenceModalOpen(false);
 			}
 		}
 	};

@@ -7,10 +7,6 @@ const RecurrenceModal = ({
 	setDailyTasks,
 	selectedTask,
 	isOpen,
-	setIsRecurring,
-	setRecurringStart,
-	setRecurringEnd,
-	setRecurringType,
 	selectedCalendar,
 	selectedDay,
 	setIsModalOpen,
@@ -26,10 +22,6 @@ const RecurrenceModal = ({
 					dailyTasks={dailyTasks}
 					setDailyTasks={setDailyTasks}
 					selectedTask={selectedTask}
-					setIsRecurring={setIsRecurring}
-					setRecurringStart={setRecurringStart}
-					setRecurringEnd={setRecurringEnd}
-					setRecurringType={setRecurringType}
 					setRecurrenceModalOpen={setRecurrenceModalOpen}
 					selectedCalendar={selectedCalendar}
 					selectedDay={selectedDay}
