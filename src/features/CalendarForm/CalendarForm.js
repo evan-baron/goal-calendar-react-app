@@ -116,9 +116,7 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 					daysArr.push({
 						date: currentDay.format('YYYY-MM-DD'),
 						disabled: false,
-						tasks: {
-							daily: [],
-						},
+						tasks: [],
 					});
 
 					return daysArr;

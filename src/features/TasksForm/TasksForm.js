@@ -46,7 +46,7 @@ const TasksForm = ({
 	};
 
 	const [dailyTasks, setDailyTasks] = useState(
-		selectedCalendar.days[calendarIndex].tasks.daily.length === 0
+		selectedCalendar.days[calendarIndex].tasks.length === 0
 			? [
 					{
 						id: uuidv4(),
@@ -61,7 +61,7 @@ const TasksForm = ({
 						},
 					},
 			  ]
-			: selectedCalendar.days[calendarIndex].tasks.daily.map(task => ({
+			: selectedCalendar.days[calendarIndex].tasks.map(task => ({
 				...task,
 				id: task.id || uuidv4(),
 			}))
@@ -111,10 +111,7 @@ const TasksForm = ({
 		const updatedTasks = [...selectedCalendar.days];
 		updatedTasks[calendarIndex] = {
 			...updatedTasks[calendarIndex],
-			tasks: {
-				...updatedTasks[calendarIndex].tasks,
-				daily: dailyTasks,
-			},
+			tasks: dailyTasks,
 		};
 		console.log(dailyTasks);
 
@@ -145,7 +142,7 @@ const TasksForm = ({
 			return
 		}
 
-		if (!isEqual(dailyTasks, currentTasks.daily)) {
+		if (!isEqual(dailyTasks, currentTasks)) {
 			setModalType('save-changes');
 			setIsModalOpen(true);
 		} else {

@@ -147,9 +147,7 @@ const CalendarDisplay = ({
 						existingTaskForDay || {
 							date: currentDay.format('YYYY-MM-DD'),
 							disabled: false,
-							tasks: {
-								daily: [],
-							},
+							tasks: [],
 						}
 					);
 					return daysArr;
@@ -214,7 +212,7 @@ const CalendarDisplay = ({
 				saveChanges();
 				break;
 			case 'disable-day':
-				const hasTasks = !!selectedDay.tasks.daily.length > 0;
+				const hasTasks = !!selectedDay.tasks.length > 0;
 				if (hasTasks && !disableDayChecked) {
 					setModalType('disable-day-with-tasks');
 				} else {
@@ -247,7 +245,7 @@ const CalendarDisplay = ({
 							);
 						const matchingDaysHasTasks =
 							!!matchingDaysInRangeMinusDay.some(
-								(day) => day.tasks.daily.length > 0
+								(day) => day.tasks.length > 0
 							);
 
 						if (matchingDaysHasTasks) {
