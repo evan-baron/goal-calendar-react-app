@@ -69,6 +69,11 @@ const TasksForm = ({
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
 	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
+	const [selectedTask, setSelectedTask] = useState(null);
+	const [isRecurring, setIsRecurring] = useState(false);
+	const [recurringStart, setRecurringStart] = useState(null);
+	const [recurringEnd, setRecurringEnd] = useState(null);
+	const [recurringType, setRecurringType] = useState(null);
 
 	const addTask = () => {
 		setDailyTasks([
@@ -115,6 +120,7 @@ const TasksForm = ({
 				daily: dailyTasks,
 			},
 		};
+		console.log(dailyTasks);
 
 		dispatch(
 			updateCalendar({
@@ -161,10 +167,14 @@ const TasksForm = ({
 							easterEgg={easterEgg}
 							editMode={editMode}
 							key={task.id}
+							taskId={task.id}
 							removeTask={removeTask}
 							setDailyTasks={setDailyTasks}
 							setIsDirty={setIsDirty}
+							setIsModalOpen={setIsModalOpen}
+							setModalType={setModalType}
 							setRecurrenceModalOpen={setRecurrenceModalOpen}
+							setSelectedTask={setSelectedTask}
 							task={task.task}
 							taskIndex={taskIndex}
 						/>
@@ -199,7 +209,12 @@ const TasksForm = ({
 			<RecurrenceModal 
 				dailyTasks={dailyTasks}
 				setDailyTasks={setDailyTasks}
+				selectedTask={selectedTask}
 				isOpen={recurrenceModalOpen}
+				setIsRecurring={setIsRecurring}
+				setRecurringStart={setRecurringStart}
+				setRecurringEnd={setRecurringEnd}
+				setRecurringType={setRecurringType}
 				selectedDay={selectedDay}
 				selectedCalendar={selectedCalendar}
 				setRecurrenceModalOpen={setRecurrenceModalOpen}

@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react';
 import './Task.css';
-import { DeleteForeverOutlined, EventRepeat } from '@mui/icons-material';
+import { DeleteForeverOutlined, EventRepeat, Loop } from '@mui/icons-material';
 
 const Task = ({
+	taskId,
 	dailyTasks,
+	setIsModalOpen,
+	setModalType,
 	setDailyTasks,
+	setSelectedTask,
 	easterEgg,
 	editMode,
 	task,
@@ -35,7 +39,30 @@ const Task = ({
 	return (
 		<div className='task-container'>
 			<div className='task-input-container'>
-				{editMode ? (
+				{editMode && dailyTasks[taskIndex].recurring.recurring ? (
+					<>
+						<Loop 
+							className='recurring-icon'
+							onClick={() => {
+								setSelectedTask(taskId);
+								setRecurrenceModalOpen(true)
+							}}
+							sx={{ 
+								transform: 'scale(-1, 1) rotate(135deg)',
+								color: 'rgb(0, 200, 0)'
+							}}
+						/>
+						<input
+							className='task-input'
+							type='text'
+							placeholder={firstTaskPlaceholder}
+							maxLength={60}
+							value={task || ''}
+							name='task'
+							onChange={handleChange}
+						/>
+					</>
+				) : editMode && !dailyTasks[taskIndex].recurring.recurring ? (
 					<input
 						className='task-input'
 						type='text'
@@ -90,7 +117,15 @@ const Task = ({
 			{editMode && (
 				<EventRepeat
 					className='event-repeat'
-					onClick={() => setRecurrenceModalOpen(prev => prev = !prev)}
+					onClick={() => {
+						if (!dailyTasks[taskIndex].task) {
+							setModalType('tasks-empty')
+							setIsModalOpen(true)
+							return;
+						}
+						setSelectedTask(taskId);
+						setRecurrenceModalOpen(prev => prev = !prev);
+					}}
 					sx={{
 						color: 'rgb(200, 200, 200)',
 						'&:hover': { color: 'rgb(175, 175, 175)' },

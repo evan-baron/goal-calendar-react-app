@@ -23,6 +23,10 @@
 	font-size: 1.25rem;
 }
 
+.recurring-icon:hover {
+	cursor: pointer;
+}
+
 .task-input {
 	position: relative;
 	padding-right: 2rem !important;
