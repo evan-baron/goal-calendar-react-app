@@ -118,7 +118,6 @@ const CalendarForm = ({ hideShow, setEditMode }) => {
 						disabled: false,
 						tasks: {
 							daily: [],
-							bonus: [],
 						},
 					});
 

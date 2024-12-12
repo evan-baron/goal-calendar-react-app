@@ -147,9 +147,8 @@ const CalendarDisplay = ({
 						existingTaskForDay || {
 							date: currentDay.format('YYYY-MM-DD'),
 							disabled: false,
-							days: {
+							tasks: {
 								daily: [],
-								bonus: [],
 							},
 						}
 					);
@@ -572,23 +571,9 @@ const CalendarDisplay = ({
 						</div>
 						<div className='weekend-prompt-container'>
 							{/* include/exclude weekends options with hide/show button */}
-							{!toggleWeekends ? (
-								<legend>
-									Change to{' '}
-									<span className='include-exclude'>
-										include
-									</span>{' '}
-									weekends?
-								</legend>
-							) : (
-								<legend>
-									Change to{' '}
-									<span className='include-exclude'>
-										exclude
-									</span>{' '}
-									weekends?
-								</legend>
-							)}
+							<legend>
+								Include weekends?
+							</legend>
 							<label>
 								Yes
 								<input
