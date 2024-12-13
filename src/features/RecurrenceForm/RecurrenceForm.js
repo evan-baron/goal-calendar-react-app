@@ -59,7 +59,8 @@ const RecurrenceForm = ({
 						recurring: false,
 						startDate: null,
 						endDate: null,
-						type: null
+						type: null,
+						hasBeenRecurred: false
 					}
 				}
 				setDailyTasks(updatedTasks);
@@ -72,7 +73,8 @@ const RecurrenceForm = ({
 						recurring: true,
 						startDate: selectedStart.format('YYYY-MM-DD'),
 						endDate: selectedEnd.format('YYYY-MM-DD'),
-						type: selectedType
+						type: selectedType,
+						hasBeenRecurred: false
 					}
 				}
 				console.log('updatedTasks: ', updatedTasks);

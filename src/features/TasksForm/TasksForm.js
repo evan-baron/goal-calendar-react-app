@@ -30,7 +30,7 @@ const TasksForm = ({
 			'Run 1 mile',
 			'Eat a piece of candy',
 			'Do 20 push-ups',
-			'Organize email',
+			'Organize inbox',
 			'Do laundry',
 			'Fill out expense report',
 			'Upper-body workout day',
@@ -84,6 +84,7 @@ const TasksForm = ({
 					type: null,
 					startDate: null,
 					endDate: null,
+					hasBeenRecurred: false
 				}
 			},
 		]);
