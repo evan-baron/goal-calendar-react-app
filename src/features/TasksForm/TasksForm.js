@@ -109,11 +109,14 @@ const TasksForm = ({
 
 	const acceptChanges = () => {
 		const updatedTasks = [...selectedCalendar.days];
+		// the below code only updates the selected day's tasks... it does not have anything to do with recurrence... 
 		updatedTasks[calendarIndex] = {
 			...updatedTasks[calendarIndex],
 			tasks: dailyTasks,
 		};
-		console.log(dailyTasks);
+
+		// now need to check for recurring. 
+		console.log('the total daily tasks: ', dailyTasks);
 
 		dispatch(
 			updateCalendar({
@@ -122,10 +125,10 @@ const TasksForm = ({
 			})
 		);
 
-		setIsModalOpen(false);
-		setModalType(null);
-		setIsDirty(false);
-		setTasksModalOpen(false);
+		// setIsModalOpen(false);
+		// setModalType(null);
+		// setIsDirty(false);
+		// setTasksModalOpen(false);
 	};
 
 	const rejectChanges = () => {
