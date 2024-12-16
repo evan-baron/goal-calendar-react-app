@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import './Task.css';
 import { DeleteForeverOutlined, EventRepeat, Loop } from '@mui/icons-material';
 
@@ -8,7 +8,9 @@ const Task = ({
 	easterEgg,
 	editMode,
 	removeTask,
-	setTaskId
+	setTaskId,
+	tasks,
+	setTasks
 }) => {
 	const { id } = task;
 	const firstTaskPlaceholder = useMemo(() => {
@@ -16,7 +18,9 @@ const Task = ({
 	}, [taskIndex]);
 
 	const handleChange = (e) => {
-
+		const updatedTasks = [...tasks]
+		updatedTasks[taskIndex].task = e.target.value;
+		setTasks(updatedTasks);
 	};
 
 	return (

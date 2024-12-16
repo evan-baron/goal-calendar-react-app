@@ -17,7 +17,6 @@ const TasksForm = ({
 	selectedCalendar,
 	selectedDay,
 	setTasksModalOpen,
-	currentTasks,
 }) => {
 	const dispatch = useDispatch();
 	const calendarIndex = selectedCalendar.days.findIndex(
@@ -117,11 +116,13 @@ const TasksForm = ({
 					return (
 						<Task
 							task={task}
+							tasks={tasks}
 							taskIndex={taskIndex}
 							easterEgg={easterEgg}
 							editMode={editMode}
 							removeTask={removeTask}
 							setTaskId={setTaskId}
+							setTasks={setTasks}
 						/>
 					);
 				})}
