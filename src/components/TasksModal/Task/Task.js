@@ -3,135 +3,76 @@ import './Task.css';
 import { DeleteForeverOutlined, EventRepeat, Loop } from '@mui/icons-material';
 
 const Task = ({
-	taskId,
-	dailyTasks,
-	setIsModalOpen,
-	setModalType,
-	setDailyTasks,
-	setSelectedTask,
+	task,
+	taskIndex,
 	easterEgg,
 	editMode,
-	task,
 	removeTask,
-	setRecurrenceModalOpen,
-	taskIndex,
+	setTaskId
 }) => {
-	
+	const { id } = task;
 	const firstTaskPlaceholder = useMemo(() => {
 		return taskIndex === 0 ? easterEgg() : null;
 	}, [taskIndex]);
 
 	const handleChange = (e) => {
-		const { name, value, type, checked } = e.target;
 
-		const updatedTasks = dailyTasks.map((task, index) => {
-			if (index === taskIndex) {
-				return {
-					...task,
-					[name]: type === 'checkbox' ? checked : value,
-				};
-			}
-			return task;
-		});
-		setDailyTasks(updatedTasks);
 	};
 
 	return (
 		<div className='task-container'>
 			<div className='task-input-container'>
-				{editMode && dailyTasks[taskIndex].recurring.recurring ? (
-					<>
-						<Loop 
-							className='recurring-icon'
-							onClick={() => {
-								setSelectedTask(taskId);
-								setRecurrenceModalOpen(true)
-							}}
-							sx={{ 
-								transform: 'scale(-1, 1) rotate(135deg)',
-								color: 'rgb(0, 200, 0)'
-							}}
-						/>
-						<input
-							className='task-input'
-							type='text'
-							placeholder={firstTaskPlaceholder}
-							maxLength={60}
-							value={task || ''}
-							name='task'
-							onChange={handleChange}
-						/>
-					</>
-				) : editMode && !dailyTasks[taskIndex].recurring.recurring ? (
-					<input
-						className='task-input'
-						type='text'
-						placeholder={firstTaskPlaceholder}
-						maxLength={60}
-						value={task || ''}
-						name='task'
-						onChange={handleChange}
-					/>
-				) : (
-					<div className='task-div'>{task}</div>
-				)}
+				{/* <Loop 
+					className='recurring-icon'
+					sx={{ 
+						transform: 'scale(-1, 1) rotate(135deg)',
+						color: 'rgb(0, 200, 0)'
+					}}
+				/> */}
+				<input
+					className='task-input'
+					type='text'
+					placeholder={firstTaskPlaceholder}
+					value={task.task}
+					maxLength={60}
+					name='task'
+					onChange={handleChange}
+				/>
+				<div className='task-div'></div>
 				<label className={editMode ? 'point-value' : 'points-div'} name='points'>
 					{editMode ? 'Point Value:' : 'Points:'}
 				</label>
-				{editMode ? (
-					<input
-						className='points'
-						type='number'
-						min='0'
-						max='3'
-						value={dailyTasks[taskIndex].points || 1}
-						name='points'
-						onChange={handleChange}
-					/>
-				) : (
-					<div className='points-div'>{dailyTasks[taskIndex].points}</div>
-				)}
-				{editMode ? (
-					<DeleteForeverOutlined
-						className='remove-task-btn'
-						onClick={() => removeTask(dailyTasks[taskIndex].id)}
-						sx={{
-							color: 'rgb(200, 200, 200)',
-							height: '2rem',
-							width: '2rem',
-							'&:hover': {
-								color: 'rgb(175, 175, 175)'
-							}
-						}}
-					/>
-				) : (
-					<input
-						type='checkbox'
-						className='task-checkbox'
-						name='completed'
-						checked={dailyTasks[taskIndex].completed}
-						onChange={handleChange}
-					/>
-				)}
-			</div>
-			{editMode && (
-				<EventRepeat
-					className='event-repeat'
+				<input
+					className='points'
+					type='number'
+					min='0'
+					max='3'
+					name='points'
+					onChange={handleChange}
+				/>
+				<DeleteForeverOutlined
+					className='remove-task-btn'
 					onClick={() => {
-						if (!dailyTasks[taskIndex].task) {
-							setModalType('tasks-empty')
-							setIsModalOpen(true)
-							return;
-						}
-						setSelectedTask(taskId);
-						setRecurrenceModalOpen(prev => prev = !prev);
+						setTaskId(id)
+						removeTask(id)
 					}}
 					sx={{
 						color: 'rgb(200, 200, 200)',
-						'&:hover': { color: 'rgb(175, 175, 175)' },
+						height: '2rem',
+						width: '2rem',
+						'&:hover': {
+							color: 'rgb(175, 175, 175)'
+						}
 					}}
 				/>
-			)}
+			</div>
+			<EventRepeat
+				className='event-repeat'
+				sx={{
+					color: 'rgb(200, 200, 200)',
+					'&:hover': { color: 'rgb(175, 175, 175)' },
+				}}
+			/>
 		</div>
 	);
 };
