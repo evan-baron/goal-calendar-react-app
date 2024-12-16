@@ -30,6 +30,47 @@
 .task-input {
 	position: relative;
 	padding-right: 2rem !important;
+	width: 100% !important;
+}
+
+.task-div {
+	text-align: left;
+	line-height: 1;
+	width: 100%;
+}
+
+.points-div {.task-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.task-input-container {
+	display: flex;
+	align-items: center;
+	/* justify-content: space-between; */
+	gap: .5rem;
+	width: 100%;
+}
+
+.task-container input {
+	color: rgb(25, 25, 75);
+	padding-left: .25rem;
+	background-color: rgba(140, 220, 255, .25);
+	border: 0px;
+	height: 2rem;
+	font-size: 1.25rem;
+}
+
+.recurring-icon:hover {
+	cursor: pointer;
+}
+
+.task-input {
+	position: relative;
+	padding-right: 2rem !important;
 	width: 100%;
 }
 
@@ -40,6 +81,65 @@
 }
 
 .points-div {
+	line-height: 1;
+}
+
+.task-checkbox {
+	transform: translateY(.0625rem);
+	width: 2rem;
+}
+
+.point-value {
+	display: flex;
+	align-items: center;
+	text-align: end;
+	font-size: .75rem;
+	width: 2rem;
+	height: 2rem;
+}
+
+.points {
+	width: 2.5rem;
+}
+
+.points::-webkit-inner-spin-button, .points::-webkit-outer-spin-button {
+	opacity: 1;
+}
+
+.task-container input::-webkit-input-placeholder {
+    color: rgba(25, 25, 75, .25);
+}
+
+.task-container .task-input:focus {
+    outline: 2px solid rgba(140, 220, 255, .75);
+}
+
+.remove-task-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 2rem;
+}
+
+.remove-task-btn:hover {
+	cursor: pointer;
+}
+
+
+.recurring {
+	align-self: flex-start;
+	font-size: 1rem;
+	color: rgb(25, 25, 75);
+}
+
+.event-repeat {
+	position: absolute;
+	right: 10.25rem;
+}
+
+.event-repeat:hover {
+	cursor: pointer;
+}
 	line-height: 1;
 }
 

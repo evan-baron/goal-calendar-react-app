@@ -18,8 +18,13 @@ const Task = ({
 	}, [taskIndex]);
 
 	const handleChange = (e) => {
+		const { name } = e.target;
 		const updatedTasks = [...tasks]
-		updatedTasks[taskIndex].task = e.target.value;
+		if (name === 'task') {
+			updatedTasks[taskIndex].task = e.target.value;
+		} else if (name === 'points') {
+			updatedTasks[taskIndex].points = e.target.value;
+		}
 		setTasks(updatedTasks);
 	};
 
@@ -42,7 +47,6 @@ const Task = ({
 					name='task'
 					onChange={handleChange}
 				/>
-				<div className='task-div'></div>
 				<label className={editMode ? 'point-value' : 'points-div'} name='points'>
 					{editMode ? 'Point Value:' : 'Points:'}
 				</label>

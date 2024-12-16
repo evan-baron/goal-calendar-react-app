@@ -4,7 +4,7 @@ import './TasksForm.css';
 import { useDispatch } from 'react-redux';
 import { updateCalendar } from '../CalendarForm/calendarSlice';
 import dayjs from 'dayjs';
-import isEqual from 'lodash/isEqual';
+import { isEqual } from 'lodash/isEqual';
 import { v4 as uuidv4 } from 'uuid';
 import Task from '../../components/TasksModal/Task/Task';
 import Modal from '../../components/Modal/Modal';
@@ -22,8 +22,6 @@ const TasksForm = ({
 	const calendarIndex = selectedCalendar.days.findIndex(
 		(c) => c.date === dayjs(selectedDay.date).format('YYYY-MM-DD')
 	);
-	const updatedCalendar = selectedCalendar;
-
 	const easterEgg = () => {
 		const easterEggArr = [
 			'Drink 100oz of Water',
@@ -49,6 +47,7 @@ const TasksForm = ({
 	const [modalType, setModalType] = useState(null);
 	const [recurrenceModalOpen, setRecurrenceModalOpen] = useState(null);
 	const [selectedTask, setSelectedTask] = useState(null);
+	const [updatedCalendar, setUpdatedCalendar] = useState(selectedCalendar);
 	const [taskId, setTaskId] = useState(null);
 	const [tasks, setTasks] = useState(
 		updatedCalendar.days[calendarIndex].tasks.length === 0 ? 
@@ -105,8 +104,24 @@ const TasksForm = ({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(updatedCalendar);
+		console.log(updatedCalendar.days[calendarIndex]);
 		console.log(tasks);
+		let newCalendar = {
+			...updatedCalendar,
+			days: updatedCalendar.days.map((day, index) => {
+				if (index === calendarIndex) {
+					return {
+						...day,
+						tasks: tasks,
+					}
+				}
+				return day;
+			}),
+		}
+		if (!isEqual(newCalendar, updatedCalendar)) {
+			setIsModalOpen(true)
+			setModalType('save-changes');
+		}
 	};
 
 	return (
