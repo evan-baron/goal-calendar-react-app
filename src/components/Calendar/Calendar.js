@@ -232,13 +232,13 @@ const Calendar = ({
 											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
-											setSelectedDay(selectedCalendar.days[calendarIndex]);
-											if (!isDisabled && selectedCalendar.days[calendarIndex].tasks.length !== 0) {
+											const dayExists = selectedCalendar.days.some((day) => day.date === dayjs(currentDay).format('YYYY-MM-DD'));
+											if (!dayExists || selectedCalendar.days[calendarIndex].tasks.length === 0) {
+												return null;
+											} else {
 												setSelectedDay(selectedCalendar.days[calendarIndex]);
 												setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
 												setTasksModalOpen(prev => prev = !prev);
-											} else {
-												return;
 											}
 										}
 									}} //shows the clicked-day's date and tasks

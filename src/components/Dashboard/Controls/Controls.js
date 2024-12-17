@@ -46,11 +46,15 @@ const Controls = ({
 			<div
 				className='controls-option'
 				onClick={() => {
+					if (isDirty) {
+						validateDates()
+					} else {
 					setNewCalName(newCalName);
 					setEditName(false);
 					setEditMode(false);
 					setNavStatus(false);
 					setPreviewMode(true);
+					}
 				}}
 			>
 				<Preview fontSize='large' />
