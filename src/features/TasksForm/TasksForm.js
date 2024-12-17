@@ -61,10 +61,10 @@ const TasksForm = ({
 						},
 					},
 			  ]
-			: selectedCalendar.days[calendarIndex].tasks.map(task => ({
-				...task,
-				id: task.id || uuidv4(),
-			}))
+			: selectedCalendar.days[calendarIndex].tasks.map((task) => ({
+					...task,
+					id: task.id || uuidv4(),
+			  }))
 	);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalType, setModalType] = useState(null);
@@ -84,8 +84,8 @@ const TasksForm = ({
 					type: null,
 					startDate: null,
 					endDate: null,
-					hasBeenRecurred: false
-				}
+					hasBeenRecurred: false,
+				},
 			},
 		]);
 	};
@@ -115,7 +115,7 @@ const TasksForm = ({
 							},
 						},
 				  ]
-				: currentDayTasks.map(task => ({
+				: currentDayTasks.map((task) => ({
 						...task,
 						id: task.id || uuidv4(),
 				  }))
@@ -123,13 +123,15 @@ const TasksForm = ({
 	}, [selectedDay]); // This effect runs when selectedDay changes to sync the tasks state
 
 	const validateTasks = () => {
-		const noTasks = dailyTasks.some((task) => task.task === null || task.task.trim() === '')
+		const noTasks = dailyTasks.some(
+			(task) => task.task === null || task.task.trim() === ''
+		);
 		if (noTasks) {
-			return true
+			return true;
 		} else {
-			return false
+			return false;
 		}
-	}
+	};
 
 	const acceptChanges = () => {
 		let updatedDays = selectedCalendar.days.map((day) => ({
@@ -145,43 +147,73 @@ const TasksForm = ({
 		dailyTasks.forEach((day) => {
 			if (day.recurring.recurring) {
 				if (!day.recurring.hasBeenRecurred) {
-					daysWithRecurring.push(day)
-					recurringTasksArr.push({task: day,
+					daysWithRecurring.push(day);
+					recurringTasksArr.push({
+						task: day,
 						type: day.recurring.type,
-						dates: []
-					})
+						dates: [],
+					});
 				}
 			}
-		})
+		});
 
 		console.log(recurringTasksArr);
 
 		for (let i = 0; i < daysWithRecurring.length; i++) {
-			const startDayIndex = dayjs(daysWithRecurring[i].recurring.startDate).day();
-			const startDateIndex = selectedCalendar.days.findIndex((day) => day.date === daysWithRecurring[i].recurring.startDate);
-			const endDateIndex = selectedCalendar.days.findIndex((day) => day.date === daysWithRecurring[i].recurring.endDate);
+			const startDayIndex = dayjs(
+				daysWithRecurring[i].recurring.startDate
+			).day();
+			const startDateIndex = selectedCalendar.days.findIndex(
+				(day) => day.date === daysWithRecurring[i].recurring.startDate
+			);
+			const endDateIndex = selectedCalendar.days.findIndex(
+				(day) => day.date === daysWithRecurring[i].recurring.endDate
+			);
 
 			for (let j = startDateIndex; j <= endDateIndex; j++) {
 				if (selectedCalendar.days[j].date !== selectedDay.date) {
 					switch (daysWithRecurring[i].recurring.type) {
 						case 'daily':
-							recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							recurringTasksArr[i].dates.push(
+								selectedCalendar.days[j]
+							);
 							break;
 						case 'alternate':
-							if (startDayIndex % 2 === dayjs(selectedCalendar.days[j].date).day() % 2) {
-								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							if (
+								startDayIndex % 2 ===
+								dayjs(selectedCalendar.days[j].date).day() % 2
+							) {
+								recurringTasksArr[i].dates.push(
+									selectedCalendar.days[j]
+								);
 							}
 							break;
 						case 'weekly':
-							if (startDayIndex === dayjs(selectedCalendar.days[j].date).day()) {
-								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							if (
+								startDayIndex ===
+								dayjs(selectedCalendar.days[j].date).day()
+							) {
+								recurringTasksArr[i].dates.push(
+									selectedCalendar.days[j]
+								);
 							}
 							break;
 						case 'biweekly':
-							const weeksDifference = dayjs(selectedCalendar.days[j].date).diff(dayjs(daysWithRecurring[i].recurring.startDate), 'week');
+							const weeksDifference = dayjs(
+								selectedCalendar.days[j].date
+							).diff(
+								dayjs(daysWithRecurring[i].recurring.startDate),
+								'week'
+							);
 
-							if (weeksDifference % 2 === 0 && startDayIndex === dayjs(selectedCalendar.days[j].date).day()) {
-								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							if (
+								weeksDifference % 2 === 0 &&
+								startDayIndex ===
+									dayjs(selectedCalendar.days[j].date).day()
+							) {
+								recurringTasksArr[i].dates.push(
+									selectedCalendar.days[j]
+								);
 							}
 							break;
 					}
@@ -197,17 +229,19 @@ const TasksForm = ({
 			for (let j = 0; j < recurringTasksArr[i].dates.length; j++) {
 				updatedDays = updatedDays.map((day) => {
 					if (day.date === recurringTasksArr[i].dates[j].date) {
-						const taskExists = day.tasks.some((task) => task.id === recurringTasksArr[i].task.id)
+						const taskExists = day.tasks.some(
+							(task) => task.id === recurringTasksArr[i].task.id
+						);
 
 						if (!taskExists) {
 							day.tasks = [
 								...day.tasks,
-								recurringTasksArr[i].task
-							]
+								recurringTasksArr[i].task,
+							];
 						}
-					} 
+					}
 					return day;
-				})
+				});
 			}
 		}
 
@@ -215,7 +249,10 @@ const TasksForm = ({
 
 		for (let i = 0; i < updatedDays.length; i++) {
 			for (let j = 0; j < updatedDays[i].tasks.length; j++) {
-				if (updatedDays[i].tasks[j].recurring.recurring && !updatedDays[i].tasks[j].recurring.hasBeenRecurred) {
+				if (
+					updatedDays[i].tasks[j].recurring.recurring &&
+					!updatedDays[i].tasks[j].recurring.hasBeenRecurred
+				) {
 					updatedDays[i].tasks[j].recurring.hasBeenRecurred = true;
 				}
 			}
@@ -227,7 +264,8 @@ const TasksForm = ({
 			updateCalendar({
 				...selectedCalendar,
 				days: updatedDays,
-		}));
+			})
+		);
 
 		setTasksModalOpen(false);
 		setModalType(null);
@@ -245,7 +283,7 @@ const TasksForm = ({
 		if (validateTasks()) {
 			setModalType('tasks-empty');
 			setIsModalOpen(true);
-			return
+			return;
 		}
 
 		if (!isEqual(dailyTasks, currentTasks)) {
@@ -279,13 +317,15 @@ const TasksForm = ({
 						/>
 					);
 				})}
-				{editMode && <button
-					className='add-task-btn'
-					type='button'
-					onClick={addTask}
-				>
-					Add Task
-				</button>}
+				{editMode && (
+					<button
+						className='add-task-btn'
+						type='button'
+						onClick={addTask}
+					>
+						Add Task
+					</button>
+				)}
 				<div className='save-cancel-btns'>
 					<button type='submit'>Save</button>{' '}
 					<button
@@ -305,7 +345,7 @@ const TasksForm = ({
 				onClose={rejectChanges}
 				modalType={modalType}
 			/>
-			<RecurrenceModal 
+			<RecurrenceModal
 				dailyTasks={dailyTasks}
 				setDailyTasks={setDailyTasks}
 				selectedTask={selectedTask}
@@ -314,7 +354,7 @@ const TasksForm = ({
 				selectedCalendar={selectedCalendar}
 				setRecurrenceModalOpen={setRecurrenceModalOpen}
 				setIsModalOpen={setIsModalOpen}
-				setModalType={setModalType}		
+				setModalType={setModalType}
 			/>
 		</>
 	);

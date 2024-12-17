@@ -569,9 +569,7 @@ const CalendarDisplay = ({
 						</div>
 						<div className='weekend-prompt-container'>
 							{/* include/exclude weekends options with hide/show button */}
-							<legend>
-								Include weekends?
-							</legend>
+							<legend>Include weekends?</legend>
 							<label>
 								Yes
 								<input
@@ -594,7 +592,7 @@ const CalendarDisplay = ({
 							</label>
 							{!toggleWeekends && (
 								<button
-									onClick={() => 
+									onClick={() =>
 										setShowWeekends(
 											(prev) => (prev = !prev)
 										)
@@ -612,7 +610,7 @@ const CalendarDisplay = ({
 						<button
 							className='weekends-button'
 							onClick={() => {
-								setShowWeekends((prev) => (prev = !prev))
+								setShowWeekends((prev) => (prev = !prev));
 								console.log('test');
 							}}
 						>
