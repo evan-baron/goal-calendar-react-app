@@ -594,7 +594,7 @@ const CalendarDisplay = ({
 							</label>
 							{!toggleWeekends && (
 								<button
-									onClick={() =>
+									onClick={() => 
 										setShowWeekends(
 											(prev) => (prev = !prev)
 										)
@@ -608,14 +608,17 @@ const CalendarDisplay = ({
 						</div>
 					</>
 				) : (
-					<button
-						className='weekends-button'
-						onClick={() =>
-							setShowWeekends((prev) => (prev = !prev))
-						}
-					>
-						{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
-					</button>
+					!toggleWeekends && (
+						<button
+							className='weekends-button'
+							onClick={() => {
+								setShowWeekends((prev) => (prev = !prev))
+								console.log('test');
+							}}
+						>
+							{!showWeekends ? 'Show Weekends' : 'Hide Weekends'}
+						</button>
+					)
 				)}
 
 				{/* This is the rendered calendar component, all props passed are necessary */}
