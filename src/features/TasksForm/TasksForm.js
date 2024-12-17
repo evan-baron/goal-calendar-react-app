@@ -97,7 +97,30 @@ const TasksForm = ({
 	};
 
 	useEffect(() => {
-	}, [dailyTasks]);
+		const currentDayTasks = selectedCalendar.days[calendarIndex].tasks;
+		setDailyTasks(
+			currentDayTasks.length === 0
+				? [
+						{
+							id: uuidv4(),
+							task: null,
+							points: 1,
+							completed: false,
+							recurring: {
+								recurring: false,
+								type: null,
+								startDate: null,
+								endDate: null,
+								hasBeenRecurred: false,
+							},
+						},
+				  ]
+				: currentDayTasks.map(task => ({
+						...task,
+						id: task.id || uuidv4(),
+				  }))
+		);
+	}, [selectedDay]); // This effect runs when selectedDay changes to sync the tasks state
 
 	const validateTasks = () => {
 		const noTasks = dailyTasks.some((task) => task.task === null || task.task.trim() === '')
@@ -109,187 +132,102 @@ const TasksForm = ({
 	}
 
 	const acceptChanges = () => {
-		const updatedTasks = [...selectedCalendar.days];
-		// the below code only updates the selected day's tasks... it does not have anything to do with recurrence... 
-		updatedTasks[calendarIndex] = {
-			...updatedTasks[calendarIndex],
-			tasks: dailyTasks,
-		};
+		let updatedDays = selectedCalendar.days.map((day) => ({
+			...day,
+			tasks: [...day.tasks],
+		}));
 
-		//////////////////////////////////////////////////////////////
-		//                                                          //
-		//          REMOVED BELOW RECURRING LOGIC FOR NOW           //
-		//                                                          //
-		//////////////////////////////////////////////////////////////
+		updatedDays[calendarIndex].tasks = dailyTasks;
 
-		// // now need to check for recurring. 
-		// console.log('the total daily tasks: ', dailyTasks);
-		// const dailyTasksWithRecurring = dailyTasks.filter((task) => task.recurring.recurring);
-		// console.log('the tasks that have recurrence: ', dailyTasksWithRecurring);
-		// const dailyTasksWithRecurringNotRecurred = dailyTasksWithRecurring.filter((task) => !task.recurring.hasBeenRecurred)
-		// console.log('the tasks that havent been recurred yet: ', dailyTasksWithRecurringNotRecurred);
+		let daysWithRecurring = [];
+		let recurringTasksArr = [];
 
-		// // but what about the start dates and end dates of these days? couldn't there be multiple different start dates and end dates? yes, this means nested loops yayyyy
-		// // so let's create a separate array for each task with recurring that hasn't been recurred yet
-		// let recurringTasksArrs = [];
-		// for (let i = 0; i < dailyTasksWithRecurringNotRecurred.length; i++) {
-		// 	recurringTasksArrs.push([])
-		// }
-		// console.log('the separate arrays so far: ',recurringTasksArrs);
+		dailyTasks.forEach((day) => {
+			if (day.recurring.recurring) {
+				if (!day.recurring.hasBeenRecurred) {
+					daysWithRecurring.push(day)
+					recurringTasksArr.push({task: day,
+						type: day.recurring.type,
+						dates: []
+					})
+				}
+			}
+		})
 
-		// // OK, now that we have the arrays for each task with recurring that hasn't been recurred yet, we can start pushing the calendar days that match the ranges into each array accordingly... going to involve a nested for loop... we'll need to look at the tasks that havent been recurred yet and loop through that, but for each task in there, we need to identify the start date and end dates and push those days into it's matching array in the recurringTaskArrs. To begin, let's first look at the selected calendar:
-		// console.log('the selected calendar: ', selectedCalendar);
+		console.log(recurringTasksArr);
 
-		// // we're going to need the index of the calendar day that the start date for the task falls on
-		// // for now, we'll just use the first task but we'll put this into a loop to iterate through every task once we're done
-		// // here's the start date of the first task that hasn't been recurred yet:
-		// const taskStartDate = dailyTasksWithRecurringNotRecurred[0].recurring.startDate
-		// console.log('the start date of the first task: ', taskStartDate);
+		for (let i = 0; i < daysWithRecurring.length; i++) {
+			const startDayIndex = dayjs(daysWithRecurring[i].recurring.startDate).day();
+			const startDateIndex = selectedCalendar.days.findIndex((day) => day.date === daysWithRecurring[i].recurring.startDate);
+			const endDateIndex = selectedCalendar.days.findIndex((day) => day.date === daysWithRecurring[i].recurring.endDate);
 
-		// // we also need the end date:
-		// const taskEndDate = dailyTasksWithRecurringNotRecurred[0].recurring.endDate
-		// console.log('the end date of the first task: ', taskEndDate);
+			for (let j = startDateIndex; j <= endDateIndex; j++) {
+				if (selectedCalendar.days[j].date !== selectedDay.date) {
+					switch (daysWithRecurring[i].recurring.type) {
+						case 'daily':
+							recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							break;
+						case 'alternate':
+							if (startDayIndex % 2 === dayjs(selectedCalendar.days[j].date).day() % 2) {
+								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							}
+							break;
+						case 'weekly':
+							if (startDayIndex === dayjs(selectedCalendar.days[j].date).day()) {
+								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							}
+							break;
+						case 'biweekly':
+							const weeksDifference = dayjs(selectedCalendar.days[j].date).diff(dayjs(daysWithRecurring[i].recurring.startDate), 'week');
 
-		// // time to grab the index of the start date from the selected calendar
-		// const taskStartDateIndex = selectedCalendar.days.findIndex((day) => day.date === taskStartDate);
-		// console.log('the starting index in the selectedCalendar: ', taskStartDateIndex);
+							if (weeksDifference % 2 === 0 && startDayIndex === dayjs(selectedCalendar.days[j].date).day()) {
+								recurringTasksArr[i].dates.push(selectedCalendar.days[j])
+							}
+							break;
+					}
+				}
+			}
+		}
 
-		// // let's grab the ending index as well
-		// const taskEndDateIndex = selectedCalendar.days.findIndex((day) => day.date === taskEndDate);
-		// console.log('the ending index in the selectedCalendar: ', taskEndDateIndex);
+		console.log('updated recurring tasks arr: ', recurringTasksArr);
 
-		// // now we can iterate and push days to the appropriate recurringTasksArrs
-		// for (let i = taskStartDateIndex; i <= taskEndDateIndex; i++) {
-		// 	// if doing alternate, we'll need to add in some extra steps here but we'll worry about that when we get there
-		// 	recurringTasksArrs[0].push(selectedCalendar.days[i])
-		// }
-		
-		// // let's see if that worked:
-		// console.log('the first array in recurringTasksArrs should have days in it: ', recurringTasksArrs);
+		console.log('updatedDays', updatedDays);
 
-		// // it worked, let's reset the arrays for our next exercise
-		// recurringTasksArrs[0] = [];
+		for (let i = 0; i < recurringTasksArr.length; i++) {
+			for (let j = 0; j < recurringTasksArr[i].dates.length; j++) {
+				updatedDays = updatedDays.map((day) => {
+					if (day.date === recurringTasksArr[i].dates[j].date) {
+						day.tasks = [
+							...day.tasks,
+							recurringTasksArr[i].task
+						]
+					} 
+					return day;
+				})
+			}
+		}
 
-		// // ok now that we can iterate through one day, let's nest that loop inside of a loop that checks all of this for each task in dailyTasksWithRecurringNotRecurred
-		// for (let i = 0; i < recurringTasksArrs.length; i++) {
-		// 	const taskStartDate = dailyTasksWithRecurringNotRecurred[i].recurring.startDate;
-		// 	const taskEndDate = dailyTasksWithRecurringNotRecurred[i].recurring.endDate
-		// 	const taskStartDateIndex = selectedCalendar.days.findIndex((day) => day.date === taskStartDate);
-		// 	const taskEndDateIndex = selectedCalendar.days.findIndex((day) => day.date === taskEndDate);
+		console.log('new updated days', updatedDays);
 
-		// 	for (let j = taskStartDateIndex; j <= taskEndDateIndex; j++) {
-		// 		// if doing alternate, we'll need to add in some extra steps here but we'll worry about that when we get there
-		// 		const taskStartDateDayIndex = dayjs(taskStartDate).day();
-		// 		const calendarDayDayIndex = dayjs(selectedCalendar.days[j].date).day();
+		for (let i = 0; i < updatedDays.length; i++) {
+			for (let j = 0; j < updatedDays[i].tasks.length; j++) {
+				if (updatedDays[i].tasks[j].recurring.recurring && !updatedDays[i].tasks[j].recurring.hasBeenRecurred) {
+					updatedDays[i].tasks[j].recurring.hasBeenRecurred = true;
+				}
+			}
+		}
 
-		// 		switch (dailyTasksWithRecurringNotRecurred[i].recurring.type) {
-		// 			case 'daily':
-		// 				recurringTasksArrs[i].push(selectedCalendar.days[j]);
-		// 				break;
-		// 			case 'alternate':
-		// 				if (taskStartDateDayIndex % 2 === calendarDayDayIndex % 2) {
-		// 					recurringTasksArrs[i].push(selectedCalendar.days[j])
-		// 				}
-		// 				break;
-		// 			case 'weekly':
-		// 				if (taskStartDateDayIndex === calendarDayDayIndex) {
-		// 					recurringTasksArrs[i].push(selectedCalendar.days[j])
-		// 				}
-		// 				break;
-		// 			case 'biweekly':
-		// 				const daysDifference = dayjs(selectedCalendar.days[j].date).startOf('day').diff(
-		// 					dayjs(taskStartDate).startOf('day'),
-		// 					'days'
-		// 				);
-		// 				const weeksDifference = Math.floor(daysDifference / 7);
-						
-		// 				if (weeksDifference % 2 === 0 && taskStartDateDayIndex === calendarDayDayIndex) {
-		// 					recurringTasksArrs[i].push(selectedCalendar.days[j]);
-		// 				}
-		// 				break;
-		// 		}
-		// 	}
-		// }
-
-		// // let's see if it worked:
-		// console.log('both arrays in recurringTasksArrs should be filled: ', recurringTasksArrs);
-
-		// // now for the fun part: adding the tasks into the days. Let's start by first creating a new array from the selectedCalendar days. we can use this updatedDays to dispatch later...
-		// let updatedDays = [...selectedCalendar.days.map((day) => ({ ...day, tasks: [...day.tasks] }))];
-		// console.log('updated days arr: ', updatedDays);
-		
-		// // Now let's grab the recurring information from the original tasks
-		// const recurringTaskInfo = dailyTasksWithRecurringNotRecurred[0];
-		// console.log('task info: ', recurringTaskInfo);
-		// const recurringTaskRecurringInfo = recurringTaskInfo.recurring;
-		// console.log('task recurring info: ', recurringTaskRecurringInfo);
-		
-		// // Iterate through recurringTasksArrs (each array corresponds to a task)
-		// for (let i = 0; i < recurringTasksArrs.length; i++) {
-		// 	// Get the current recurring task
-		// 	const currentTask = dailyTasksWithRecurringNotRecurred[i];
-		
-		// 	// Iterate through the days that the task applies to
-		// 	for (let j = 0; j < recurringTasksArrs[i].length; j++) {
-		// 		const recurringDay = recurringTasksArrs[i][j];
-		
-		// 		// Find the index of this day in updatedDays
-		// 		for (let k = 0; k < updatedDays.length; k++) {
-		// 			if (updatedDays[k].date === recurringDay.date) {
-		// 				// Update the tasks for this day
-		// 				const taskAlreadyExists = updatedDays[k].tasks.some(
-		// 					(task) => task.id === currentTask.id
-		// 				);
-		
-		// 				if (!taskAlreadyExists) {
-		// 					updatedDays[k] = {
-		// 						...updatedDays[k],
-		// 						tasks: [...updatedDays[k].tasks, { ...currentTask }],
-		// 					};
-		// 				}
-		// 				break; // Exit loop once the day is found
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// console.log('Updated days with recurring tasks: ', updatedDays);
-		
-		// // Update all tasks in updatedDays to set `hasBeenRecurred` to true
-		// updatedDays = updatedDays.map((day) => ({
-		// 	...day,
-		// 	tasks: day.tasks.map((task) =>
-		// 		task.recurring?.hasBeenRecurred === false
-		// 			? {
-		// 				  ...task,
-		// 				  recurring: {
-		// 					  ...task.recurring,
-		// 					  hasBeenRecurred: true,
-		// 				  },
-		// 			  }
-		// 			: task
-		// 	),
-		// }));
-		
-		// console.log("All tasks with `hasBeenRecurred` updated: ", updatedDays);
-
-		// dispatch(
-		// 	updateCalendar({
-		// 		...selectedCalendar,
-		// 		days: updatedDays,
-		// 	})
-		// );
+		console.log('after updating has been recurred: ', updatedDays);
 
 		dispatch(
 			updateCalendar({
 				...selectedCalendar,
-				days: updatedTasks,
-			})
-		);
+				days: updatedDays,
+		}));
 
-		setIsModalOpen(false);
-		setModalType(null);
-		setIsDirty(false);
 		setTasksModalOpen(false);
+		setModalType(null);
+		setIsModalOpen(false);
 	};
 
 	const rejectChanges = () => {

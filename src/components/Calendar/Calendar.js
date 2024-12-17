@@ -221,6 +221,7 @@ const Calendar = ({
 													} else {
 														setSelectedDay(selectedCalendar.days[calendarIndex]);
 														setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
+														console.log(selectedCalendar.days[calendarIndex].tasks);
 														setTasksModalOpen(prev => prev = !prev);
 													}
 												}
