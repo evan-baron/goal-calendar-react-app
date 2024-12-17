@@ -232,10 +232,13 @@ const Calendar = ({
 											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
-											if (!isDisabled) {
+											setSelectedDay(selectedCalendar.days[calendarIndex]);
+											if (!isDisabled && selectedCalendar.days[calendarIndex].tasks.length !== 0) {
 												setSelectedDay(selectedCalendar.days[calendarIndex]);
 												setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
 												setTasksModalOpen(prev => prev = !prev);
+											} else {
+												return;
 											}
 										}
 									}} //shows the clicked-day's date and tasks
