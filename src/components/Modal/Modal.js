@@ -72,7 +72,7 @@ const Modal = ({
 		case 'matching-days-have-tasks':
 			message = (
 				<>
-					There are tasks currently assigned on other {dayjs(selectedDay.date).format('dddd')}s.<br />Proceed anyway?
+					There are currently tasks assigned on other {dayjs(selectedDay.date).format('dddd')}s.<br /><span className='proceed-text'>Do you wish to proceed?</span>
 				</>
 				)
 			break;		

@@ -75,3 +75,8 @@
     font-size: 1rem;
     line-height: 1;
 }
+
+.proceed-text {
+    color: rgb(200, 0, 0);
+    font-weight: bold;
+}
