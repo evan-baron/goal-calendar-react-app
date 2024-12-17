@@ -197,10 +197,14 @@ const TasksForm = ({
 			for (let j = 0; j < recurringTasksArr[i].dates.length; j++) {
 				updatedDays = updatedDays.map((day) => {
 					if (day.date === recurringTasksArr[i].dates[j].date) {
-						day.tasks = [
-							...day.tasks,
-							recurringTasksArr[i].task
-						]
+						const taskExists = day.tasks.some((task) => task.id === recurringTasksArr[i].task.id)
+
+						if (!taskExists) {
+							day.tasks = [
+								...day.tasks,
+								recurringTasksArr[i].task
+							]
+						}
 					} 
 					return day;
 				})
