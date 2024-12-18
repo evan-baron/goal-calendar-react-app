@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 import './Calendar.css';
-import { Edit, West, East, ZoomInOutlined, Check, Close, DoNotDisturb } from '@mui/icons-material';
+import {
+	Edit,
+	West,
+	East,
+	ZoomInOutlined,
+	Check,
+	Close,
+	DoNotDisturb,
+} from '@mui/icons-material';
 
 const Calendar = ({
 	editMode,
@@ -17,24 +25,24 @@ const Calendar = ({
 	setIsModalOpen,
 	setModalType,
 	setCurrentTasks,
-	disabledDays
+	disabledDays,
 }) => {
 	//returns the last day of the week of 'end date', memod so that it doesn't keep refreshing and rerendering
 	const weekEndDay = useMemo(
 		() => dayjs(newEnd).endOf('week').startOf('day'),
 		[newEnd]
-	); 
+	);
 	const startMonth = dayjs(newStart).month();
 	const endMonth = dayjs(newEnd).month();
 	const startYear = dayjs(newStart).year();
 	const endYear = dayjs(newEnd).year();
 
 	//activeCalendarIndex is the calendar month being shown - when users navigate to the next / previous months, this changes
-	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0); 
+	const [activeCalendarIndex, setActiveCalendarIndex] = useState(0);
 	const [calendarMonthsToRender, setCalendarMonthsToRender] = useState([]);
 
 	//again using useMemo because only need to capture this once, while dayjs will keep rerendering
-	const calendarMonths = useMemo(() => { 
+	const calendarMonths = useMemo(() => {
 		const months = [];
 
 		//below function finds the active months during calendar start and end date and pushes to calendarMonths array
@@ -83,7 +91,7 @@ const Calendar = ({
 			//similar edge case to above, but checking if the last month's start day is before the second to last month's end day
 			const lastMonthNeeded = lastMonthStartDay.isBefore(
 				secondToLastMonthEndDay
-			); 
+			);
 
 			if (lastMonthNeeded) {
 				updatedCalendarMonths = updatedCalendarMonths.slice(
@@ -100,7 +108,6 @@ const Calendar = ({
 
 	//time to render the months:
 	return calendarMonthsToRender.map((calendar, index) => {
-
 		//below conditional prevents user from seeing nothing
 		if (index !== activeCalendarIndex) return null;
 
@@ -151,9 +158,10 @@ const Calendar = ({
 					<div
 						className='calendar-table'
 						style={{
-							gridTemplateColumns: toggleWeekends || showWeekends
-								? 'repeat(7, 1fr)'
-								: 'repeat(5, 1fr)',
+							gridTemplateColumns:
+								toggleWeekends || showWeekends
+									? 'repeat(7, 1fr)'
+									: 'repeat(5, 1fr)',
 						}}
 					>
 						{/* below renders the calendar ('item' from .map method above) */}
@@ -168,19 +176,31 @@ const Calendar = ({
 							);
 
 							//used for onClick function on each day to locate day in state object and return tasks
-							const calendarIndex = selectedCalendar.days.findIndex((c) => c.date === currentDay.format('YYYY-MM-DD')); 
+							const calendarIndex =
+								selectedCalendar.days.findIndex(
+									(c) =>
+										c.date ===
+										currentDay.format('YYYY-MM-DD')
+								);
 
 							//determines if rendered day has tasks already or not
-							const currentDayTasks = selectedCalendar.days[calendarIndex]?.tasks?.length > 0;
+							const currentDayTasks =
+								selectedCalendar.days[calendarIndex]?.tasks
+									?.length > 0;
 
 							const isWeekend =
 								currentDay.day() === 0 ||
 								currentDay.day() === 6;
 
 							//determines if weekends are considered inside or outside user's selected date range
-							const isWeekendOutsideRange = showWeekends && !toggleWeekends && isWeekend;
+							const isWeekendOutsideRange =
+								showWeekends && !toggleWeekends && isWeekend;
 
-							const isDisabled = !!disabledDays.find((day) => dayjs(currentDay).format('YYYY-MM-DD') === day);
+							const isDisabled = !!disabledDays.find(
+								(day) =>
+									dayjs(currentDay).format('YYYY-MM-DD') ===
+									day
+							);
 
 							//'light switch' to turn on or off weekend display, provided user has selected to not include weekends in their date range
 							if (!toggleWeekends && isWeekend && !showWeekends) {
@@ -191,15 +211,16 @@ const Calendar = ({
 							const isOutsideRange =
 								currentDay.isBefore(dayjs(newStart), 'day') ||
 								currentDay.isAfter(dayjs(newEnd), 'day');
-								
+
 							//finally rendering the day items below with their key set to dayIndex
 							return (
 								<div
 									className={`calendar-day ${
 										isDisabled && !editMode
-										? 'outside-range is-disabled'
-											: isOutsideRange || isWeekendOutsideRange //if outside range
-											? 'outside-range' 
+											? 'outside-range is-disabled'
+											: isOutsideRange ||
+											  isWeekendOutsideRange //if outside range
+											? 'outside-range'
 											: editMode //if in edit mode and inside range
 											? 'inside-range edit-mode'
 											: !editMode && !currentDayTasks //if NOT in edit mode and no current tasks
@@ -209,20 +230,47 @@ const Calendar = ({
 									key={dayIndex}
 									onClick={() => {
 										if (editMode) {
-											if(isDisabled) {
-												setSelectedDay(selectedCalendar.days[calendarIndex]);
-												setIsModalOpen(true)
-												setModalType('enable-day')
+											if (isDisabled) {
+												setSelectedDay(
+													selectedCalendar.days[
+														calendarIndex
+													]
+												);
+												setIsModalOpen(true);
+												setModalType('enable-day');
 											} else {
-												if(!(isOutsideRange || isWeekendOutsideRange)) {
+												if (
+													!(
+														isOutsideRange ||
+														isWeekendOutsideRange
+													)
+												) {
 													//sets selected day to the clicked day, then opens tasks modal
 													if (isDirty) {
-														validateDates()
+														validateDates();
 													} else {
-														setSelectedDay(selectedCalendar.days[calendarIndex]);
-														setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
-														console.log(selectedCalendar.days[calendarIndex].tasks);
-														setTasksModalOpen(prev => prev = !prev);
+														setSelectedDay(
+															selectedCalendar
+																.days[
+																calendarIndex
+															]
+														);
+														setCurrentTasks(
+															selectedCalendar
+																.days[
+																calendarIndex
+															].tasks
+														);
+														console.log(
+															selectedCalendar
+																.days[
+																calendarIndex
+															].tasks
+														);
+														setTasksModalOpen(
+															(prev) =>
+																(prev = !prev)
+														);
 													}
 												}
 											}
@@ -232,14 +280,36 @@ const Calendar = ({
 											// ADD LOGIC HERE FOR PREVIEWMODE VIEW DAY TASKS //
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
-											const dayExists = selectedCalendar.days.some((day) => day.date === dayjs(currentDay).format('YYYY-MM-DD'));
+											const dayExists =
+												selectedCalendar.days.some(
+													(day) =>
+														day.date ===
+														dayjs(
+															currentDay
+														).format('YYYY-MM-DD')
+												);
 											if (!isDisabled) {
-												if (!dayExists || selectedCalendar.days[calendarIndex].tasks.length === 0) {
+												if (
+													!dayExists ||
+													selectedCalendar.days[
+														calendarIndex
+													].tasks.length === 0
+												) {
 													return null;
 												} else {
-													setSelectedDay(selectedCalendar.days[calendarIndex]);
-													setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
-													setTasksModalOpen(prev => prev = !prev);
+													setSelectedDay(
+														selectedCalendar.days[
+															calendarIndex
+														]
+													);
+													setCurrentTasks(
+														selectedCalendar.days[
+															calendarIndex
+														].tasks
+													);
+													setTasksModalOpen(
+														(prev) => (prev = !prev)
+													);
 												}
 											} else {
 												return null;
@@ -256,89 +326,107 @@ const Calendar = ({
 									<div className='day-divider'></div>
 
 									{/* below determines how to display the day using conditional styling */}
-									{!isOutsideRange && !isWeekendOutsideRange && (
-										<>
-											{editMode && isDisabled
-											? (
-												<div className='day-body'>
-													<DoNotDisturb
-														className='edit-pencil-centered'
-														sx={{ 
-															fontSize: 40,
-															color: 'rgba(255, 0, 0, .5)'
-														 }}
-													/>
-												</div>
-											)
-											:editMode && currentDayTasks 
-											? (
+									{!isOutsideRange &&
+										!isWeekendOutsideRange && (
 											<>
-												<div className='day-body'>
-													<Check 
-														sx={{
-															fontSize: 50,
-															color: 'rgb(0, 200, 0)'
-														}}
-														className='check'
-													/>
-												</div>
-											</>
-											) : editMode && !currentDayTasks
-											? (
-												<div className='day-body'>
-													<Edit
-														className='edit-pencil-centered'
-														sx={{ fontSize: 40 }}
-													/>
-												</div>
-											)
-											: !editMode && !currentDayTasks || !editMode && currentDayTasks && isDisabled
-											? null
-											: (
-												<>
+												{editMode && isDisabled ? (
 													<div className='day-body'>
-														<ZoomInOutlined 
-															className='zoom-in'
-															sx={{ 
-																fontSize: 50,
-																transform: 'scale(-1, 1)',
-																transition: 'transform 0.1s ease-in-out',
-																'&:hover': {
-																	transform: 'scale(-1.1, 1.1)'
-																}
+														<DoNotDisturb
+															className='edit-pencil-centered'
+															sx={{
+																fontSize: 40,
+																color: 'rgba(255, 0, 0, .5)',
 															}}
 														/>
 													</div>
-													<div className='total-points-div'>Total Points: </div>
-												</>
-											)}
-											{editMode && !isWeekendOutsideRange && !isDisabled
-											? (
-												<Close
-													sx={{
-														fontSize: 30,
-														color: 'rgb(200, 200, 200)'
-													}}
-													className='close'
-													onClick={(e) => {
-														e.stopPropagation();
-														setSelectedDay(selectedCalendar.days[calendarIndex]);
-														setIsModalOpen(true);
-														setModalType('disable-day');
-													}}
-												/>
-											) : null}
-											{editMode && !isWeekendOutsideRange && currentDayTasks && !isDisabled
-											? (
-												<Edit
-													sx={{ fontSize: 25 }}
-													//FONTSIZE WAS ORIGINALLY 30 AND RIGHT:0 IN CSS
-													className='edit-pencil'
-												/>
-											) 
-											: null}
-										</>
-									)}
+												) : editMode &&
+												  currentDayTasks ? (
+													<>
+														<div className='day-body'>
+															<Check
+																sx={{
+																	fontSize: 50,
+																	color: 'rgb(0, 200, 0)',
+																}}
+																className='check'
+															/>
+														</div>
+													</>
+												) : editMode &&
+												  !currentDayTasks ? (
+													<div className='day-body'>
+														<Edit
+															className='edit-pencil-centered'
+															sx={{
+																fontSize: 40,
+															}}
+														/>
+													</div>
+												) : (!editMode &&
+														!currentDayTasks) ||
+												  (!editMode &&
+														currentDayTasks &&
+														isDisabled) ? null : (
+													<>
+														<div className='day-body'>
+															<ZoomInOutlined
+																className='zoom-in'
+																sx={{
+																	fontSize: 50,
+																	transform:
+																		'scale(-1, 1)',
+																	transition:
+																		'transform 0.1s ease-in-out',
+																	'&:hover': {
+																		transform:
+																			'scale(-1.1, 1.1)',
+																	},
+																}}
+															/>
+														</div>
+														<div className='total-points-div'>
+															Total Points:{' '}
+														</div>
+													</>
+												)}
+												{editMode &&
+												!isWeekendOutsideRange &&
+												!isDisabled ? (
+													<Close
+														sx={{
+															fontSize: 30,
+															color: 'rgb(200, 200, 200)',
+														}}
+														className='close'
+														onClick={(e) => {
+															e.stopPropagation();
+															setSelectedDay(
+																selectedCalendar
+																	.days[
+																	calendarIndex
+																]
+															);
+															setIsModalOpen(
+																true
+															);
+															setModalType(
+																'disable-day'
+															);
+														}}
+													/>
+												) : null}
+												{editMode &&
+												!isWeekendOutsideRange &&
+												currentDayTasks &&
+												!isDisabled ? (
+													<Edit
+														sx={{ fontSize: 25 }}
+														//FONTSIZE WAS ORIGINALLY 30 AND RIGHT:0 IN CSS
+														className='edit-pencil'
+													/>
+												) : null}
+											</>
+										)}
 								</div>
 							);
 						})}
