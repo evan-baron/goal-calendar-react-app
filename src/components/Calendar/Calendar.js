@@ -233,12 +233,16 @@ const Calendar = ({
 											//                                               //
 											//* * * * * * * * * * * * * * * * * * * * * * * *//
 											const dayExists = selectedCalendar.days.some((day) => day.date === dayjs(currentDay).format('YYYY-MM-DD'));
-											if (!dayExists || selectedCalendar.days[calendarIndex].tasks.length === 0) {
-												return null;
+											if (!isDisabled) {
+												if (!dayExists || selectedCalendar.days[calendarIndex].tasks.length === 0) {
+													return null;
+												} else {
+													setSelectedDay(selectedCalendar.days[calendarIndex]);
+													setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
+													setTasksModalOpen(prev => prev = !prev);
+												}
 											} else {
-												setSelectedDay(selectedCalendar.days[calendarIndex]);
-												setCurrentTasks(selectedCalendar.days[calendarIndex].tasks);
-												setTasksModalOpen(prev => prev = !prev);
+												return null;
 											}
 										}
 									}} //shows the clicked-day's date and tasks
