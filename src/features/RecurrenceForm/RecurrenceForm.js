@@ -102,7 +102,7 @@ const RecurrenceForm = ({
 						<option value='weekly'>Every {day}</option>
 						<option value='biweekly'>Every other {day}</option>
 						{/* FOR BELOW, NEED TO ADD LOGIC TO CHECK WHAT POSITION IN THE MONTH THE DAY IS, FOR EXAMPLE IF IT'S THE LAST WEDNESDAY BUT THERE'S 5 WEDNESDAYS IN A MONTH, BUT THE NEXT MONTH THERE'S ONLY 4 WEDNESDAYS, NEXT MONTH USES 4, ETC. */}
-						<option value='custom'>Custom</option>
+						{/* <option value='custom'>Custom</option> */}
 					</select>
 				</label>
 				<div className='start-end-container'>
